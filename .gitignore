@@ -1,4 +1,5 @@
 *.class
+web/
 
 # Package Files #
 *.jar
