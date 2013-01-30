@@ -1,0 +1,27 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+
+# gwt caches and compiled units #
+war/gwt_bree/
+gwt-unitCache/
+out/
+
+# boilerplate generated classes #
+.apt_generated/
+
+# more caches and things from deploy #
+war/WEB-INF/deploy/
+war/WEB-INF/classes/
+
+# IntelliJ IDEA files #
+.idea
+*.iml
+*.ipr
+*.iws
+
+# Eclipse files #
+.settings
+.project
