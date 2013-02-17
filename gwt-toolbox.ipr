@@ -163,6 +163,16 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-appengine" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-base" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-crypto" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-datagrid" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-mvp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-primitives" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-routing" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-rpc" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-ui" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../gwt-visualization" vcs="Git" />
   </component>
   <component name="libraryTable">
     <library name="gwt-user">
