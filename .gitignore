@@ -19,9 +19,9 @@ war/WEB-INF/classes/
 
 # IntelliJ IDEA files #
 .idea
-*.iml
-*.ipr
-*.iws
+#*.iml
+#*.ipr
+#*.iws
 
 # Eclipse files #
 .settings

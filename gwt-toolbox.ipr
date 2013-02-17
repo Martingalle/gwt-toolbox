@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactManager">
+    <artifact type="jar" build-on-make="true" name="gwt-primitives">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-primitives.jar">
+        <element id="module-output" name="gwt-primitives" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-primitives/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-rpc">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-rpc.jar">
+        <element id="module-output" name="gwt-rpc" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-rpc/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-visualization">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-visualization.jar">
+        <element id="module-output" name="gwt-visualization" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-visualization/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-base">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-base.jar">
+        <element id="module-output" name="gwt-base" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-base/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-appengine">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-appengine.jar">
+        <element id="module-output" name="gwt-appengine" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-appengine/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-crypto">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-crypto.jar">
+        <element id="module-output" name="gwt-crypto" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-crypto/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-datagrid">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-datagrid.jar">
+        <element id="module-output" name="gwt-datagrid" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-datagrid/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" name="gwt-mvp">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-mvp.jar">
+        <element id="module-output" name="gwt-mvp" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-mvp/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-routing">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-routing.jar">
+        <element id="module-output" name="gwt-routing" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-routing/src" />
+      </root>
+    </artifact>
+    <artifact type="jar" build-on-make="true" name="gwt-ui">
+      <output-path>$PROJECT_DIR$</output-path>
+      <root id="archive" name="gwt-ui.jar">
+        <element id="module-output" name="gwt-ui" />
+        <element id="dir-copy" path="$PROJECT_DIR$/../gwt-ui/src" />
+      </root>
+    </artifact>
+  </component>
+  <component name="CompilerConfiguration">
+    <option name="DEFAULT_COMPILER" value="Javac" />
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="?*.properties" />
+      <entry name="?*.xml" />
+      <entry name="?*.gif" />
+      <entry name="?*.png" />
+      <entry name="?*.jpeg" />
+      <entry name="?*.jpg" />
+      <entry name="?*.html" />
+      <entry name="?*.dtd" />
+      <entry name="?*.tld" />
+      <entry name="?*.ftl" />
+    </wildcardResourcePatterns>
+    <annotationProcessing enabled="true" useClasspath="false">
+      <processorPath value="$PROJECT_DIR$/lib_server/cofoja-1.0-r139.jar" />
+      <processor name="com.google.java.contract.core.apt.AnnotationProcessor" options="" />
+      <processModule name="gwt-primitives" />
+      <processModule name="gwt-rpc" />
+      <processModule name="gwt-visualization" />
+    </annotationProcessing>
+  </component>
+  <component name="CopyrightManager" default="">
+    <module2copyright />
+  </component>
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+  </component>
+  <component name="EclipseCodeFormatter">
+    <option name="defaultSettings" value="true" />
+    <option name="formatter" value="ECLIPSE" />
+    <option name="id" value="1361122531340" />
+    <option name="importOrderConfigFilePath" value="$PROJECT_DIR$/../gwt.importorder" />
+    <option name="importOrderFromFile" value="true" />
+    <option name="name" value="default" />
+    <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../gwt-format.xml" />
+    <option name="selectedJavaProfile" value="GWT Format" />
+  </component>
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
+  <component name="JavacSettings">
+    <option name="MAXIMUM_HEAP_SIZE" value="512" />
+  </component>
+  <component name="ProjectDictionaryState">
+    <dictionary name="cyrille" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Javadoc issues</id>
+          </State>
+          <State>
+            <id>Performance issues</id>
+          </State>
+          <State>
+            <id>Probable bugs</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" filepath="$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-base/gwt-base.iml" filepath="$PROJECT_DIR$/../gwt-base/gwt-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" filepath="$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" filepath="$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" filepath="$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" filepath="$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" filepath="$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" filepath="$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" filepath="$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" filepath="$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" />
+    </modules>
+  </component>
+  <component name="ProjectResources">
+    <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+  </component>
+  <component name="libraryTable">
+    <library name="gwt-user">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../../gwt-2.5.0/gwt-user.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../../gwt-2.5.0/gwt-user.jar!/" />
+      </SOURCES>
+    </library>
+  </component>
+</project>
+
