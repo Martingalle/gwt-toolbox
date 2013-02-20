@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="gwt-appengine" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="75fd3d8e-e266-4430-9426-c557010932af" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/README.md" afterPath="$PROJECT_DIR$/../gwt-appengine/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-base/README.md" afterPath="$PROJECT_DIR$/../gwt-base/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-routing/README.md" afterPath="$PROJECT_DIR$/../gwt-routing/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-rpc/README.md" afterPath="$PROJECT_DIR$/../gwt-rpc/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-ui/README.md" afterPath="$PROJECT_DIR$/../gwt-ui/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-visualization/README.md" afterPath="$PROJECT_DIR$/../gwt-visualization/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/.gitignore" afterPath="$PROJECT_DIR$/../gwt-appengine/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/appengine.gwt.xml" afterPath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/appengine.gwt.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java" afterPath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelDataStore2.java" afterPath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelDataStore2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcache.java" afterPath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcacheAsync.java" afterPath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcacheAsync.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java" afterPath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java" afterPath="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-base/.gitignore" afterPath="$PROJECT_DIR$/../gwt-base/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-base/src/fr/mncc/gwttoolbox/base/base.gwt.xml" afterPath="$PROJECT_DIR$/../gwt-base/src/fr/mncc/gwttoolbox/base/base.gwt.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-base/src/fr/mncc/gwttoolbox/base/client/OfflineStorage.java" afterPath="$PROJECT_DIR$/../gwt-base/src/fr/mncc/gwttoolbox/base/client/OfflineStorage.java" />
@@ -149,7 +145,104 @@
     <favorites_list name="gwt-toolbox" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="LowLevelDataStore2.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelDataStore2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="13" selection-start="1436" selection-end="1436" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LowLevelMemcache.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcache.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="43" column="39" selection-start="1921" selection-end="1921" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QueryConverter2.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="26" selection-start="1834" selection-end="1834" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SQuery2.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="42" column="25" selection-start="1902" selection-end="1902" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Expiration.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/../../appengine-java-sdk-1.7.5/lib/user/appengine-api-1.0-sdk-1.7.5.jar!/com/google/appengine/api/memcache/Expiration.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="94" selection-start="585" selection-end="597" vertical-scroll-proportion="-8.16">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DataStore2.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="29" column="13" selection-start="1434" selection-end="1434" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Memcache2.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/Memcache2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="0" selection-start="2049" selection-end="2049" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="26" column="11" selection-start="1238" selection-end="1238" vertical-scroll-proportion="1.016092">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LowLevelMemcacheAsync.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcacheAsync.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="57" column="0" selection-start="2340" selection-end="2340" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -157,8 +250,23 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../gwt-mvp" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../gwt-appengine" />
   </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java" />
+        <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelDataStore2.java" />
+        <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java" />
+        <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java" />
+        <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/Memcache2.java" />
+        <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcacheAsync.java" />
+        <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcache.java" />
+        <option value="$PROJECT_DIR$/../gwt-appengine/README.md" />
+      </list>
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
@@ -191,6 +299,17 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-toolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -199,10 +318,80 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-toolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-appengine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-toolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-appengine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="appengine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-toolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-appengine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="appengine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="shared" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-toolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-appengine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="appengine" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="server" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -230,24 +419,6 @@
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -282,6 +453,26 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -302,6 +493,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
@@ -328,6 +520,7 @@
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
         <option name="Maven.BeforeRunTask" enabled="false" />
+        <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
     <list size="0" />
@@ -347,14 +540,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14607465" sideWeight="0.6703911" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14800514" sideWeight="0.6703911" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -364,7 +558,6 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32960895" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -425,66 +618,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/Chart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="19" selection-start="2158" selection-end="2158" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/BarChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="22" selection-start="1380" selection-end="1380" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/AreaChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="22" selection-start="1380" selection-end="1380" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/visualization.gwt.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-rpc/src/fr/mncc/gwttoolbox/rpc/rpc.gwt.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-primitives/src/fr/mncc/gwttoolbox/primitives/shared/Entity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="29" selection-start="1214" selection-end="1214" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-primitives/test/fr/mncc/gwttoolbox/primitives/shared/StringUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="5" selection-start="1283" selection-end="1283" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-rpc/src/fr/mncc/gwttoolbox/rpc/server/filters/CrawlFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="26" selection-start="1150" selection-end="1160" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="41" selection-start="1221" selection-end="1221" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="29" selection-start="1209" selection-end="1209" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="31" selection-start="1413" selection-end="1413" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-base/src/fr/mncc/gwttoolbox/base/base.gwt.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-crypto/src/fr/mncc/gwttoolbox/crypto/crypto.gwt.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -503,6 +636,105 @@
     <entry file="file://$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/presenter/Presenter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="43" selection-start="1283" selection-end="1283" vertical-scroll-proportion="0.14945056" />
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../appengine-java-sdk-1.7.5/lib/user/appengine-api-1.0-sdk-1.7.5.jar!/com/google/appengine/api/memcache/Expiration.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="94" selection-start="585" selection-end="597" vertical-scroll-proportion="-8.16">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../appengine-java-sdk-1.7.5/lib/user/appengine-api-1.0-sdk-1.7.5.jar!/com/google/appengine/api/memcache/AsyncMemcacheService.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="32" selection-start="269" selection-end="297" vertical-scroll-proportion="0.15620214">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="13" selection-start="1434" selection-end="1434" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelDataStore2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="13" selection-start="1436" selection-end="1436" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="26" selection-start="1834" selection-end="1834" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="25" selection-start="1902" selection-end="1902" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../appengine-java-sdk-1.7.5/lib/user/appengine-api-1.0-sdk-1.7.5.jar!/com/google/appengine/api/memcache/MemcacheService.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="9" selection-start="1479" selection-end="1479" vertical-scroll-proportion="0.34597155">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcacheAsync.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="0" selection-start="2340" selection-end="2340" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../../appengine-java-sdk-1.7.5/lib/user/appengine-api-1.0-sdk-1.7.5.jar!/com/google/appengine/api/NamespaceManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="19" selection-start="168" selection-end="168" vertical-scroll-proportion="0.10526316">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/LowLevelMemcache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="39" selection-start="1921" selection-end="1921" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/Memcache2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="0" selection-start="2049" selection-end="2049" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-appengine/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="11" selection-start="1238" selection-end="1238" vertical-scroll-proportion="1.016092">
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>
