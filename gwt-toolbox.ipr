@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AntConfiguration">
+    <defaultAnt bundledAnt="true" />
+  </component>
   <component name="ArtifactManager">
     <artifact type="jar" build-on-make="true" name="gwt-primitives">
       <output-path>$PROJECT_DIR$</output-path>
@@ -90,9 +93,6 @@
     <annotationProcessing enabled="true" useClasspath="false">
       <processorPath value="$PROJECT_DIR$/lib_server/cofoja-1.0-r139.jar" />
       <processor name="com.google.java.contract.core.apt.AnnotationProcessor" options="" />
-      <processModule name="gwt-primitives" />
-      <processModule name="gwt-rpc" />
-      <processModule name="gwt-visualization" />
     </annotationProcessing>
   </component>
   <component name="CopyrightManager" default="">
@@ -104,7 +104,7 @@
   <component name="EclipseCodeFormatter">
     <option name="defaultSettings" value="true" />
     <option name="formatter" value="ECLIPSE" />
-    <option name="id" value="1361122531340" />
+    <option name="id" value="1345817060852" />
     <option name="importOrderConfigFilePath" value="$PROJECT_DIR$/../gwt.importorder" />
     <option name="importOrderFromFile" value="true" />
     <option name="name" value="default" />
@@ -144,14 +144,24 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" filepath="$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" filepath="$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-base/gwt-base.iml" filepath="$PROJECT_DIR$/../gwt-base/gwt-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-base/gwt-base.iml" filepath="$PROJECT_DIR$/../gwt-base/gwt-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" filepath="$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" filepath="$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" filepath="$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" filepath="$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" filepath="$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" filepath="$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" filepath="$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" filepath="$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" filepath="$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" filepath="$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" filepath="$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" filepath="$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" filepath="$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" filepath="$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" filepath="$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" filepath="$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" />
     </modules>
   </component>
