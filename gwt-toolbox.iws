@@ -7,6 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75fd3d8e-e266-4430-9426-c557010932af" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../gwt-mvp/README.md" afterPath="$PROJECT_DIR$/../gwt-mvp/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gwt-toolbox.ipr" afterPath="$PROJECT_DIR$/gwt-toolbox.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gwt-toolbox.iws" afterPath="$PROJECT_DIR$/gwt-toolbox.iws" />
     </list>
     <ignored path="gwt-toolbox.iws" />
@@ -65,43 +67,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LineChart.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/LineChart.java">
+      <file leaf-file-name="README.md" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../gwt-mvp/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="42" selection-start="1274" selection-end="1274" vertical-scroll-proportion="0.0">
+            <state line="22" column="23" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.56925416">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Chart.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/Chart.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="46" selection-start="1594" selection-end="1594" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#2149#2312#0" expanded="true" />
-                <element signature="e#2305#2306#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlaceCrawlable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/place/PlaceCrawlable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="13" selection-start="1316" selection-end="1316" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Place.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/place/Place.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="23" selection-start="2382" selection-end="2382" vertical-scroll-proportion="0.73015875">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -119,7 +89,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/../gwt-rpc/src/fr/mncc/gwttoolbox/rpc/client/requests/RpcConstants.properties" />
         <option value="$PROJECT_DIR$/../gwt-rpc/src/fr/mncc/gwttoolbox/rpc/client/requests/RpcConstants_fr.properties" />
         <option value="$PROJECT_DIR$/../gwt-rpc/README.md" />
         <option value="$PROJECT_DIR$/../gwt-rpc/src/fr/mncc/gwttoolbox/rpc/client/requests/RpcCall.java" />
@@ -135,6 +104,7 @@
         <option value="$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/Widget1.java" />
         <option value="$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/WidgetEx.java" />
         <option value="$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/place/Place.java" />
+        <option value="$PROJECT_DIR$/../gwt-mvp/README.md" />
       </list>
     </option>
   </component>
@@ -171,12 +141,12 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
           <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gwt-toolbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -261,70 +231,18 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gwt-toolbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gwt-mvp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mvp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="presenter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gwt-toolbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gwt-mvp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mvp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="place" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Project Files">
+      <pane id="PackagesPane">
+        <subPane>
           <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-toolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -510,15 +428,15 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32855093" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25482625" sideWeight="0.67144907" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25353926" sideWeight="0.67144907" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32855093" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -583,25 +501,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../gwt-rpc/src/fr/mncc/gwttoolbox/rpc/client/requests/RestCall.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="43" selection-start="1575" selection-end="1575" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-rpc/src/fr/mncc/gwttoolbox/rpc/client/callbacks/TreeLeafCallback.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="36" selection-start="1274" selection-end="1274" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/LineChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="42" selection-start="1274" selection-end="1274" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="24" column="36" selection-start="1274" selection-end="1274" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/view/AbstractView.java">
@@ -678,29 +580,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/Chart.java">
+    <entry file="file://$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/place/Place.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="46" selection-start="1594" selection-end="1594" vertical-scroll-proportion="0.0">
+        <state line="72" column="23" selection-start="2382" selection-end="2382" vertical-scroll-proportion="0.36567163">
           <folding>
-            <element signature="e#2149#2312#0" expanded="true" />
-            <element signature="e#2305#2306#0" expanded="true" />
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/place/PlaceCrawlable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="13" selection-start="1316" selection-end="1316" vertical-scroll-proportion="0.0">
+        <state line="25" column="13" selection-start="1316" selection-end="1316" vertical-scroll-proportion="0.12686567">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../gwt-mvp/src/fr/mncc/gwttoolbox/mvp/client/place/Place.java">
+    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/Chart.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="23" selection-start="2382" selection-end="2382" vertical-scroll-proportion="0.73015875">
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
+        <state line="29" column="46" selection-start="1594" selection-end="1594" vertical-scroll-proportion="0.025373135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-visualization/src/fr/mncc/gwttoolbox/visualization/client/LineChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="42" selection-start="1274" selection-end="1274" vertical-scroll-proportion="0.10149254">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gwt-mvp/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="23" selection-start="1227" selection-end="1227" vertical-scroll-proportion="0.56925416">
+          <folding />
         </state>
       </provider>
     </entry>

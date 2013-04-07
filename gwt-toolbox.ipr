@@ -144,24 +144,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" filepath="$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" filepath="$PROJECT_DIR$/../gwt-appengine/gwt-appengine.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-base/gwt-base.iml" filepath="$PROJECT_DIR$/../gwt-base/gwt-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-base/gwt-base.iml" filepath="$PROJECT_DIR$/../gwt-base/gwt-base.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" filepath="$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" filepath="$PROJECT_DIR$/../gwt-crypto/gwt-crypto.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" filepath="$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" filepath="$PROJECT_DIR$/../gwt-datagrid/gwt-datagrid.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" filepath="$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" filepath="$PROJECT_DIR$/../gwt-mvp/gwt-mvp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" filepath="$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" filepath="$PROJECT_DIR$/../gwt-primitives/gwt-primitives.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" filepath="$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" filepath="$PROJECT_DIR$/../gwt-routing/gwt-routing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" filepath="$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" filepath="$PROJECT_DIR$/../gwt-rpc/gwt-rpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" filepath="$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" filepath="$PROJECT_DIR$/../gwt-ui/gwt-ui.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" filepath="$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" />
       <module fileurl="file://$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" filepath="$PROJECT_DIR$/../gwt-visualization/gwt-visualization.iml" />
     </modules>
   </component>
