@@ -105,10 +105,10 @@
     <option name="defaultSettings" value="true" />
     <option name="formatter" value="ECLIPSE" />
     <option name="id" value="1345817060852" />
-    <option name="importOrderConfigFilePath" value="$PROJECT_DIR$/../gwt.importorder" />
+    <option name="importOrderConfigFilePath" value="$PROJECT_DIR$/coding_style/gwt.importorder" />
     <option name="importOrderFromFile" value="true" />
     <option name="name" value="default" />
-    <option name="pathToConfigFileJava" value="$PROJECT_DIR$/../gwt-format.xml" />
+    <option name="pathToConfigFileJava" value="$PROJECT_DIR$/coding_style/gwt-format.xml" />
     <option name="selectedJavaProfile" value="GWT Format" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />

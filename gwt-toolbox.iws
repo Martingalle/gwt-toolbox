@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="gwt-primitives" />
+      <artifact name="gwt-routing" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75fd3d8e-e266-4430-9426-c557010932af" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gwt-routing.jar" afterPath="$PROJECT_DIR$/gwt-routing.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gwt-toolbox.ipr" afterPath="$PROJECT_DIR$/gwt-toolbox.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gwt-toolbox.iws" afterPath="$PROJECT_DIR$/gwt-toolbox.iws" />
     </list>
     <ignored path="gwt-toolbox.iws" />
@@ -83,7 +85,7 @@
       <file leaf-file-name="RouteController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/RouteController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="107" column="14" selection-start="3489" selection-end="3489" vertical-scroll-proportion="0.0">
+            <state line="261" column="14" selection-start="7365" selection-end="7365" vertical-scroll-proportion="0.0">
               <folding>
                 <marker date="1365351620853" expanded="true" signature="7811:8060" placeholder="{...}" />
                 <marker date="1365351620853" expanded="true" signature="7821:8032" placeholder="{...}" />
@@ -96,7 +98,7 @@
       <file leaf-file-name="Environment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/Environment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="32" selection-start="1959" selection-end="1959" vertical-scroll-proportion="0.5021097">
+            <state line="76" column="30" selection-start="2958" selection-end="2958" vertical-scroll-proportion="0.8">
               <folding />
             </state>
           </provider>
@@ -127,19 +129,19 @@
         <option value="$PROJECT_DIR$/../gwt-primitives/test/fr/mncc/gwttoolbox/primitives/primitives.gwt.xml" />
         <option value="$PROJECT_DIR$/../gwt-crypto/test/fr/mncc/gwttoolbox/crypto/crypto.gwt.xml" />
         <option value="$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/RouteController.java" />
-        <option value="$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/Environment.java" />
         <option value="$PROJECT_DIR$/../gwt-primitives/src/fr/mncc/gwttoolbox/primitives/shared/EntityEx.java" />
         <option value="$PROJECT_DIR$/../gwt-primitives/src/fr/mncc/gwttoolbox/primitives/shared/Entity.java" />
         <option value="$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java" />
+        <option value="$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/Environment.java" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="41" />
-    <option name="y" value="73" />
-    <option name="width" value="1742" />
-    <option name="height" value="924" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1938" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -167,6 +169,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gwt-toolbox" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -227,16 +239,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gwt-toolbox" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="Project Files">
           <PATH>
@@ -264,9 +266,9 @@
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PublishConfig">
     <servers>
@@ -424,6 +426,15 @@
         <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
+    <configuration default="true" type="GWT.ConfigurationType" factoryName="GWT Configuration">
+      <module name="" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -451,15 +462,6 @@
         <option name="PhingTarget" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="GWT.ConfigurationType" factoryName="GWT Configuration">
-      <module name="" />
-      <method>
-        <option name="AntTarget" enabled="false" />
-        <option name="BuildArtifacts" enabled="false" />
-        <option name="Make" enabled="true" />
-        <option name="Maven.BeforeRunTask" enabled="false" />
-      </method>
-    </configuration>
     <list size="2">
       <item index="0" class="java.lang.String" itemvalue="JUnit.All in gwt-primitives" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.fr.mncc.gwttoolbox.primitives in gwt-primitives" />
@@ -479,7 +481,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="41" y="73" width="1742" height="924" extended-state="0" />
+    <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -491,15 +493,15 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32855093" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28367105" sideWeight="0.6700143" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28335112" sideWeight="0.6700143" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960895" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32855093" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -616,35 +618,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-appengine/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="76" selection-start="2586" selection-end="2586" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="59" column="76" selection-start="2586" selection-end="2586" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/routing.gwt.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/RescueCallback.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="17" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="22" column="17" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/RouteCallback.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="17" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="22" column="17" selection-start="1195" selection-end="1195" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/RouteController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="107" column="14" selection-start="3489" selection-end="3489" vertical-scroll-proportion="0.0">
+        <state line="261" column="14" selection-start="7365" selection-end="7365" vertical-scroll-proportion="0.0">
           <folding>
             <marker date="1365351620853" expanded="true" signature="7811:8060" placeholder="{...}" />
             <marker date="1365351620853" expanded="true" signature="7821:8032" placeholder="{...}" />
@@ -655,7 +649,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../gwt-routing/src/fr/mncc/gwttoolbox/routing/client/Environment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="32" selection-start="1959" selection-end="1959" vertical-scroll-proportion="0.5021097">
+        <state line="76" column="30" selection-start="2958" selection-end="2958" vertical-scroll-proportion="0.8">
           <folding />
         </state>
       </provider>
