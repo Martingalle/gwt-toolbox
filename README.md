@@ -17,6 +17,11 @@ What is inside ?
 * [gwt-ui](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/ui)
 * [gwt-visualization](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/visualization)
 
+How to get started ?
+====================
+
+Download gwt-toolbox.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+
 License : MIT
 =============
 
