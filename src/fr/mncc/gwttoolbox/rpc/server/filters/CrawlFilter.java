@@ -102,7 +102,7 @@ public final class CrawlFilter implements Filter {
    */
   @Override
   public void init(FilterConfig arg0) throws ServletException {
-    webClient = new WebClient(BrowserVersion.CHROME_16);
+    webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
     webClient.setWebConnection(new UrlFetchWebConnection(webClient));
   }
 

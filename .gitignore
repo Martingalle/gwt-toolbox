@@ -1,5 +1,8 @@
 *.class
 web/
+war/
+test-classes/ 
+src/META-INF/
 
 # Package Files #
 #*.jar
@@ -16,6 +19,8 @@ out/
 # more caches and things from deploy #
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
+*.*~
+*.properties
 
 # IntelliJ IDEA files #
 .idea
@@ -26,3 +31,4 @@ war/WEB-INF/classes/
 # Eclipse files #
 .settings
 .project
+.classpath
