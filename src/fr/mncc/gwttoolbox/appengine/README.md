@@ -9,27 +9,22 @@ Dependencies
 * [Google Guava](http://code.google.com/p/guava-libraries/) 13.0 or above
 * [Cofoja](https://code.google.com/p/cofoja/) 1.0-r139
 * [Google AppEngine Sdk](https://developers.google.com/appengine/downloads) 1.7.4 or above
-* [gwt-primitives](https://github.com/csavelief/gwt-primitives) 1.0 or above
+* [gwt-primitives](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives)
 
 What is inside ?
 ================
 
 Shared :
 * DataStore requests builder with no dependencies to AppEngine :
-    * [fr.mncc.gwttoolbox.appengine.shared.SQuery2](https://github.com/csavelief/gwt-appengine/blob/master/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java)
+    * [fr.mncc.gwttoolbox.appengine.shared.SQuery2](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/appengine/shared/SQuery2.java)
 
 Server :
 * A query converter which transforms a SQuery2 object into an AppEngine's query :
-    * [fr.mncc.gwttoolbox.appengine.server.QueryConverter2](https://github.com/csavelief/gwt-appengine/blob/master/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java)
+    * [fr.mncc.gwttoolbox.appengine.server.QueryConverter2](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/appengine/server/QueryConverter2.java)
 * A wrapper for the DataStore API (async + sync) :
-    * [fr.mncc.gwttoolbox.appengine.server.DataStore2](https://github.com/csavelief/gwt-appengine/blob/master/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java)
+    * [fr.mncc.gwttoolbox.appengine.server.DataStore2](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/appengine/server/DataStore2.java)
 * A wrapper for the Memcache API (async + sync) :
-    * [fr.mncc.gwttoolbox.appengine.server.Memcache2](https://github.com/csavelief/gwt-appengine/blob/master/src/fr/mncc/gwttoolbox/appengine/server/Memcache2.java)
-
-How to get started ?
-====================
-
-Download gwt-appengine.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+    * [fr.mncc.gwttoolbox.appengine.server.Memcache2](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/appengine/server/Memcache2.java)
 
 Example
 =======

@@ -7,27 +7,22 @@ Dependencies
 ============
 
 * [Google Visualization](https://developers.google.com/chart/)
-* [gwt-rpc](https://github.com/csavelief/gwt-rpc) 1.0 or above
+* [gwt-rpc](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc)
 
 What is inside ?
 ================
 
 Client :
 * Area chart :
-    * [fr.mncc.gwttoolbox.visualization.client.AreaChart](https://github.com/csavelief/gwt-visualization/tree/master/src/fr/mncc/gwttoolbox/visualization/client/AreaChart.java)
+    * [fr.mncc.gwttoolbox.visualization.client.AreaChart](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/visualization/client/AreaChart.java)
 * Bar chart :
-    * [fr.mncc.gwttoolbox.visualization.client.BarChart](https://github.com/csavelief/gwt-visualization/tree/master/src/fr/mncc/gwttoolbox/visualization/client/BarChart.java)
+    * [fr.mncc.gwttoolbox.visualization.client.BarChart](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/visualization/client/BarChart.java)
 * Column chart :
-    * [fr.mncc.gwttoolbox.visualization.client.ColumnChart](https://github.com/csavelief/gwt-visualization/tree/master/src/fr/mncc/gwttoolbox/visualization/client/ColumnChart.java)
+    * [fr.mncc.gwttoolbox.visualization.client.ColumnChart](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/visualization/client/ColumnChart.java)
 * Line chart :
-    * [fr.mncc.gwttoolbox.visualization.client.LineChart](https://github.com/csavelief/gwt-visualization/tree/master/src/fr/mncc/gwttoolbox/visualization/client/LineChart.java)
+    * [fr.mncc.gwttoolbox.visualization.client.LineChart](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/visualization/client/LineChart.java)
 * Pie chart :
-    * [fr.mncc.gwttoolbox.visualization.client.PieChart](https://github.com/csavelief/gwt-visualization/tree/master/src/fr/mncc/gwttoolbox/visualization/client/PieChart.java)
-
-How to get started ?
-====================
-
-Download gwt-visualization.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+    * [fr.mncc.gwttoolbox.visualization.client.PieChart](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/visualization/client/PieChart.java)
 
 Example
 =======

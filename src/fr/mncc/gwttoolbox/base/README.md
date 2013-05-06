@@ -13,14 +13,9 @@ What is inside ?
 
 Client :
 * Helper class for using the browser local storage :
-    * [fr.mncc.gwttoolbox.base.client.OfflineStorage](https://github.com/csavelief/gwt-base/blob/master/src/fr/mncc/gwttoolbox/base/client/OfflineStorage.java)
+    * [fr.mncc.gwttoolbox.base.client.OfflineStorage](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/base/client/OfflineStorage.java)
 * Useful custom events :
-    * [fr.mncc.gwttoolbox.base.client.events.*](https://github.com/csavelief/gwt-base/tree/master/src/fr/mncc/gwttoolbox/base/client/events)
-
-How to get started ?
-====================
-
-Download gwt-base.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+    * [fr.mncc.gwttoolbox.base.client.events.*](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/base/client/events)
 
 License : MIT
 =============

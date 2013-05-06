@@ -13,18 +13,13 @@ What is inside ?
 
 Client :
 * Easy acces to an application-wide event bus and routing API :    
-    * [fr.mncc.gwttoolbox.routing.client.Environment](https://github.com/csavelief/gwt-routing/blob/master/src/fr/mncc/gwttoolbox/routing/client/Environment.java)
+    * [fr.mncc.gwttoolbox.routing.client.Environment](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/routing/client/Environment.java)
 * Manage the routing for a whole web application :
-    * [fr.mncc.gwttoolbox.routing.client.RouteController](https://github.com/csavelief/gwt-routing/blob/master/src/fr/mncc/gwttoolbox/routing/client/RouteController.java)
+    * [fr.mncc.gwttoolbox.routing.client.RouteController](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/routing/client/RouteController.java)
 * What happens when a route is triggered :
-    * [fr.mncc.gwttoolbox.routing.client.RouteCallback](https://github.com/csavelief/gwt-routing/blob/master/src/fr/mncc/gwttoolbox/routing/client/RouteCallback.java)
+    * [fr.mncc.gwttoolbox.routing.client.RouteCallback](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/routing/client/RouteCallback.java)
 * What happens when routing fails :
-    * [fr.mncc.gwttoolbox.routing.client.RescueCallback](https://github.com/csavelief/gwt-routing/blob/master/src/fr/mncc/gwttoolbox/routing/client/RescueCallback.java)
-
-How to get started ?
-====================
-
-Download gwt-routing.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+    * [fr.mncc.gwttoolbox.routing.client.RescueCallback](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/routing/client/RescueCallback.java)
 
 Example
 =======

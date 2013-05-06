@@ -13,24 +13,19 @@ What is inside ?
 
 Shared :
 * The [CubeHash](http://en.wikipedia.org/wiki/CubeHash) hashing algorithm : 
- * [fr.mncc.gwttoolbox.crypto.shared.CubeHash](https://github.com/csavelief/gwt-crypto/blob/master/src/fr/mncc/gwttoolbox/crypto/shared/CubeHash.java)
+ * [fr.mncc.gwttoolbox.crypto.shared.CubeHash](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/crypto/shared/CubeHash.java)
 * The [Rc4](http://en.wikipedia.org/wiki/RC4) stream cipher algorithm : 
- * [fr.mncc.gwttoolbox.crypto.shared.Rc4](https://github.com/csavelief/gwt-crypto/blob/master/src/fr/mncc/gwttoolbox/crypto/shared/Rc4.java)
+ * [fr.mncc.gwttoolbox.crypto.shared.Rc4](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/crypto/shared/Rc4.java)
 * An utility class to generate random strings : 
- * [fr.mncc.gwttoolbox.crypto.shared.RandomString](https://github.com/csavelief/gwt-crypto/blob/master/src/fr/mncc/gwttoolbox/crypto/shared/RandomString.java)
+ * [fr.mncc.gwttoolbox.crypto.shared.RandomString](hhttps://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/crypto/shared/RandomString.java)
 
 Client :
 * Thin wrapper for easy access to the algorithms :
- * [fr.mncc.gwttoolbox.crypto.client.CryptoApi](https://github.com/csavelief/gwt-crypto/blob/master/src/fr/mncc/gwttoolbox/crypto/client/CryptoApi.java)
+ * [fr.mncc.gwttoolbox.crypto.client.CryptoApi](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/crypto/client/CryptoApi.java)
 
 Server :
 * Thin wrapper for easy access to the algorithms :
- * [fr.mncc.gwttoolbox.crypto.server.CryptoApi](https://github.com/csavelief/gwt-crypto/blob/master/src/fr/mncc/gwttoolbox/crypto/server/CryptoApi.java)
-
-How to get started ?
-====================
-
-Download gwt-crypto.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+ * [fr.mncc.gwttoolbox.crypto.server.CryptoApi](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/crypto/server/CryptoApi.java)
 
 License : MIT
 =============

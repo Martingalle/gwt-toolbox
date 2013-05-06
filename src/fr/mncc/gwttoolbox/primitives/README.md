@@ -14,40 +14,35 @@ What is inside ?
 
 Shared :
 * Convert a byte array to a base 64 string and vice versa : 
- * [fr.mncc.gwttoolbox.primitives.shared.Base64Utils](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Base64Utils.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.Base64Utils](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Base64Utils.java)
 * Default values for Java data types in order to ensure consistency across a whole project : 
- * [fr.mncc.gwttoolbox.primitives.shared.DefaultValues](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/DefaultValues.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.DefaultValues](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/DefaultValues.java)
 * Generic HashMap with built-in serialization/deserialization to/from string with type preservation : 
- * [fr.mncc.gwttoolbox.primitives.shared.Entity](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Entity.java)
-* Wrapper around the [Entity](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Entity.java) object in order to avoid a deserialization each time a getAsXxx() method is called :
- * [fr.mncc.gwttoolbox.primitives.shared.EntityEx](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/EntityEx.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.Entity](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Entity.java)
+* Wrapper around the [Entity](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Entity.java) object in order to avoid a deserialization each time a getAsXxx() method is called :
+ * [fr.mncc.gwttoolbox.primitives.shared.EntityEx](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/EntityEx.java)
 * Ordered key-value map for easy parsing of strings of type "param1=value1&param2=value2&...&paramn=valuen" :
- * [fr.mncc.gwttoolbox.primitives.shared.KeyValueMap](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/KeyValueMap.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.KeyValueMap](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/KeyValueMap.java)
 * Simple class to manage key-value pairs : 
- * [fr.mncc.gwttoolbox.primitives.shared.KeyValuePair](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/KeyValuePair.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.KeyValuePair](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/KeyValuePair.java)
 * Easy serialization/deserialization of objects to/from strings of a few basic Java data types : 
- * [fr.mncc.gwttoolbox.primitives.shared.ObjectUtils](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/ObjectUtils.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.ObjectUtils](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/ObjectUtils.java)
 * Simple class to manage table paging : 
- * [fr.mncc.gwttoolbox.primitives.shared.Page](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Page.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.Page](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/Page.java)
 * In an async environment, add id to requests in order to be able to process results in the right order : 
- * [fr.mncc.gwttoolbox.primitives.shared.SerializableObject](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/SerializableObject.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.SerializableObject](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/SerializableObject.java)
 * Miscellaneous utils for processing strings : 
- * [fr.mncc.gwttoolbox.primitives.shared.StringUtils](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/StringUtils.java)
+ * [fr.mncc.gwttoolbox.primitives.shared.StringUtils](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/shared/StringUtils.java)
 
 Client :
 * Miscellaneous utils for serialization/deserialization of dates to/from strings : 
- * [fr.mncc.gwttoolbox.primitives.client.DateUtils](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/client/DateUtils.java)
+ * [fr.mncc.gwttoolbox.primitives.client.DateUtils](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/client/DateUtils.java)
 * Simple JSON parser/encoder : 
- * [fr.mncc.gwttoolbox.primitives.client.JsonParser](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/client/JsonParser.java)
+ * [fr.mncc.gwttoolbox.primitives.client.JsonParser](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/client/JsonParser.java)
 
 Server :
 * Miscellaneous utils for serialization/deserialization of dates to/from strings : 
- * [fr.mncc.gwttoolbox.primitives.server.DateUtils](https://github.com/csavelief/gwt-primitives/blob/master/src/fr/mncc/gwttoolbox/primitives/server/DateUtils.java)
-
-How to get started ?
-====================
-
-Download gwt-primitives.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+ * [fr.mncc.gwttoolbox.primitives.server.DateUtils](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives/server/DateUtils.java)
 
 Example
 =======

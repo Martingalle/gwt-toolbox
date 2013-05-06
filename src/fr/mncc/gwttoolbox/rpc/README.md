@@ -9,37 +9,32 @@ Dependencies
 * [Google Guava](http://code.google.com/p/guava-libraries/) 13.0 or above
 * [Cofoja](https://code.google.com/p/cofoja/) 1.0-r139
 * [HtmlUnit](http://htmlunit.sourceforge.net/) 2.10
-* [gwt-primitives](https://github.com/csavelief/gwt-primitives) 1.0 or above
-* [gwt-ui](https://github.com/csavelief/gwt-ui) 1.1 or above
+* [gwt-primitives](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives)
+* [gwt-ui](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/ui)
 
 What is inside ?
 ================
 
 Client :
 * Callback with a default onFailure() implementation :
-    * [fr.mncc.gwttoolbox.rpc.client.callbacks.SimpleCallback](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/SimpleCallback.java)
+    * [fr.mncc.gwttoolbox.rpc.client.callbacks.SimpleCallback](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/SimpleCallback.java)
 * Another callback with a default onFailure() implementation :
-    * [fr.mncc.gwttoolbox.rpc.client.callbacks.VoidCallback](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/VoidCallback.java)
+    * [fr.mncc.gwttoolbox.rpc.client.callbacks.VoidCallback](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/VoidCallback.java)
 * RunAsync callback with a default onFailure() implementation :
-    * [fr.mncc.gwttoolbox.rpc.client.callbacks.SimpleRunAsyncCallback](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/SimpleRunAsyncCallback.java)
+    * [fr.mncc.gwttoolbox.rpc.client.callbacks.SimpleRunAsyncCallback](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/SimpleRunAsyncCallback.java)
 * Callbacks for when you need to start many RPC calls but must wait for them all before being able to process the results :
-    * [fr.mncc.gwttoolbox.rpc.client.callbacks.TreeRootCallback](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/TreeRootCallback.java)
-    * [fr.mncc.gwttoolbox.rpc.client.callbacks.TreeLeafCallback](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/TreeLeafCallback.java)
+    * [fr.mncc.gwttoolbox.rpc.client.callbacks.TreeRootCallback](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/TreeRootCallback.java)
+    * [fr.mncc.gwttoolbox.rpc.client.callbacks.TreeLeafCallback](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/client/callbacks/TreeLeafCallback.java)
 * Wrapper for RPC calls with a built-in busy indicator :
-    * [fr.mncc.gwttoolbox.rpc.client.requests.RpcCall](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/client/requests/RpcCall.java)
+    * [fr.mncc.gwttoolbox.rpc.client.requests.RpcCall](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/client/requests/RpcCall.java)
 * Wrapper for REST calls using JSONP protocol :
-    * [fr.mncc.gwttoolbox.rpc.client.requests.RestCall](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/client/requests/RestCall.java)
+    * [fr.mncc.gwttoolbox.rpc.client.requests.RestCall](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/client/requests/RestCall.java)
 
 Server :
 * Add cache control header to GWT generated files :
-    * [fr.mncc.gwttoolbox.rpc.server.filters.CacheControlFilter](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/server/filters/CacheControlFilter.java)
+    * [fr.mncc.gwttoolbox.rpc.server.filters.CacheControlFilter](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/server/filters/CacheControlFilter.java)
 * Make some of your GWT pages AJAX crawlable using the ! symbol in your hashtags :
-    * [fr.mncc.gwttoolbox.rpc.server.filters.CrawlFilter](https://github.com/csavelief/gwt-rpc/tree/master/src/fr/mncc/gwttoolbox/rpc/server/filters/CrawlFilter.java)
-
-How to get started ?
-====================
-
-Download gwt-rpc.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+    * [fr.mncc.gwttoolbox.rpc.server.filters.CrawlFilter](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/rpc/server/filters/CrawlFilter.java)
 
 Example
 =======

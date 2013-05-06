@@ -6,23 +6,18 @@ Thin wrapper around the GWT DataGrid API in order to increase our productivity.
 Dependencies
 ============
 
-* [gwt-primitives](https://github.com/csavelief/gwt-primitives) 1.0 or above
+* [gwt-primitives](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives)
 
 What is inside ?
 ================
 
 Client :
 * Custom cells :
-    * [fr.mncc.gwttoolbox.datagrid.client.cells.*](https://github.com/csavelief/gwt-datagrid/tree/master/src/fr/mncc/gwttoolbox/datagrid/client/cells)
+    * [fr.mncc.gwttoolbox.datagrid.client.cells.*](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/datagrid/client/cells)
 * Basic column types :
-    * [fr.mncc.gwttoolbox.datagrid.client.columns.*](https://github.com/csavelief/gwt-datagrid/tree/master/src/fr/mncc/gwttoolbox/datagrid/client/columns)
+    * [fr.mncc.gwttoolbox.datagrid.client.columns.*](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/datagrid/client/columns)
 * Basic grid implementation :
-    * [fr.mncc.gwttoolbox.datagrid.client.Grid](https://github.com/csavelief/gwt-datagrid/blob/master/src/fr/mncc/gwttoolbox/datagrid/client/Grid.java)
-
-How to get started ?
-====================
-
-Download gwt-datagrid.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+    * [fr.mncc.gwttoolbox.datagrid.client.Grid](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/datagrid/client/Grid.java)
 
 Example
 =======

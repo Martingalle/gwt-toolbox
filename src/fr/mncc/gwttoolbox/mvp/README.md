@@ -6,28 +6,23 @@ A lightweight mvp framework for GWT.
 Dependencies
 ============
 
-* [gwt-primitives](https://github.com/csavelief/gwt-primitives) 1.0 or above
+* [gwt-primitives](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/primitives)
 
 What is inside ?
 ================
 
 Client :
 * Presenters must inherit from Presenter and implements AsbtractPresenter :
-    * [fr.mncc.gwttoolbox.mvp.client.presenter.Presenter](https://github.com/csavelief/gwt-mvp/blob/master/src/fr/mncc/gwttoolbox/mvp/client/presenter/Presenter.java)
-    * [fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter](https://github.com/csavelief/gwt-mvp/blob/master/src/fr/mncc/gwttoolbox/mvp/client/presenter/AbstractPresenter.java)
+    * [fr.mncc.gwttoolbox.mvp.client.presenter.Presenter](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/mvp/client/presenter/Presenter.java)
+    * [fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/mvp/client/presenter/AbstractPresenter.java)
 * Views must inherit from View and implements AbstractView :
-    * [fr.mncc.gwttoolbox.mvp.client.view.View](https://github.com/csavelief/gwt-mvp/blob/master/src/fr/mncc/gwttoolbox/mvp/client/view/View.java)
-    * [fr.mncc.gwttoolbox.mvp.client.view.AbtractView](https://github.com/csavelief/gwt-mvp/blob/master/src/fr/mncc/gwttoolbox/mvp/client/view/AbstractView.java)
+    * [fr.mncc.gwttoolbox.mvp.client.view.View](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/mvp/client/view/View.java)
+    * [fr.mncc.gwttoolbox.mvp.client.view.AbtractView](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/mvp/client/view/AbstractView.java)
 * Use the WidgetEx class to bind a view with a presenter :
-    * [fr.mncc.gwttoolbox.mvp.client.WidgetEx](https://github.com/csavelief/gwt-mvp/blob/master/src/fr/mncc/gwttoolbox/mvp/client/WidgetEx.java)
+    * [fr.mncc.gwttoolbox.mvp.client.WidgetEx](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/mvp/client/WidgetEx.java)
 * Use the Place classes to layout the whole screen :
-    * [fr.mncc.gwttoolbox.mvp.client.place.Place](https://github.com/csavelief/gwt-mvp/blob/master/src/fr/mncc/gwttoolbox/mvp/client/place/Place.java)
-    * [fr.mncc.gwttoolbox.mvp.client.place.PlaceCrawlable](https://github.com/csavelief/gwt-mvp/blob/master/src/fr/mncc/gwttoolbox/mvp/client/place/PlaceCrawlable.java)
-
-How to get started ?
-====================
-
-Download gwt-mvp.jar (built against the latest tag) and add it to your Java/GWT project classpath.
+    * [fr.mncc.gwttoolbox.mvp.client.place.Place](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/mvp/client/place/Place.java)
+    * [fr.mncc.gwttoolbox.mvp.client.place.PlaceCrawlable](https://github.com/csavelief/gwt-toolbox/blob/master/src/fr/mncc/gwttoolbox/mvp/client/place/PlaceCrawlable.java)
 
 Example
 =======
