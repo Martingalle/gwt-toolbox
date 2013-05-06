@@ -6,16 +6,16 @@ Bundle all the gwt-xxx modules together.
 What is inside ?
 ================
 
-* [gwt-appengine](https://github.com/csavelief/gwt-appengine)
-* [gwt-base](https://github.com/csavelief/gwt-base)
-* [gwt-crypto](https://github.com/csavelief/gwt-crypto)
-* [gwt-datagrid](https://github.com/csavelief/gwt-datagrid)
-* [gwt-mvp](https://github.com/csavelief/gwt-mvp)
-* [gwt-primitives](https://github.com/csavelief/gwt-primitives)
-* [gwt-routing](https://github.com/csavelief/gwt-routing)
-* [gwt-rpc](https://github.com/csavelief/gwt-rpc)
-* [gwt-ui](https://github.com/csavelief/gwt-ui)
-* [gwt-visualization](https://github.com/csavelief/gwt-visualization)
+* [gwt-appengine](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/appengine)
+* [gwt-base](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/base)
+* [gwt-crypto](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/crypto)
+* [gwt-datagrid](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/datagrid)
+* [gwt-mvp](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/mvp)
+* [gwt-primitives](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/primitives)
+* [gwt-routing](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/routing)
+* [gwt-rpc](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/rpc)
+* [gwt-ui](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/ui)
+* [gwt-visualization](https://github.com/csavelief/gwt-toolbox/tree/master/src/fr/mncc/gwttoolbox/visualization)
 
 License : MIT
 =============
