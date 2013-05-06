@@ -20,15 +20,16 @@
  */
 package fr.mncc.gwttoolbox.rpc.server.filters;
 
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
- * {@link javax.servlet.Filter} to add cache control headers for GWT generated files to ensure that the correct
- * files get cached.
+ * {@link javax.servlet.Filter} to add cache control headers for GWT generated files to ensure that
+ * the correct files get cached.
  * 
  * @author See Wah Cheng
  * @created 24 Feb 2009

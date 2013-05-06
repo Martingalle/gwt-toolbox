@@ -20,14 +20,13 @@
  */
 package fr.mncc.gwttoolbox.appengine.shared;
 
+import com.google.common.base.Objects;
+import com.google.gwt.user.client.rpc.IsSerializable;
+import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-
-import com.google.common.base.Objects;
-import com.google.gwt.user.client.rpc.IsSerializable;
-
-import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
 
 public class SQuery2 implements IsSerializable, Serializable {
 
@@ -70,7 +69,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     @Override
     public String toString() {
       return Objects.toStringHelper(this).add("propertyName_", propertyName_).add("isAscending_",
-              isAscending_).omitNullValues().toString();
+          isAscending_).omitNullValues().toString();
     }
   }
 
@@ -120,8 +119,8 @@ public class SQuery2 implements IsSerializable, Serializable {
     @Override
     public String toString() {
       return Objects.toStringHelper(this).add("operator_", operator_).add("propertyName_",
-              propertyName_).add("propertyValue_", propertyValue_).add("propertyValues_",
-              propertyValues_).omitNullValues().toString();
+          propertyName_).add("propertyValue_", propertyValue_).add("propertyValues_",
+          propertyValues_).omitNullValues().toString();
     }
   }
 

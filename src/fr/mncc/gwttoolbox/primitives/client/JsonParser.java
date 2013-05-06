@@ -32,8 +32,8 @@ public class JsonParser<T extends JavaScriptObject> {
    * @return Java object
    */
   public final native T fromJson(String json) /*-{
-    return eval('(' + json + ')');
-  }-*/;
+                                              return eval('(' + json + ')');
+                                              }-*/;
 
   /**
    * From Java object to JSON string

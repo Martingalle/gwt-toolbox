@@ -61,7 +61,8 @@ public class CryptoApi {
   }
 
   /**
-   * Code text after resetting S-box using key. Uses RC4 algorithm : http://en.wikipedia.org/wiki/RC4
+   * Code text after resetting S-box using key. Uses RC4 algorithm :
+   * http://en.wikipedia.org/wiki/RC4
    * 
    * @param text to code
    * @param key to reset S-box
@@ -73,7 +74,7 @@ public class CryptoApi {
 
   /**
    * Code text using the current S-box
-   *
+   * 
    * @param text to code
    * @return coded text
    */
@@ -84,7 +85,7 @@ public class CryptoApi {
   /**
    * Decode text after resetting S-box using key. Uses RC4 algorithm :
    * http://en.wikipedia.org/wiki/RC4
-   *
+   * 
    * @param text to decode
    * @param key to reset S-box
    * @return decoded text
@@ -95,7 +96,7 @@ public class CryptoApi {
 
   /**
    * Decode text using the current S-box
-   *
+   * 
    * @param text to decode
    * @return decoded text
    */

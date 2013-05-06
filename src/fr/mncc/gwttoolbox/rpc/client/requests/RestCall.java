@@ -27,6 +27,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import fr.mncc.gwttoolbox.primitives.client.JsonParser;
 
 public class RestCall {

@@ -20,9 +20,9 @@
  */
 package fr.mncc.gwttoolbox.crypto.shared;
 
-import java.util.Stack;
-
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Stack;
 
 /**
  * Cryptographic Hash Function : http://en.wikipedia.org/wiki/CubeHash
@@ -69,7 +69,7 @@ public class CubeHash {
 
   /**
    * Output formatting function, giving the little-endian hex display of a number
-   *
+   * 
    * @param n number to format
    * @return formatted number
    */

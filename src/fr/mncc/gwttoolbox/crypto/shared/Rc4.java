@@ -41,8 +41,7 @@ public class Rc4 {
   }
 
   /**
-   * Code text after reseting S-box using key. Uses RC4 algorithm :
-   * http://en.wikipedia.org/wiki/RC4
+   * Code text after reseting S-box using key. Uses RC4 algorithm : http://en.wikipedia.org/wiki/RC4
    * 
    * @param text to code
    * @param key to reset S-box

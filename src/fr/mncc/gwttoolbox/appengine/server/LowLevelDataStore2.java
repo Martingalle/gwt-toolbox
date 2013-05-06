@@ -20,14 +20,14 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
+import com.google.appengine.api.datastore.*;
+import com.google.java.contract.Ensures;
+import com.google.java.contract.Requires;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
-
-import com.google.appengine.api.datastore.*;
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
 
 public class LowLevelDataStore2 {
 

@@ -63,7 +63,7 @@ public class KeyValueMap extends LinkedHashMap<String, String> {
 
   /**
    * Convert map to an ordered list of key-value pairs
-   *
+   * 
    * @return a list of KeyValuePair objects
    */
   @Ensures("result != null")
