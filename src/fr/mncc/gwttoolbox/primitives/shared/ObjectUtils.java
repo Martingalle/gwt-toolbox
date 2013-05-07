@@ -79,7 +79,6 @@ public class ObjectUtils {
     return index < 0 ? "" : str.substring(index + 1);
   }
 
-<<<<<<< HEAD
 	/**
 	 * @param str serialized object
 	 * @return true if str is an Integer, false otherwise
@@ -168,68 +167,7 @@ public class ObjectUtils {
 		int type = StringUtils.parseInt(str.substring(0, index));
 		return type == TYPE_TIMESTAMP || type == TYPE_TIME || type == TYPE_DATE;
 	}
-=======
-  /**
-   * @param str serialized object
-   * @return true if str is an Integer
-   */
-  public static boolean isInteger(String str) {
-    int index = str == null ? -1 : str.indexOf(':');
-    int type = StringUtils.parseInt(str.substring(0, index));
-    return type == TYPE_INTEGER;
-  }
-
-  /**
-   * @param str serialized object
-   * @return true if str is a Double
-   */
-  public static boolean isDouble(String str) {
-    int index = str == null ? -1 : str.indexOf(':');
-    int type = StringUtils.parseInt(str.substring(0, index));
-    return type == TYPE_DOUBLE;
-  }
-
-  /**
-   * @param str serialized object
-   * @return true if str is a Float
-   */
-  public static boolean isFloat(String str) {
-    int index = str == null ? -1 : str.indexOf(':');
-    int type = StringUtils.parseInt(str.substring(0, index));
-    return type == TYPE_FLOAT;
-  }
-
-  /**
-   * @param str serialized object
-   * @return true if str is a Boolean
-   */
-  public static boolean isBoolean(String str) {
-    int index = str == null ? -1 : str.indexOf(':');
-    int type = StringUtils.parseInt(str.substring(0, index));
-    return type == TYPE_BOOLEAN;
-  }
-
-  /**
-   * @param str serialized object
-   * @return true if str is a String
-   */
-  public static boolean isString(String str) {
-    int index = str == null ? -1 : str.indexOf(':');
-    int type = StringUtils.parseInt(str.substring(0, index));
-    return type == TYPE_STRING;
-  }
-
-  /**
-   * @param str serialized object
-   * @return true if str is a timestamp, a time or a date.
-   */
-  public static boolean isDate(String str) {
-    int index = str == null ? -1 : str.indexOf(':');
-    int type = StringUtils.parseInt(str.substring(0, index));
-    return type == TYPE_TIMESTAMP || type == TYPE_TIME || type == TYPE_DATE;
-  }
->>>>>>> 08443785db7437fdac431a81c8415e73d781f986
-
+	
   /**
    * Get an integer describing an object type
    * 
