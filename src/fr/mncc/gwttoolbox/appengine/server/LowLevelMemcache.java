@@ -20,15 +20,15 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
+import com.google.appengine.api.NamespaceManager;
+import com.google.appengine.api.memcache.MemcacheService;
+import com.google.appengine.api.memcache.MemcacheServiceFactory;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.google.appengine.api.NamespaceManager;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
 public class LowLevelMemcache {
 

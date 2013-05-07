@@ -1,32 +1,32 @@
 /**
  * Copyright (c) 2013 MNCC
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge, publish, distribute,
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
  * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ * 
  * @author http://www.mncc.fr
  */
 package fr.mncc.gwttoolbox.routing.client;
+
+import java.util.HashMap;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
-
-import java.util.HashMap;
 
 public class RouteController implements ValueChangeHandler<String> {
 
@@ -50,7 +50,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Called when goTo() is called or the prev/next button of the browser is hit.
-   *
+   * 
    * @param event
    */
   @Override
@@ -58,18 +58,14 @@ public class RouteController implements ValueChangeHandler<String> {
 
     /*
      * token is of one of the following forms:
-     *
-     * 1. routeName
-     * 2. routeName?xxx
-     * 3. !routeName
-     * 4. !routeName?xxx
+     * 
+     * 1. routeName 2. routeName?xxx 3. !routeName 4. !routeName?xxx
      */
     String token = event.getValue();
     if (token == null) {
       if (rescueCallback_ != null)
         rescueCallback_.execute(token);
-    }
-    else {
+    } else {
 
       // Remove ! before route name if any
       if (token.indexOf("!") == 0)
@@ -86,8 +82,7 @@ public class RouteController implements ValueChangeHandler<String> {
       if (questionMarkIndex < 0) {
         routeName = token;
         arguments = "";
-      }
-      else {
+      } else {
         routeName = token.substring(0, questionMarkIndex);
         arguments = token.substring(questionMarkIndex + 1);
       }
@@ -114,9 +109,9 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Google Analytics
-   *
+   * 
    * Do not forget to add the following code in your HTML file:
-   *
+   * 
    * <script type="text/javascript"> var ga = document.createElement('script'); ga.type =
    * 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ?
    * 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; var s =
@@ -127,8 +122,7 @@ public class RouteController implements ValueChangeHandler<String> {
       UA_ = UA;
       domainName_ = domainName;
       listen();
-    }
-    else
+    } else
       GWT.log("Invalid UA and domain name!");
   }
 
@@ -143,7 +137,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Add a new route.
-   *
+   * 
    * @param routeName
    * @param callback
    */
@@ -164,7 +158,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Remove a route previously registered.
-   *
+   * 
    * @param routeName
    */
   public void removeRoute(String routeName) {
@@ -173,7 +167,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Rescue callback will be called when we do not know how to process a route name.
-   *
+   * 
    * @param rescueCallback
    */
   public void addRescueCallback(RescueCallback rescueCallback) {
@@ -196,7 +190,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Launch a new route.
-   *
+   * 
    * @param routeName
    */
   public void goTo(String routeName) {
@@ -212,7 +206,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Launch a new route with a given set of parameters.
-   *
+   * 
    * @param routeName
    * @param arguments
    */
@@ -229,7 +223,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Reload the current route if any or a default one.
-   *
+   * 
    * @param defaultRouteName
    */
   public void goToFromCurrentUrl(String defaultRouteName) {
@@ -241,7 +235,7 @@ public class RouteController implements ValueChangeHandler<String> {
 
   /**
    * Reload the current route if any or a default one with a given set of parameters.
-   *
+   * 
    * @param defaultRouteName
    * @param defaultArguments
    */
@@ -253,9 +247,9 @@ public class RouteController implements ValueChangeHandler<String> {
   }
 
   /**
-   * Push a new hashtag without triggering an onValueChange().
-   * Mostly used to save parameters before launching a new route.
-   *
+   * Push a new hashtag without triggering an onValueChange(). Mostly used to save parameters before
+   * launching a new route.
+   * 
    * @param routeName
    * @param arguments
    */
@@ -274,14 +268,14 @@ public class RouteController implements ValueChangeHandler<String> {
   }
 
   private native void recordAnalyticsHit(String UA, String domainName, String pageName) /*-{
-    try {
-      $wnd._gaq.push(['_setAccount', UA]);
-      $wnd._gaq.push(['_setDomainName', domainName]);
-      $wnd._gaq.push(['_setSiteSpeedSampleRate', 50]);
-      $wnd._gaq.push(['_trackPageview', pageName]);
-    }
-    catch(err) {
+                                                                                        try {
+                                                                                        $wnd._gaq.push(['_setAccount', UA]);
+                                                                                        $wnd._gaq.push(['_setDomainName', domainName]);
+                                                                                        $wnd._gaq.push(['_setSiteSpeedSampleRate', 50]);
+                                                                                        $wnd._gaq.push(['_trackPageview', pageName]);
+                                                                                        }
+                                                                                        catch(err) {
 
-    }
-  }-*/;
+                                                                                        }
+                                                                                        }-*/;
 }

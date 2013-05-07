@@ -20,10 +20,10 @@
  */
 package fr.mncc.gwttoolbox.primitives.server;
 
-import fr.mncc.gwttoolbox.primitives.shared.DefaultValues;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import fr.mncc.gwttoolbox.primitives.shared.DefaultValues;
 
 public class DateUtils {
 

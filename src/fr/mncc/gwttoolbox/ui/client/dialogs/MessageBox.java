@@ -25,6 +25,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.*;
+
 import fr.mncc.gwttoolbox.ui.client.dialogs.resources.DialogConstants;
 import fr.mncc.gwttoolbox.ui.client.dialogs.resources.DialogResourceBundle;
 
@@ -75,11 +76,13 @@ public class MessageBox extends PopupPanel {
     dlg.show();
   }
 
-  public MessageBox(String caption, String text, ImageResource resource, final DialogHideCallback hideCallback) {
+  public MessageBox(String caption, String text, ImageResource resource,
+      final DialogHideCallback hideCallback) {
     this(caption, text, resource, hideCallback, "");
   }
 
-  private MessageBox(String caption, String text, ImageResource resource, final DialogHideCallback hideCallback, String btnClassName) {
+  private MessageBox(String caption, String text, ImageResource resource,
+      final DialogHideCallback hideCallback, String btnClassName) {
     super();
 
     DialogResourceBundle.INSTANCE.style().ensureInjected();

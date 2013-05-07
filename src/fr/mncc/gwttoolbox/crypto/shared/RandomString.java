@@ -22,7 +22,6 @@ package fr.mncc.gwttoolbox.crypto.shared;
 
 import java.util.Random;
 
-
 public class RandomString {
 
   private final int out_length = 32;

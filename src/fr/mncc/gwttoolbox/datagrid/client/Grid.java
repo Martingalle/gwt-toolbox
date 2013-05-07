@@ -20,20 +20,19 @@
  */
 package fr.mncc.gwttoolbox.datagrid.client;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.cellview.client.ColumnSortEvent;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.view.client.*;
-
 import fr.mncc.gwttoolbox.datagrid.client.columns.BooleanColumn;
 import fr.mncc.gwttoolbox.primitives.shared.HasId;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Simple wrapper around the DataGrid API.

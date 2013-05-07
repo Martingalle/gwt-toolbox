@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
-
 import fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter;
 import fr.mncc.gwttoolbox.mvp.client.view.AbstractView;
 import fr.mncc.gwttoolbox.primitives.shared.KeyValueMap;

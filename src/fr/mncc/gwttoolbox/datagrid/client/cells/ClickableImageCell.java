@@ -20,6 +20,8 @@
  */
 package fr.mncc.gwttoolbox.datagrid.client.cells;
 
+import static com.google.gwt.dom.client.BrowserEvents.CLICK;
+
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
@@ -30,8 +32,6 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
-
-import static com.google.gwt.dom.client.BrowserEvents.CLICK;
 
 /**
  * An image cell you can click on.
@@ -91,7 +91,8 @@ public class ClickableImageCell extends AbstractCell<String> {
   }
 
   @Override
-  public void onBrowserEvent(Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
+  public void onBrowserEvent(Context context, Element parent, String value, NativeEvent event,
+      ValueUpdater<String> valueUpdater) {
     super.onBrowserEvent(context, parent, value, event, valueUpdater);
     if (CLICK.equals(event.getType()))
       onClick(context, parent, value, event, valueUpdater);
@@ -99,14 +100,15 @@ public class ClickableImageCell extends AbstractCell<String> {
 
   /**
    * Implement the following method if you want to process the CLICK event.
-   *
+   * 
    * @param context
    * @param parent
    * @param value
    * @param event
    * @param valueUpdater
    */
-  protected void onClick(Context context, Element parent, String value, NativeEvent event, ValueUpdater<String> valueUpdater) {
+  protected void onClick(Context context, Element parent, String value, NativeEvent event,
+      ValueUpdater<String> valueUpdater) {
 
   }
 }

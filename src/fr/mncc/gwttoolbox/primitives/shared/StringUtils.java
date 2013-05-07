@@ -140,7 +140,7 @@ public class StringUtils {
 
   /**
    * Replace the first letter of a word with an upper-case letter
-   *
+   * 
    * @param str
    * @return
    */
@@ -151,7 +151,7 @@ public class StringUtils {
 
   /**
    * Replace the first letter of a word with a lower-case letter
-   *
+   * 
    * @param str
    * @return
    */
@@ -162,25 +162,25 @@ public class StringUtils {
 
   /**
    * Replace the first letter of each word with an upper-case letter
-   *
+   * 
    * @param str
    * @return
    */
   @Ensures("result != null")
   public static String capitalizeWords(String str) {
-    if (str == null ||str.isEmpty())
+    if (str == null || str.isEmpty())
       return "";
 
     StringBuilder stringBuilder = new StringBuilder();
     String[] words = str.trim().split(" ");
-    for (int i=0; i<words.length; i++)
+    for (int i = 0; i < words.length; i++)
       stringBuilder.append((i > 0 ? " " : "") + capitalize(words[i]));
     return stringBuilder.toString();
   }
 
   /**
    * Replace the first letter of each word with a lower-case letter
-   *
+   * 
    * @param str
    * @return
    */
@@ -191,7 +191,7 @@ public class StringUtils {
 
     StringBuilder stringBuilder = new StringBuilder();
     String[] words = str.trim().split(" ");
-    for (int i=0; i<words.length; i++)
+    for (int i = 0; i < words.length; i++)
       stringBuilder.append((i > 0 ? " " : "") + uncapitalize(words[i]));
     return stringBuilder.toString();
   }

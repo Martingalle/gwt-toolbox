@@ -20,15 +20,14 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
-
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class QueryConverter2 {
 
