@@ -20,23 +20,23 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Objects;
 import com.google.java.contract.Invariant;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Invariant("totalNumberOfEntities_ >= 0")
 public class Page<E extends Entity> extends SerializableObject<ArrayList<E>> {
 
   // Total number of entities (if they were not filtered)
-  private Long totalNumberOfEntities_ = 0L;
+  private Integer totalNumberOfEntities_ = 0;
 
   public Page() {
     setObject(new ArrayList<E>());
   }
 
-  public Page(ArrayList<E> entities, long totalNumberOfEntities) {
+  public Page(ArrayList<E> entities, int totalNumberOfEntities) {
     setEntities(entities);
     setTotalNumberOfEntities(totalNumberOfEntities);
   }
@@ -58,7 +58,7 @@ public class Page<E extends Entity> extends SerializableObject<ArrayList<E>> {
     return totalNumberOfEntities_;
   }
 
-  public void setTotalNumberOfEntities(long totalNumberOfEntities) {
+  public void setTotalNumberOfEntities(int totalNumberOfEntities) {
     this.totalNumberOfEntities_ = totalNumberOfEntities < 0 ? 0 : totalNumberOfEntities;
   }
 
