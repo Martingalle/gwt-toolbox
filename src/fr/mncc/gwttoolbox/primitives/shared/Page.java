@@ -23,20 +23,17 @@ package fr.mncc.gwttoolbox.primitives.shared;
 import com.google.common.base.Objects;
 import com.google.java.contract.Invariant;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Invariant({"totalNumberOfEntities_ >= 0", "id_ >= 0"})
-public class Page<E extends Entity> implements Serializable, HasId {
+@Invariant("totalNumberOfEntities_ >= 0")
+public class Page<E extends Entity> extends SerializableObject<ArrayList<E>> {
 
-  private int id_ = 0;
-  private List<E> entities_ = new ArrayList<E>();
-  private Integer totalNumberOfEntities_ = 0; // Total number of entities (if they were not
-                                              // filtered)
+  // Total number of entities (if they were not filtered)
+  private Integer totalNumberOfEntities_ = 0;
 
   public Page() {
-
+    setObject(new ArrayList<E>());
   }
 
   public Page(ArrayList<E> entities, int totalNumberOfEntities) {
@@ -44,22 +41,17 @@ public class Page<E extends Entity> implements Serializable, HasId {
     setTotalNumberOfEntities(totalNumberOfEntities);
   }
 
-  @Override
-  public long getId() {
-    return id_;
-  }
-
   public List<E> getEntities() {
-    return entities_;
+    return getObject();
   }
 
-  public void setEntities(List<E> entities) {
+  public void setEntities(ArrayList<E> entities) {
     if (entities != null)
-      entities_ = entities;
+      setObject(entities);
   }
 
   public void add(E entity) {
-    entities_.add(entity);
+    getObject().add(entity);
   }
 
   public long getTotalNumberOfEntities() {
@@ -83,13 +75,13 @@ public class Page<E extends Entity> implements Serializable, HasId {
       return false;
 
     Page page = (Page) o;
-    return Objects.equal(entities_, page.getEntities())
+    return Objects.equal(getEntities(), page.getEntities())
         && Objects.equal(totalNumberOfEntities_, page.getTotalNumberOfEntities());
   }
 
   @Override
   public String toString() {
     return Objects.toStringHelper(this).add("totalNumberOfEntities_", totalNumberOfEntities_).add(
-        "entities_", entities_).omitNullValues().toString();
+        "entities_", getEntities()).omitNullValues().toString();
   }
 }
