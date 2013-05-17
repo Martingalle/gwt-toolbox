@@ -1,0 +1,19 @@
+/**
+	Script to create the database and the table
+	The username of the database must be "postgres"		
+*/
+
+
+--CREATE THE DATABASE
+CREATE DATABASE testdb;
+
+--CREATE TABLE PERSON
+CREATE TABLE person (
+	id serial,  --AUTO INCREMENT
+	name varchar(100), 
+	age bigint, 
+	height double precision, --DOUBLE
+	birthdate date, 
+	salary real, -FLOAT
+	status boolean
+);

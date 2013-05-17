@@ -25,93 +25,210 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SProjection2;
+import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SSort2;
+import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
+import fr.mncc.gwttoolbox.appengine.server.PostgreSql2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class QueryConverter2 {
 
-  public static Query getAsAppEngineQuery(SQuery2 squery) {
-    Query query =
-        hasAncestor(squery) ? new Query(squery.getKind(), KeyFactory.createKey(squery
-            .getAncestorKind(), squery.getAncestorId())) : new Query(squery.getKind());
+	public static String getAsPostgreSQLQuery(SQuery2 squery) {
+		String query = "";
+		List<String> clauses = new ArrayList<String>();
 
-    // Set keys only
-    if (squery.isKeysOnly())
-      query.setKeysOnly();
+		//---------------------------build postgres query------------------------
+		buildClause(squery.getClause(), clauses);
 
-    // Add projections
-    for (SQuery2.SProjection2 projection : squery.getProjections())
-      query.addProjection(new PropertyProjection(projection.getPropertyName(), projection
-          .getClazz()));
+		query += "SELECT " + getProjectionQuery(squery) + " FROM " + squery.getKind() + " WHERE "; //add projections
+		for (String clause : clauses) {
+			query += clause; //add clauses
+		}
+		if(!squery.getSorters().isEmpty())
+			query += getSortQuery(squery); //add sort query
 
-    // Add sort order
-    for (SQuery2.SSort2 sorter : squery.getSorters())
-      query.addSort(sorter.getPropertyName(), sorter.isAscending() ? Query.SortDirection.ASCENDING
-          : Query.SortDirection.DESCENDING);
+		return query;
 
-    // Add clause
-    if (squery.getClause() != null)
-      query.setFilter(buildClause(squery, squery.getClause()));
-    return query;
-  }
+	}
 
-  private static Query.Filter buildClause(SQuery2 squery, SQuery2.SClause2 clause) {
-    if (clause.isLeaf()) {
-      SQuery2.SFilter2 sfilter = (SQuery2.SFilter2) clause;
-      if (sfilter.getOperator() != SQuery2.SFilterOperator2.IN) {
-        if (sfilter.getPropertyName().equals("__key__")
-            && sfilter.getPropertyValue() instanceof Long) {
-          if (hasAncestor(squery))
-            return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
-                .getOperator()), KeyFactory.createKey(KeyFactory.createKey(
-                squery.getAncestorKind(), squery.getAncestorId()), squery.getKind(), (Long) sfilter
-                .getPropertyValue()));
-          return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
-              .getOperator()), KeyFactory.createKey(squery.getKind(), (Long) sfilter
-              .getPropertyValue()));
-        }
-        return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
-            .getOperator()), sfilter.getPropertyValue());
-      }
 
-      List<Key> keys = new ArrayList<Key>();
-      for (Long id : sfilter.getPropertyValues()) {
-        if (hasAncestor(squery))
-          keys.add(KeyFactory.createKey(KeyFactory.createKey(squery.getAncestorKind(), squery
-              .getAncestorId()), squery.getKind(), id));
-        else
-          keys.add(KeyFactory.createKey(squery.getKind(), id));
-      }
-      return new Query.FilterPredicate("__key__", Query.FilterOperator.IN, keys);
-    }
-    if (clause.isAnd())
-      return Query.CompositeFilterOperator.and(buildClause(squery, clause.getLeftClause()),
-          buildClause(squery, clause.getRightClause()));
-    return Query.CompositeFilterOperator.or(buildClause(squery, clause.getLeftClause()),
-        buildClause(squery, clause.getRightClause()));
-  }
+	public static Query getAsAppEngineQuery(SQuery2 squery) {
+		Query query =
+				hasAncestor(squery) ? new Query(squery.getKind(), KeyFactory.createKey(squery
+						.getAncestorKind(), squery.getAncestorId())) : new Query(squery.getKind());
 
-  private static Query.FilterOperator getAsFilterOperator(int operator) {
-    if (operator == SQuery2.SFilterOperator2.EQUAL)
-      return Query.FilterOperator.EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.LESS_THAN)
-      return Query.FilterOperator.LESS_THAN;
-    else if (operator == SQuery2.SFilterOperator2.LESS_THAN_OR_EQUAL)
-      return Query.FilterOperator.LESS_THAN_OR_EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.GREATER_THAN)
-      return Query.FilterOperator.GREATER_THAN;
-    else if (operator == SQuery2.SFilterOperator2.GREATER_THAN_OR_EQUAL)
-      return Query.FilterOperator.GREATER_THAN_OR_EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.NOT_EQUAL)
-      return Query.FilterOperator.NOT_EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.IN)
-      return Query.FilterOperator.IN;
-    return null; // This case should never happen
-  }
+				// Set keys only
+				if (squery.isKeysOnly())
+					query.setKeysOnly();
 
-  private static boolean hasAncestor(SQuery2 squery) {
-    return squery.getAncestorKind() != null && !squery.getAncestorKind().isEmpty()
-        && squery.getAncestorId() > 0;
-  }
+				// Add projections
+				for (SQuery2.SProjection2 projection : squery.getProjections())
+					query.addProjection(new PropertyProjection(projection.getPropertyName(), projection
+							.getClazz()));
+
+				// Add sort order
+				for (SQuery2.SSort2 sorter : squery.getSorters())
+					query.addSort(sorter.getPropertyName(), sorter.isAscending() ? Query.SortDirection.ASCENDING
+							: Query.SortDirection.DESCENDING);
+
+				// Add clause
+				if (squery.getClause() != null)
+					query.setFilter(buildClause(squery, squery.getClause()));
+				return query;
+	}
+
+	private static Query.Filter buildClause(SQuery2 squery, SQuery2.SClause2 clause) {
+		if (clause.isLeaf()) {
+			SQuery2.SFilter2 sfilter = (SQuery2.SFilter2) clause;
+			if (sfilter.getOperator() != SQuery2.SFilterOperator2.IN) {
+				if (sfilter.getPropertyName().equals("__key__")
+						&& sfilter.getPropertyValue() instanceof Long) {
+					if (hasAncestor(squery))
+						return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+								.getOperator()), KeyFactory.createKey(KeyFactory.createKey(
+										squery.getAncestorKind(), squery.getAncestorId()), squery.getKind(), (Long) sfilter
+										.getPropertyValue()));
+					return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+							.getOperator()), KeyFactory.createKey(squery.getKind(), (Long) sfilter
+									.getPropertyValue()));
+				}
+				return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+						.getOperator()), sfilter.getPropertyValue());
+			}
+
+			List<Key> keys = new ArrayList<Key>();
+			for (Long id : sfilter.getPropertyValues()) {
+				if (hasAncestor(squery))
+					keys.add(KeyFactory.createKey(KeyFactory.createKey(squery.getAncestorKind(), squery
+							.getAncestorId()), squery.getKind(), id));
+				else
+					keys.add(KeyFactory.createKey(squery.getKind(), id));
+			}
+			return new Query.FilterPredicate("__key__", Query.FilterOperator.IN, keys);
+		}
+		if (clause.isAnd())
+			return Query.CompositeFilterOperator.and(buildClause(squery, clause.getLeftClause()),
+					buildClause(squery, clause.getRightClause()));
+		return Query.CompositeFilterOperator.or(buildClause(squery, clause.getLeftClause()),
+				buildClause(squery, clause.getRightClause()));
+	}
+
+	private static Query.FilterOperator getAsFilterOperator(int operator) {
+		if (operator == SQuery2.SFilterOperator2.EQUAL)
+			return Query.FilterOperator.EQUAL;
+		else if (operator == SQuery2.SFilterOperator2.LESS_THAN)
+			return Query.FilterOperator.LESS_THAN;
+		else if (operator == SQuery2.SFilterOperator2.LESS_THAN_OR_EQUAL)
+			return Query.FilterOperator.LESS_THAN_OR_EQUAL;
+		else if (operator == SQuery2.SFilterOperator2.GREATER_THAN)
+			return Query.FilterOperator.GREATER_THAN;
+		else if (operator == SQuery2.SFilterOperator2.GREATER_THAN_OR_EQUAL)
+			return Query.FilterOperator.GREATER_THAN_OR_EQUAL;
+		else if (operator == SQuery2.SFilterOperator2.NOT_EQUAL)
+			return Query.FilterOperator.NOT_EQUAL;
+		else if (operator == SQuery2.SFilterOperator2.IN)
+			return Query.FilterOperator.IN;
+		return null; // This case should never happen
+	}
+
+	private static boolean hasAncestor(SQuery2 squery) {
+		return squery.getAncestorKind() != null && !squery.getAncestorKind().isEmpty()
+				&& squery.getAncestorId() > 0;
+	}
+
+	/**
+	 * Returns an int which signifies the operator to be used 
+	 * @param operator
+	 * @return
+	 */
+	private static String getAsPostgreSQLOperator(int operator) {
+		if (operator == SQuery2.SFilterOperator2.EQUAL)
+			return "=";
+		if (operator == SQuery2.SFilterOperator2.LESS_THAN)
+			return "<";
+		if (operator == SQuery2.SFilterOperator2.LESS_THAN_OR_EQUAL)
+			return "<=";
+		if (operator == SQuery2.SFilterOperator2.GREATER_THAN)
+			return ">";
+		if (operator == SQuery2.SFilterOperator2.GREATER_THAN_OR_EQUAL)
+			return ">=";
+		if (operator == SQuery2.SFilterOperator2.NOT_EQUAL)
+			return "<>";
+		if (operator == SQuery2.SFilterOperator2.IN)
+			return "IN";
+
+		return null; // This case should never happen
+	}
+
+	private static String getSortQuery(SQuery2 squery) {
+		String sortQuery = " ORDER BY ";
+
+		List<SSort2> listOfSorters = squery.getSorters();
+
+		for (SSort2 sorter : listOfSorters) {
+			sortQuery += sorter.getPropertyName() + " ";
+			sortQuery += sorter.isAscending()? "ASC, " : "DESC, ";
+		}
+
+		sortQuery = sortQuery.substring(0, sortQuery.length() - 2);
+
+		return sortQuery;
+	}
+
+	private static String getProjectionQuery(SQuery2 squery) {
+		String projections = "";
+		boolean containsIdColumn = false;
+
+		List<SProjection2> listOfProjections = squery.getProjections();
+
+		if(squery.isKeysOnly())
+			return "id";
+		if(listOfProjections.isEmpty() || listOfProjections == null) 
+			return "*";
+
+		//checks if the column id projection was created
+		//set containsIdColumn to true if it exists as a projection, sets to false otherwise
+		for (SProjection2 sp : listOfProjections) {
+			if(sp.getPropertyName().equalsIgnoreCase("id")) {
+				containsIdColumn = true;
+				break;
+			}
+		}
+
+		//add coulumn id projection if column id projection doesn't exist
+		if(!containsIdColumn)
+			listOfProjections.add(0, new SProjection2("id", Long.class));
+
+		for (SProjection2 projection : listOfProjections) {
+			projections += projection.getPropertyName() + ", ";
+		}
+
+		projections = projections.substring(0, projections.length() - 2);
+		return projections;
+
+	}
+
+	private static void buildClause(SQuery2.SClause2 clause, List<String> a) {
+
+		if(clause.getLeftClause() != null) {
+			buildClause(clause.getLeftClause(), a);
+		}
+
+		if(clause.isLeaf()) {
+			SQuery2.SFilter2 sfilter = (SQuery2.SFilter2) clause;
+
+			a.add(sfilter.getPropertyName() + " " + getAsPostgreSQLOperator(sfilter.getOperator()) +
+					" " + PostgreSql2.preparedQuery(ObjectUtils.toString(sfilter.getPropertyValue()))) ;
+		}
+
+		if(clause.getRightClause() != null) { 
+			if(clause.isAnd())
+				a.add(" AND ");
+			else
+				a.add(" OR ");
+			buildClause(clause.getRightClause(), a);
+		}
+	}
 }
