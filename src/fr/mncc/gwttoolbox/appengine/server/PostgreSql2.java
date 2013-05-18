@@ -1,32 +1,26 @@
-
 /**
  * Copyright (c) 2013 MNCC
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge, publish, distribute,
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
  * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ * 
  * @author http://www.mncc.fr
  */
-
 package fr.mncc.gwttoolbox.appengine.server;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,19 +32,21 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.postgresql.PGResultSetMetaData;
-
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
 import fr.mncc.gwttoolbox.primitives.shared.Entity;
 import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
 
+import org.postgresql.PGResultSetMetaData;
+
 public class PostgreSql2 {
 
   public final static Logger logger_ = Logger.getLogger(PostgreSql2.class.getCanonicalName());
-  private static Connection conn = JdbcPostgresConnection.getConnection("127.0.0.1", 5432, "mydb", "postgres", "zamani95");
+  private static Connection conn = JdbcPostgresConnection.getConnection("127.0.0.1", 5432, "mydb",
+      "postgres", "zamani95");
+
   /**
-   * This method takes a {@link fr.mncc.gwttoolbox.primitives.shared.Entity} entity as a parameter and 
-   * creates an SQL INSERT query from the columns and values of the entity.
+   * This method takes a {@link fr.mncc.gwttoolbox.primitives.shared.Entity} entity as a parameter
+   * and creates an SQL INSERT query from the columns and values of the entity.
    * 
    * @param entity - the entity
    * @return a String representing the query created
@@ -62,19 +58,19 @@ public class PostgreSql2 {
     for (String property : properties) {
       str = property.split(":", 3);
       columns += str[0] + ", ";
-      values  += preparedQuery(str[1] + ":" + str[2]) + ", ";
+      values += preparedQuery(str[1] + ":" + str[2]) + ", ";
     }
 
-    columns = columns.substring(0, columns.length() -2);
-    values  = values.substring(0, values.length() -2);
-    query 	= "INSERT INTO " + entity.getKind() + "(" + columns + ") VALUES(" + values + ")";
+    columns = columns.substring(0, columns.length() - 2);
+    values = values.substring(0, values.length() - 2);
+    query = "INSERT INTO " + entity.getKind() + "(" + columns + ") VALUES(" + values + ")";
 
     return query;
   }
 
   /**
-   * This method takes a {@link fr.mncc.gwttoolbox.primitives.shared.Entity} entity as a aparameter and 
-   * creates an SQL UPDATE query from the columns and values of the entity.
+   * This method takes a {@link fr.mncc.gwttoolbox.primitives.shared.Entity} entity as a aparameter
+   * and creates an SQL UPDATE query from the columns and values of the entity.
    * 
    * @param entity - the entity
    * @return a String representing the query created
@@ -83,7 +79,7 @@ public class PostgreSql2 {
     List<String> properties = (ArrayList<String>) entity.getProperties();
     String[] str;
     String query = "";
-    query += "UPDATE " + entity.getKind() + " SET "; 
+    query += "UPDATE " + entity.getKind() + " SET ";
 
     for (String property : properties) {
       str = property.split(":", 3);
@@ -96,8 +92,8 @@ public class PostgreSql2 {
     return query;
   }
 
-  private static boolean deletePostgreSQL(String kind, long id,String ancestorKind, long ancestorId) {
-    String query  = "DELETE FROM " + kind + " WHERE id = " + id;
+  private static boolean deletePostgreSQL(String kind, long id, String ancestorKind, long ancestorId) {
+    String query = "DELETE FROM " + kind + " WHERE id = " + id;
     int delete = Integer.MIN_VALUE;
     Statement st = null;
     try {
@@ -110,31 +106,33 @@ public class PostgreSql2 {
       e.printStackTrace();
     }
 
-    return (delete == Integer.MIN_VALUE || delete != 1)? false : true;
+    return (delete == Integer.MIN_VALUE || delete != 1) ? false : true;
 
   }
 
   /**
    * Creates a list of iterable entities from a ResultSet
+   * 
    * @param resultSet
    * @return
    * @throws SQLException
    */
-  private static Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> createEntityFromResultSet(ResultSet resultSet) throws SQLException {
+  private static Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> createEntityFromResultSet(
+      ResultSet resultSet) throws SQLException {
     ResultSetMetaData rsMetaData = resultSet.getMetaData();
-    PGResultSetMetaData data = (PGResultSetMetaData) rsMetaData; //used to get the table name
+    PGResultSetMetaData data = (PGResultSetMetaData) rsMetaData; // used to get the table name
     int columnCount = rsMetaData.getColumnCount();
 
-    List<fr.mncc.gwttoolbox.primitives.shared.Entity> entities = 
+    List<fr.mncc.gwttoolbox.primitives.shared.Entity> entities =
         new ArrayList<fr.mncc.gwttoolbox.primitives.shared.Entity>();
-    while(resultSet.next()) {
+    while (resultSet.next()) {
 
-      if(columnCount != 0) {
-        //table name gotten here. used to create an entity
-        //used resultSet.getLong("id") to get the value of the column named "id" in a long format
-        //this is because the id can be placed anywhere in the query by the user
-        Entity entity = new Entity(data.getBaseTableName(1), resultSet.getLong("id")); 
-        for(int i = 2; i <= columnCount; i++) {
+      if (columnCount != 0) {
+        // table name gotten here. used to create an entity
+        // used resultSet.getLong("id") to get the value of the column named "id" in a long format
+        // this is because the id can be placed anywhere in the query by the user
+        Entity entity = new Entity(data.getBaseTableName(1), resultSet.getLong("id"));
+        for (int i = 2; i <= columnCount; i++) {
           entity.put(rsMetaData.getColumnName(i), resultSet.getObject(i));
         }
         entities.add(entity);
@@ -145,10 +143,10 @@ public class PostgreSql2 {
 
   }
 
-  private static  Iterable<Long> getIds(SQuery2 toolboxQuery, int startIndex, int amount) {
+  private static Iterable<Long> getIds(SQuery2 toolboxQuery, int startIndex, int amount) {
     toolboxQuery.setKeysOnly(); // Retrieve only the ids of the toolboxQuery
     String postgresQuery = QueryConverter2.getAsPostgreSQLQuery(toolboxQuery);
-    if((startIndex != 0 && amount != 0) || (startIndex == 0 && amount != 0))
+    if ((startIndex != 0 && amount != 0) || (startIndex == 0 && amount != 0))
       postgresQuery += " LIMIT " + amount + " OFFSET " + startIndex;
 
     List<Long> ids = new ArrayList<Long>();
@@ -159,8 +157,8 @@ public class PostgreSql2 {
       stmt = conn.createStatement();
       ResultSet resultSet = stmt.executeQuery(postgresQuery);
 
-      while(resultSet.next()) {
-        ids.add(resultSet.getLong("id")); //there is only one column which is the column "id"
+      while (resultSet.next()) {
+        ids.add(resultSet.getLong("id")); // there is only one column which is the column "id"
       }
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -170,17 +168,16 @@ public class PostgreSql2 {
     return ids;
   }
 
-
   private static Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list2(SQuery2 toolboxQuery,
       int startIndex, int amount) {
     String postgresQuery = QueryConverter2.getAsPostgreSQLQuery(toolboxQuery);
-    if((startIndex != 0 && amount != 0) || (startIndex == 0 && amount != 0))
+    if ((startIndex != 0 && amount != 0) || (startIndex == 0 && amount != 0))
       postgresQuery += " LIMIT " + amount + " OFFSET " + startIndex;
 
     Statement stmt = null;
     try {
-      stmt = conn.createStatement(); 
-      ResultSet resultSet  = stmt.executeQuery(postgresQuery);
+      stmt = conn.createStatement();
+      ResultSet resultSet = stmt.executeQuery(postgresQuery);
       return createEntityFromResultSet(resultSet);
     } catch (SQLException e) {
       System.out.println(e.getMessage());
@@ -200,30 +197,30 @@ public class PostgreSql2 {
   public static String preparedQuery(String value) {
     String[] str = value.split(":", 2);
 
-
-    if(ObjectUtils.isTimeStamp(value))
-      return "to_timestamp('" + ObjectUtils.fromString(str[0] + ":" + str[1]) + "', 'YYYY-MM-DD HH24:MI:SS')";
-    if(ObjectUtils.isTime(value))
+    if (ObjectUtils.isTimeStamp(value))
+      return "to_timestamp('" + ObjectUtils.fromString(str[0] + ":" + str[1])
+          + "', 'YYYY-MM-DD HH24:MI:SS')";
+    if (ObjectUtils.isTime(value))
       return "'" + str[1] + "'";
-    if(ObjectUtils.isRealDate(value))
+    if (ObjectUtils.isRealDate(value))
       return "'" + str[1] + "'";
-    if(ObjectUtils.isDate(value))
+    if (ObjectUtils.isDate(value))
       return "'" + str[1] + "'";
-    if(ObjectUtils.isString(value))
+    if (ObjectUtils.isString(value))
       return "'" + str[1] + "'";
-    if(ObjectUtils.isBoolean(value)) 
+    if (ObjectUtils.isBoolean(value))
       return str[1];
-    if(ObjectUtils.isInteger(value))
+    if (ObjectUtils.isInteger(value))
       return str[1];
-    if(ObjectUtils.isDouble(value))
+    if (ObjectUtils.isDouble(value))
       return str[1];
-    if(ObjectUtils.isFloat(value))
+    if (ObjectUtils.isFloat(value))
       return str[1];
 
     return "";
   }
 
-  public static fr.mncc.gwttoolbox.primitives.shared.Entity fromAppEngineEntity (
+  public static fr.mncc.gwttoolbox.primitives.shared.Entity fromAppEngineEntity(
       com.google.appengine.api.datastore.Entity appEngineEntity) {
     return null;
   }
@@ -245,11 +242,9 @@ public class PostgreSql2 {
 
   }
 
-
   public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
     return put(entity, null, 0);
   }
-
 
   public static Future<Long> put(final fr.mncc.gwttoolbox.primitives.shared.Entity entity,
       String ancestorKind, long ancestorId) {
@@ -268,7 +263,7 @@ public class PostgreSql2 {
 
       @Override
       public Long get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-      TimeoutException {
+          TimeoutException {
         return null;
       }
 
@@ -279,10 +274,9 @@ public class PostgreSql2 {
         Long id = null;
         Statement st = null;
 
-        if(entity.getId() <= 0) {
-          query = createInsertQuery(entity); 
-        }
-        else {
+        if (entity.getId() <= 0) {
+          query = createInsertQuery(entity);
+        } else {
           query = createUpdateQuery(entity);
         }
 
@@ -292,7 +286,7 @@ public class PostgreSql2 {
           st.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
           ResultSet rs = st.getGeneratedKeys();
 
-          if(rs.next()) {
+          if (rs.next()) {
             id = rs.getLong("id");
           }
 
@@ -304,7 +298,7 @@ public class PostgreSql2 {
           e.printStackTrace();
         }
 
-        return id; 
+        return id;
 
       }
 
@@ -317,11 +311,9 @@ public class PostgreSql2 {
     return id;
   }
 
-
   public static List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
     return putSync(entities, null, 0);
   }
-
 
   public static List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
@@ -338,7 +330,6 @@ public class PostgreSql2 {
     return null;
   }
 
-
   public static Future<List<Long>> put(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
     return put(entities, null, 0);
@@ -346,8 +337,8 @@ public class PostgreSql2 {
   }
 
   public static Future<List<Long>> put(
-      final Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities, final String ancestorKind,
-      final long ancestorId) {
+      final Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
+      final String ancestorKind, final long ancestorId) {
 
     Future<List<Long>> ids = new Future<List<Long>>() {
 
@@ -363,7 +354,7 @@ public class PostgreSql2 {
 
       @Override
       public List<Long> get(long timeout, TimeUnit unit) throws InterruptedException,
-      ExecutionException, TimeoutException {
+          ExecutionException, TimeoutException {
         return null;
       }
 
@@ -385,15 +376,12 @@ public class PostgreSql2 {
       }
     };
 
-    return ids ;
+    return ids;
   }
-
-
 
   public static fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id) {
     return getSync(kind, id, null, 0);
   }
-
 
   public static fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id,
       String ancestorKind, long ancestorId) {
@@ -406,16 +394,12 @@ public class PostgreSql2 {
     return null;
   }
 
-
-
   public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id) {
     return get(kind, id, null, 0);
   }
 
-
-  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(final String kind, final long id,
-      String ancestorKind, long ancestorId) {
-
+  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(final String kind,
+      final long id, String ancestorKind, long ancestorId) {
 
     Future<fr.mncc.gwttoolbox.primitives.shared.Entity> idem = new Future<Entity>() {
 
@@ -430,8 +414,8 @@ public class PostgreSql2 {
       }
 
       @Override
-      public Entity get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-      TimeoutException {
+      public Entity get(long timeout, TimeUnit unit) throws InterruptedException,
+          ExecutionException, TimeoutException {
         return null;
       }
 
@@ -446,7 +430,7 @@ public class PostgreSql2 {
           ResultSetMetaData rsmd = resultSet.getMetaData();
           int columnsNumber = rsmd.getColumnCount();
 
-          while(resultSet.next()) { 
+          while (resultSet.next()) {
             for (int j = 2; j <= columnsNumber; j++) {
               entity.put(rsmd.getColumnName(j), resultSet.getObject(j));
             }
@@ -470,12 +454,10 @@ public class PostgreSql2 {
 
   }
 
-
   public static Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
       Iterable<Long> ids) {
     return getSync(kind, ids, null, 0);
   }
-
 
   public static Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
@@ -492,17 +474,15 @@ public class PostgreSql2 {
     return null;
   }
 
-
   public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
       Iterable<Long> ids) {
     return get(kind, ids, null, 0);
   }
 
+  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(
+      final String kind, final Iterable<Long> ids, final String ancestorKind, final long ancestorId) {
 
-  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(final String kind,
-      final Iterable<Long> ids, final String ancestorKind, final long ancestorId) {
-
-    Future<Map<Long, Entity>> mapOfEntities = new Future<Map<Long,Entity>>() {
+    Future<Map<Long, Entity>> mapOfEntities = new Future<Map<Long, Entity>>() {
 
       @Override
       public boolean isDone() {
@@ -516,7 +496,7 @@ public class PostgreSql2 {
 
       @Override
       public Map<Long, Entity> get(long timeout, TimeUnit unit) throws InterruptedException,
-      ExecutionException, TimeoutException {
+          ExecutionException, TimeoutException {
         return null;
       }
 
@@ -549,16 +529,14 @@ public class PostgreSql2 {
     return deletePostgreSQL(kind, id, ancestorKind, ancestorId);
   }
 
-
   public static Future<Void> delete(String kind, long id) {
     return delete(kind, id, null, 0);
   }
 
-
   public static Future<Void> delete(String kind, long id, String ancestorKind, long ancestorId) {
     deletePostgreSQL(kind, id, ancestorKind, ancestorId);
 
-    id =0;
+    id = 0;
     return new Future<Void>() {
 
       @Override
@@ -573,7 +551,7 @@ public class PostgreSql2 {
 
       @Override
       public Void get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-      TimeoutException {
+          TimeoutException {
         return null;
       }
 
@@ -608,14 +586,12 @@ public class PostgreSql2 {
 
   }
 
-
   public static Future<Void> delete(String kind, Iterable<Long> ids) {
     return delete(kind, ids, null, 0);
   }
 
-
-  public static Future<Void> delete(final String kind, final Iterable<Long> ids, final String ancestorKind,
-      final long ancestorId) {
+  public static Future<Void> delete(final String kind, final Iterable<Long> ids,
+      final String ancestorKind, final long ancestorId) {
 
     return new Future<Void>() {
 
@@ -631,7 +607,7 @@ public class PostgreSql2 {
 
       @Override
       public Void get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-      TimeoutException {
+          TimeoutException {
         return null;
       }
 
@@ -663,8 +639,8 @@ public class PostgreSql2 {
       stmt = conn.createStatement();
       ResultSet rs = stmt.executeQuery(postGresQuery);
 
-      while(rs.next()) {
-        size++; //increment the size 
+      while (rs.next()) {
+        size++; // increment the size
       }
       stmt.close();
       rs.close();
@@ -691,7 +667,6 @@ public class PostgreSql2 {
     return getIds(toolboxQuery, 0, 0);
 
   }
-
 
   public static Iterable<Long> listIds(SQuery2 toolboxQuery, int startIndex, int amount) {
     return getIds(toolboxQuery, startIndex, amount);
