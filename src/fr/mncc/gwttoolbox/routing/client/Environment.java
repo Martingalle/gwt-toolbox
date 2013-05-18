@@ -25,11 +25,18 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.shared.SimpleEventBus;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Environment {
 
-  private static final SimpleEventBus eventBus_ = new SimpleEventBus(); // Application-wide event
-                                                                        // bus
+  // Application-wide event bus
+  private static final SimpleEventBus eventBus_ = new SimpleEventBus();
   private static final RouteController routeController_ = RouteController.getInstance();
+  private static final Map<String, List<HandlerRegistration>> eventHandlers_ =
+      new HashMap<String, List<HandlerRegistration>>();
 
   protected Environment() {
 
@@ -42,6 +49,23 @@ public class Environment {
   public static <H extends EventHandler> HandlerRegistration registerEventHandler(
       GwtEvent.Type<H> type, H handler) {
     return eventBus_.addHandler(type, handler);
+  }
+
+  public static <H extends EventHandler> void registerEventHandler(GwtEvent.Type<H> type,
+      H handler, String uuid) {
+    if (!eventHandlers_.containsKey(uuid)) {
+      eventHandlers_.put(uuid, new ArrayList<HandlerRegistration>());
+    }
+  eventHandlers_.get(uuid).add(eventBus_.addHandler(type, handler));
+}
+
+  public static void unregisterEventHandlers(String uuid) {
+    if (eventHandlers_.containsKey(uuid)) {
+      for (HandlerRegistration handlerRegistration : eventHandlers_.get(uuid)) {
+        handlerRegistration.removeHandler();
+      }
+      eventHandlers_.remove(uuid);
+    }
   }
 
   public static void initRouteController() {
