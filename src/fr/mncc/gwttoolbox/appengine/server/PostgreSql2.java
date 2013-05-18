@@ -1,4 +1,3 @@
-
 /**
  * Copyright (c) 2013 MNCC
  *
@@ -19,7 +18,6 @@
  *
  * @author http://www.mncc.fr
  */
-
 package fr.mncc.gwttoolbox.appengine.server;
 
 import java.sql.Connection;
