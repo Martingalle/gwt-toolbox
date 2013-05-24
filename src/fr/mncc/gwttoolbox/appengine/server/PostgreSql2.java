@@ -20,6 +20,11 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
+import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.primitives.shared.Entity;
+import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
+import org.postgresql.PGResultSetMetaData;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,12 +36,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
-import fr.mncc.gwttoolbox.primitives.shared.Entity;
-import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
-
-import org.postgresql.PGResultSetMetaData;
 
 public class PostgreSql2 {
 
@@ -52,20 +51,18 @@ public class PostgreSql2 {
    * @return a String representing the query created
    */
   private static String createInsertQuery(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    List<String> properties = (ArrayList<String>) entity.getProperties();
-    String[] str;
-    String query = "", columns = "", values = "";
-    for (String property : properties) {
-      str = property.split(":", 3);
-      columns += str[0] + ", ";
-      values += preparedQuery(str[1] + ":" + str[2]) + ", ";
+
+    String separator = "";
+    String columns = "";
+    String values = "";
+
+    for (String propertyName : entity.keySet()) {
+      columns += (separator + propertyName);
+      values += (separator + preparedQuery(entity.getAsObject(propertyName)));
+      separator = ",";
     }
 
-    columns = columns.substring(0, columns.length() - 2);
-    values = values.substring(0, values.length() - 2);
-    query = "INSERT INTO " + entity.getKind() + "(" + columns + ") VALUES(" + values + ")";
-
-    return query;
+    return "INSERT INTO " + entity.getKind() + "(" + columns + ") VALUES(" + values + ")";
   }
 
   /**
@@ -76,20 +73,16 @@ public class PostgreSql2 {
    * @return a String representing the query created
    */
   private static String createUpdateQuery(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    List<String> properties = (ArrayList<String>) entity.getProperties();
-    String[] str;
-    String query = "";
-    query += "UPDATE " + entity.getKind() + " SET ";
 
-    for (String property : properties) {
-      str = property.split(":", 3);
-      query += str[0] + " = " + preparedQuery(str[1] + ":" + str[2]) + ", ";
+    String separator = "";
+    String query = "UPDATE " + entity.getKind() + " SET ";
+
+    for (String propertyName : entity.keySet()) {
+      query += (separator + propertyName + "=" + preparedQuery(entity.getAsObject(propertyName)));
+      separator = ",";
     }
 
-    query = query.substring(0, query.length() - 2);
-    query += " WHERE id = " + entity.getId();
-
-    return query;
+    return query + " WHERE id = " + entity.getId();
   }
 
   private static boolean deletePostgreSQL(String kind, long id, String ancestorKind, long ancestorId) {
@@ -189,34 +182,31 @@ public class PostgreSql2 {
   }
 
   /**
-   * Returns a String whose value if the form <b>TYPE:VALUE</b>
+   * TODO :
    * 
-   * @param value - value is of the form <b>TYPE:VALUE</b>
+   * @param obj
    * @return String a prepared string to be used in an INSERT or UPDATE query
    */
-  public static String preparedQuery(String value) {
-    String[] str = value.split(":", 2);
-
+  public static String preparedQuery(Object obj) {
+    String value = ObjectUtils.toString(obj);
     if (ObjectUtils.isTimeStamp(value))
-      return "to_timestamp('" + ObjectUtils.fromString(str[0] + ":" + str[1])
-          + "', 'YYYY-MM-DD HH24:MI:SS')";
+      return "to_timestamp('" + obj + "', 'YYYY-MM-DD HH24:MI:SS')";
     if (ObjectUtils.isTime(value))
-      return "'" + str[1] + "'";
+      return "'" + ObjectUtils.asString(value) + "'";
     if (ObjectUtils.isRealDate(value))
-      return "'" + str[1] + "'";
+      return "'" + ObjectUtils.asString(value) + "'";
     if (ObjectUtils.isDate(value))
-      return "'" + str[1] + "'";
+      return "'" + ObjectUtils.asString(value) + "'";
     if (ObjectUtils.isString(value))
-      return "'" + str[1] + "'";
+      return "'" + ObjectUtils.asString(value) + "'";
     if (ObjectUtils.isBoolean(value))
-      return str[1];
+      return ObjectUtils.asString(value);
     if (ObjectUtils.isInteger(value))
-      return str[1];
+      return ObjectUtils.asString(value);
     if (ObjectUtils.isDouble(value))
-      return str[1];
+      return ObjectUtils.asString(value);
     if (ObjectUtils.isFloat(value))
-      return str[1];
-
+      return ObjectUtils.asString(value);
     return "";
   }
 
@@ -671,5 +661,4 @@ public class PostgreSql2 {
   public static Iterable<Long> listIds(SQuery2 toolboxQuery, int startIndex, int amount) {
     return getIds(toolboxQuery, startIndex, amount);
   }
-
 }

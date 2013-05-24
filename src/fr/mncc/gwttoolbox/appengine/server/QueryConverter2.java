@@ -143,7 +143,7 @@ public class QueryConverter2 {
    * @param operator
    * @return
    */
-  private static String getAsPostgreSQLOperator(int operator) {
+  private static String getAsPostgreSqlOperator(int operator) {
     if (operator == SQuery2.SFilterOperator2.EQUAL)
       return "=";
     if (operator == SQuery2.SFilterOperator2.LESS_THAN)
@@ -219,7 +219,7 @@ public class QueryConverter2 {
     if (clause.isLeaf()) {
       SQuery2.SFilter2 sfilter = (SQuery2.SFilter2) clause;
 
-      a.add(sfilter.getPropertyName() + " " + getAsPostgreSQLOperator(sfilter.getOperator()) + " "
+      a.add(sfilter.getPropertyName() + " " + getAsPostgreSqlOperator(sfilter.getOperator()) + " "
           + PostgreSql2.preparedQuery(ObjectUtils.toString(sfilter.getPropertyValue())));
     }
 

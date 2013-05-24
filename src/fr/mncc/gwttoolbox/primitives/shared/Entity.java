@@ -20,17 +20,17 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import java.io.Serializable;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.*;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.java.contract.Ensures;
 import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
+
+import java.io.Serializable;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Invariant({"id_ != null && id_ >= 0", "kind_ != null", "properties_ != null"})
 public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId {
@@ -115,7 +115,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   public Entity(String kind, long id, List<String> properties) {
     setId(id);
     setKind(kind);
-    setProperties(new ArrayList<String>(properties)); // Defensive copy...
+    setProperties(new ArrayList<String>(properties));
   }
 
   @Ensures("result >= 0")
