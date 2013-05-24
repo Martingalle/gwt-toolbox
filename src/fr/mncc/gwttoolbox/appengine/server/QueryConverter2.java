@@ -156,7 +156,7 @@ public class QueryConverter2 {
     if (operator == SQuery2.SFilterOperator2.GREATER_THAN_OR_EQUAL)
       return ">=";
     if (operator == SQuery2.SFilterOperator2.NOT_EQUAL)
-      return "!=";
+      return "<>";
     if (operator == SQuery2.SFilterOperator2.IN)
       return "IN";
 
