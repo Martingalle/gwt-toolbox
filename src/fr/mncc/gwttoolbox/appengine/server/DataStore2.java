@@ -104,19 +104,19 @@ public class DataStore2 {
     if (ancestorKind == null) {
       if (toolboxEntity.getId() != 0)
         appEngineEntity =
-        new com.google.appengine.api.datastore.Entity(toolboxEntity.getKind(), toolboxEntity
-            .getId());
+            new com.google.appengine.api.datastore.Entity(toolboxEntity.getKind(), toolboxEntity
+                .getId());
       else
         appEngineEntity = new com.google.appengine.api.datastore.Entity(toolboxEntity.getKind());
     } else {
       if (toolboxEntity.getId() != 0)
         appEngineEntity =
-        new com.google.appengine.api.datastore.Entity(toolboxEntity.getKind(), toolboxEntity
-            .getId(), createKey(ancestorKind, ancestorId));
+            new com.google.appengine.api.datastore.Entity(toolboxEntity.getKind(), toolboxEntity
+                .getId(), createKey(ancestorKind, ancestorId));
       else
         appEngineEntity =
-        new com.google.appengine.api.datastore.Entity(toolboxEntity.getKind(), createKey(
-            ancestorKind, ancestorId));
+            new com.google.appengine.api.datastore.Entity(toolboxEntity.getKind(), createKey(
+                ancestorKind, ancestorId));
     }
 
     // Fill the AppEngine entity with the proper values, taking care of a few AppEngine limitations
@@ -244,7 +244,7 @@ public class DataStore2 {
 
       @Override
       public Long get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-      TimeoutException {
+          TimeoutException {
         return key.get(timeout, unit).getId();
       }
     };
@@ -310,7 +310,7 @@ public class DataStore2 {
 
       @Override
       public List<Long> get(long timeout, TimeUnit unit) throws InterruptedException,
-      ExecutionException, TimeoutException {
+          ExecutionException, TimeoutException {
         List<Long> idsTmp = new ArrayList<Long>();
         List<Key> keysTmp = keys.get(timeout, unit);
         for (Key key : keysTmp)
@@ -351,10 +351,10 @@ public class DataStore2 {
       String ancestorKind, long ancestorId) {
     final Key key =
         ancestorKind == null ? createKey(kind, id) : createKey(kind, id, ancestorKind, ancestorId);
-        final Future<com.google.appengine.api.datastore.Entity> appEngineEntity =
-            LowLevelDataStore2.get(key);
-        final Future<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntity =
-            new Future<fr.mncc.gwttoolbox.primitives.shared.Entity>() {
+    final Future<com.google.appengine.api.datastore.Entity> appEngineEntity =
+        LowLevelDataStore2.get(key);
+    final Future<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntity =
+        new Future<fr.mncc.gwttoolbox.primitives.shared.Entity>() {
           @Override
           public boolean cancel(boolean mayInterruptIfRunning) {
             return appEngineEntity.cancel(mayInterruptIfRunning);
@@ -372,7 +372,7 @@ public class DataStore2 {
 
           @Override
           public fr.mncc.gwttoolbox.primitives.shared.Entity get() throws InterruptedException,
-          ExecutionException {
+              ExecutionException {
             return convertToToolboxEntity(appEngineEntity.get());
           }
 
@@ -382,7 +382,7 @@ public class DataStore2 {
             return convertToToolboxEntity(appEngineEntity.get(timeout, unit));
           }
         };
-        return toolboxEntity;
+    return toolboxEntity;
   }
 
   @Requires({"kind != null", "ids != null"})
@@ -418,10 +418,10 @@ public class DataStore2 {
     final Iterable<Key> keys =
         ancestorKind == null ? createKeys(kind, ids) : createKeys(kind, ids, ancestorKind,
             ancestorId);
-        final Future<Map<Key, com.google.appengine.api.datastore.Entity>> appEngineEntities =
-            LowLevelDataStore2.get(keys);
-        final Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> toolboxEntities =
-            new Future<Map<Long, Entity>>() {
+    final Future<Map<Key, com.google.appengine.api.datastore.Entity>> appEngineEntities =
+        LowLevelDataStore2.get(keys);
+    final Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> toolboxEntities =
+        new Future<Map<Long, Entity>>() {
           @Override
           public boolean cancel(boolean mayInterruptIfRunning) {
             return appEngineEntities.cancel(mayInterruptIfRunning);
@@ -451,7 +451,7 @@ public class DataStore2 {
 
           @Override
           public Map<Long, Entity> get(long timeout, TimeUnit unit) throws InterruptedException,
-          ExecutionException, TimeoutException {
+              ExecutionException, TimeoutException {
             Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntitiesTmp =
                 new HashMap<Long, Entity>();
             Map<Key, com.google.appengine.api.datastore.Entity> appEngineEntitiesTmp =
@@ -462,7 +462,7 @@ public class DataStore2 {
             return toolboxEntitiesTmp;
           }
         };
-        return toolboxEntities;
+    return toolboxEntities;
   }
 
   @Requires({"kind != null", "id > 0"})
