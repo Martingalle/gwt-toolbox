@@ -138,7 +138,7 @@ public class PostgreSql2 {
 
   private static Iterable<Long> getIds(SQuery2 toolboxQuery, int startIndex, int amount) {
     toolboxQuery.setKeysOnly(); // Retrieve only the ids of the toolboxQuery
-    String postgresQuery = QueryConverter2.getAsPostgreSQLQuery(toolboxQuery);
+    String postgresQuery = QueryConverter2.getAsPostgreSqlQuery(toolboxQuery);
     if ((startIndex != 0 && amount != 0) || (startIndex == 0 && amount != 0))
       postgresQuery += " LIMIT " + amount + " OFFSET " + startIndex;
 
@@ -163,7 +163,7 @@ public class PostgreSql2 {
 
   private static Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list2(SQuery2 toolboxQuery,
       int startIndex, int amount) {
-    String postgresQuery = QueryConverter2.getAsPostgreSQLQuery(toolboxQuery);
+    String postgresQuery = QueryConverter2.getAsPostgreSqlQuery(toolboxQuery);
     if ((startIndex != 0 && amount != 0) || (startIndex == 0 && amount != 0))
       postgresQuery += " LIMIT " + amount + " OFFSET " + startIndex;
 
@@ -622,7 +622,7 @@ public class PostgreSql2 {
   public static long listSize(SQuery2 toolboxQuery) {
     int size = 0;
 
-    String postGresQuery = QueryConverter2.getAsPostgreSQLQuery(toolboxQuery);
+    String postGresQuery = QueryConverter2.getAsPostgreSqlQuery(toolboxQuery);
     Statement stmt = null;
 
     try {

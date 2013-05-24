@@ -34,20 +34,22 @@ import java.util.List;
 
 public class QueryConverter2 {
 
-  public static String getAsPostgreSQLQuery(SQuery2 squery) {
-    String query = "";
-    List<String> clauses = new ArrayList<String>();
+  public static String getAsPostgreSqlQuery(SQuery2 squery) {
 
-    // ---------------------------build postgres query------------------------
+    // Add projections
+    String query = "SELECT " + getProjectionQuery(squery) + " FROM " + squery.getKind() + " WHERE ";
+
+    // Add clauses
+    List<String> clauses = new ArrayList<String>();
     buildClause(squery.getClause(), clauses);
 
-    query += "SELECT " + getProjectionQuery(squery) + " FROM " + squery.getKind() + " WHERE "; // add
-                                                                                               // projections
     for (String clause : clauses) {
-      query += clause; // add clauses
+      query += clause;
     }
+
+    // Add sort order
     if (!squery.getSorters().isEmpty())
-      query += getSortQuery(squery); // add sort query
+      query += getSortQuery(squery);
 
     return query;
 
