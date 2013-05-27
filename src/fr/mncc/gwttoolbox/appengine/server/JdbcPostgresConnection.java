@@ -51,9 +51,10 @@ public class JdbcPostgresConnection {
     } catch (SQLException e) {
       System.out.println("Connection Failed");
       System.out.println(e.getMessage());
+      e.printStackTrace();
       System.exit(-1);
     }
-    
+
     return connection;
   }
 }

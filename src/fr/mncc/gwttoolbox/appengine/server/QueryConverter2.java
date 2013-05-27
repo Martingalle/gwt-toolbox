@@ -20,35 +20,36 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
+
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SProjection2;
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SSort2;
-import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
-import fr.mncc.gwttoolbox.appengine.server.PostgreSql2;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class QueryConverter2 {
 
-  public static String getAsPostgreSQLQuery(SQuery2 squery) {
-    String query = "";
-    List<String> clauses = new ArrayList<String>();
+  public static String getAsPostgreSqlQuery(SQuery2 squery) {
 
-    // ---------------------------build postgres query------------------------
+    // Add projections
+    String query = "SELECT " + getProjectionQuery(squery) + " FROM " + squery.getKind() + " WHERE ";
+
+    // Add clauses
+    List<String> clauses = new ArrayList<String>();
     buildClause(squery.getClause(), clauses);
 
-    query += "SELECT " + getProjectionQuery(squery) + " FROM " + squery.getKind() + " WHERE "; // add
-                                                                                               // projections
     for (String clause : clauses) {
-      query += clause; // add clauses
+      query += clause;
     }
+
+    // Add sort order
     if (!squery.getSorters().isEmpty())
-      query += getSortQuery(squery); // add sort query
+      query += getSortQuery(squery);
 
     return query;
 
@@ -144,7 +145,7 @@ public class QueryConverter2 {
    * @param operator
    * @return
    */
-  private static String getAsPostgreSQLOperator(int operator) {
+  private static String getAsPostgreSqlOperator(int operator) {
     if (operator == SQuery2.SFilterOperator2.EQUAL)
       return "=";
     if (operator == SQuery2.SFilterOperator2.LESS_THAN)
@@ -211,25 +212,25 @@ public class QueryConverter2 {
 
   }
 
-  private static void buildClause(SQuery2.SClause2 clause, List<String> a) {
+  private static void buildClause(SQuery2.SClause2 clause, List<String> result) {
 
     if (clause.getLeftClause() != null) {
-      buildClause(clause.getLeftClause(), a);
+      buildClause(clause.getLeftClause(), result);
     }
 
     if (clause.isLeaf()) {
       SQuery2.SFilter2 sfilter = (SQuery2.SFilter2) clause;
 
-      a.add(sfilter.getPropertyName() + " " + getAsPostgreSQLOperator(sfilter.getOperator()) + " "
-          + PostgreSql2.preparedQuery(ObjectUtils.toString(sfilter.getPropertyValue())));
+      result.add(sfilter.getPropertyName() + " " + getAsPostgreSqlOperator(sfilter.getOperator()) + " "
+          + PostgreSql2.preparedQuery(sfilter.getPropertyValue()));
     }
 
     if (clause.getRightClause() != null) {
       if (clause.isAnd())
-        a.add(" AND ");
+        result.add(" AND ");
       else
-        a.add(" OR ");
-      buildClause(clause.getRightClause(), a);
+        result.add(" OR ");
+      buildClause(clause.getRightClause(), result);
     }
   }
 }
