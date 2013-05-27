@@ -32,3 +32,4 @@ war/WEB-INF/classes/
 .settings
 .project
 .classpath
+/bin
