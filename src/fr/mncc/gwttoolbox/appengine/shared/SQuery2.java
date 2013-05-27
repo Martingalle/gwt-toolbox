@@ -273,6 +273,10 @@ public class SQuery2 implements IsSerializable, Serializable {
     this("", "", 0);
   }
 
+  protected void setKind(String kind) {
+    kind_ = kind;
+  }
+
   public SQuery2(String kind) {
     this(kind, "", 0);
   }
