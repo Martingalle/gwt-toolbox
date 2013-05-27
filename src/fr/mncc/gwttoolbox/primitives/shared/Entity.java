@@ -37,7 +37,8 @@ import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
 
 @Invariant({"id_ != null && id_ >= 0", "kind_ != null", "properties_ != null"})
-public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId {
+public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId,
+    HasTimestamp {
 
   private static String createProperty(String key, Object value) {
     return key + ":" + ObjectUtils.toString(value);
@@ -119,7 +120,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   public Entity(String kind, long id, List<String> properties) {
     setId(id);
     setKind(kind);
-    setProperties(new ArrayList<String>(properties)); // Defensive copy...
+    setProperties(new ArrayList<String>(properties));
   }
 
   @Ensures("result >= 0")
@@ -132,6 +133,15 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   @Ensures("getId() == id")
   public void setId(long id) {
     id_ = (int) id; // Cast to int for backward compatibility
+  }
+
+  @Override
+  public Timestamp getTimestamp() {
+    return getAsTimestamp("__timestamp__");
+  }
+
+  public void setTimestamp() {
+    put("__timestamp__", new Date());
   }
 
   @Ensures("result != null")

@@ -23,14 +23,17 @@ package fr.mncc.gwttoolbox.appengine.server;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class makes an instance of a JDBC connection to a PostgreSQL database
  * 
- * @author mkab
- * 
  */
 public class JdbcPostgresConnection {
+
+  private final static Logger logger_ = Logger.getLogger(JdbcPostgresConnection.class
+      .getCanonicalName());
 
   private static final String DB_DRIVER = "org.postgresql.Driver";
 
@@ -39,7 +42,7 @@ public class JdbcPostgresConnection {
     try {
       Class.forName(DB_DRIVER);
     } catch (ClassNotFoundException e) {
-      System.out.println(e.getMessage());
+      logger_.log(Level.SEVERE, e.getMessage(), e);
     }
 
     Connection connection = null;
@@ -49,10 +52,7 @@ public class JdbcPostgresConnection {
           DriverManager.getConnection("jdbc:postgresql://" + host + ":" + String.valueOf(port)
               + "/" + databaseName, userName, password);
     } catch (SQLException e) {
-      System.out.println("Connection Failed");
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-      System.exit(-1);
+      logger_.log(Level.SEVERE, e.getMessage(), e);
     }
 
     return connection;
