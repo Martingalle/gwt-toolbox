@@ -43,7 +43,7 @@
 	border-bottom: 1px solid #FFFFFF;
 	color: #434343;
 	text-shadow: 1px 1px 1px #ffffff;
-	filter: dropshadow(color =   #ffffff, offx =   1, offy =   1);
+	filter: dropshadow(color =       #ffffff, offx =       1, offy =       1);
 	text-align: center;
 	font-weight: bold;
 	font-size: 16px;

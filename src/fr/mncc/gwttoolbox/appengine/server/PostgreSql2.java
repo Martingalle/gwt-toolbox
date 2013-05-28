@@ -29,10 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,8 +40,8 @@ import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
 
 public class PostgreSql2 {
 
-  public final static Logger logger_ = Logger.getLogger(PostgreSql2.class.getCanonicalName());
-  private static Connection conn = JdbcPostgresConnection.getConnection("127.0.0.1", 5432, "mydb",
+  private final static Logger logger_ = Logger.getLogger(PostgreSql2.class.getCanonicalName());
+  private static Connection conn_ = JdbcPostgresConnection.getConnection("127.0.0.1", 5432, "mydb",
       "postgres", "zamani95");
   private final static String ID = "id";
 
@@ -96,13 +92,11 @@ public class PostgreSql2 {
     int delete = Integer.MIN_VALUE;
     Statement st = null;
     try {
-      st = conn.createStatement();
+      st = conn_.createStatement();
       delete = st.executeUpdate(query);
       st.close();
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
       logger_.log(Level.SEVERE, e.getMessage(), e);
-      e.printStackTrace();
     }
 
     return (delete == Integer.MIN_VALUE || delete != 1) ? false : true;
@@ -158,14 +152,13 @@ public class PostgreSql2 {
     Statement stmt = null;
 
     try {
-      stmt = conn.createStatement();
+      stmt = conn_.createStatement();
       ResultSet resultSet = stmt.executeQuery(postgresQuery);
 
       while (resultSet.next()) {
         ids.add(resultSet.getLong("id")); // there is only one column which is the column "id"
       }
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
       logger_.log(Level.SEVERE, e.getMessage(), e);
     }
 
@@ -180,11 +173,10 @@ public class PostgreSql2 {
 
     Statement stmt = null;
     try {
-      stmt = conn.createStatement();
+      stmt = conn_.createStatement();
       ResultSet resultSet = stmt.executeQuery(postgresQuery);
       return createEntityFromResultSet(resultSet);
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
       logger_.log(Level.SEVERE, e.getMessage(), e);
     }
 
@@ -193,7 +185,6 @@ public class PostgreSql2 {
   }
 
   /**
-   * TODO :
    * 
    * @param obj
    * @return String a prepared string to be used in an INSERT or UPDATE query
@@ -236,7 +227,33 @@ public class PostgreSql2 {
       String ancestorKind, long ancestorId) {
 
     try {
-      return put(entity, ancestorKind, ancestorId).get();
+      String query = "";
+      Long id = null;
+      Statement st = null;
+
+      if (entity.getId() <= 0) {
+        query = createInsertQuery(entity);
+      } else {
+        query = createUpdateQuery(entity);
+      }
+
+      try {
+        st = conn_.createStatement();
+
+        st.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = st.getGeneratedKeys();
+
+        if (rs.next()) {
+          id = rs.getLong("id");
+        }
+
+        rs.close();
+        st.close();
+      } catch (SQLException e) {
+        logger_.log(Level.SEVERE, e.getMessage(), e);
+      }
+
+      return id;
     } catch (Exception e) {
       logger_.log(Level.SEVERE, e.getMessage(), e);
     }
@@ -245,141 +262,20 @@ public class PostgreSql2 {
 
   }
 
-  public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    return put(entity, null, 0);
-  }
-
-  public static Future<Long> put(final fr.mncc.gwttoolbox.primitives.shared.Entity entity,
-      String ancestorKind, long ancestorId) {
-
-    Future<Long> id = new Future<Long>() {
-
-      @Override
-      public boolean isDone() {
-        return true;
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return false;
-      }
-
-      @Override
-      public Long get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-          TimeoutException {
-        return null;
-      }
-
-      @Override
-      public Long get() throws InterruptedException, ExecutionException {
-
-        String query = "";
-        Long id = null;
-        Statement st = null;
-
-        if (entity.getId() <= 0) {
-          query = createInsertQuery(entity);
-        } else {
-          query = createUpdateQuery(entity);
-        }
-
-        try {
-          st = conn.createStatement();
-
-          st.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
-          ResultSet rs = st.getGeneratedKeys();
-
-          if (rs.next()) {
-            id = rs.getLong("id");
-          }
-
-          rs.close();
-          st.close();
-        } catch (SQLException e) {
-          System.out.println(e.getMessage());
-          logger_.log(Level.SEVERE, e.getMessage(), e);
-          e.printStackTrace();
-        }
-
-        return id;
-
-      }
-
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
-      }
-    };
-
-    return id;
-  }
-
   public static List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
     return putSync(entities, null, 0);
   }
 
   public static List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
-    try {
-      return put(entities).get();
-    } catch (InterruptedException e) {
-      System.out.println(e.getMessage());
-      logger_.log(Level.SEVERE, e.getMessage(), e);
-    } catch (ExecutionException e) {
-      System.out.println(e.getMessage());
-      logger_.log(Level.SEVERE, e.getMessage(), e);
+    List<Long> keys = new ArrayList<Long>();
+
+    for (Entity entity : entities) {
+      Long id = putSync(entity, ancestorKind, ancestorId);
+      keys.add(id);
     }
 
-    return null;
-  }
-
-  public static Future<List<Long>> put(
-      Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return put(entities, null, 0);
-
-  }
-
-  public static Future<List<Long>> put(
-      final Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
-      final String ancestorKind, final long ancestorId) {
-
-    Future<List<Long>> ids = new Future<List<Long>>() {
-
-      @Override
-      public boolean isDone() {
-        return true;
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return false;
-      }
-
-      @Override
-      public List<Long> get(long timeout, TimeUnit unit) throws InterruptedException,
-          ExecutionException, TimeoutException {
-        return null;
-      }
-
-      @Override
-      public List<Long> get() throws InterruptedException, ExecutionException {
-        List<Long> keys = new ArrayList<Long>();
-
-        for (Entity entity : entities) {
-          Long id = put(entity, ancestorKind, ancestorId).get();
-          keys.add(id);
-        }
-
-        return keys;
-      }
-
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
-      }
-    };
-
-    return ids;
+    return keys;
   }
 
   public static fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id) {
@@ -390,72 +286,32 @@ public class PostgreSql2 {
       String ancestorKind, long ancestorId) {
 
     try {
-      return get(kind, id, ancestorKind, ancestorId).get();
+      fr.mncc.gwttoolbox.primitives.shared.Entity entity = new Entity(kind, id);
+
+      Statement st = null;
+      try {
+        st = conn_.createStatement();
+        ResultSet resultSet = st.executeQuery("SELECT * FROM " + kind + " WHERE id = " + id);
+        ResultSetMetaData rsmd = resultSet.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+
+        while (resultSet.next()) {
+          for (int j = 2; j <= columnsNumber; j++) {
+            if (!rsmd.getColumnName(j).equals(ID))
+              entity.put(rsmd.getColumnName(j), resultSet.getObject(j));
+          }
+        }
+        st.close();
+        resultSet.close();
+      } catch (SQLException e) {
+        logger_.log(Level.SEVERE, e.getMessage(), e);
+      }
+
+      return entity;
     } catch (Exception e) {
       logger_.log(Level.SEVERE, e.getMessage(), e);
     }
     return null;
-  }
-
-  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id) {
-    return get(kind, id, null, 0);
-  }
-
-  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(final String kind,
-      final long id, String ancestorKind, long ancestorId) {
-
-    Future<fr.mncc.gwttoolbox.primitives.shared.Entity> idem = new Future<Entity>() {
-
-      @Override
-      public boolean isDone() {
-        return true;
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return false;
-      }
-
-      @Override
-      public Entity get(long timeout, TimeUnit unit) throws InterruptedException,
-          ExecutionException, TimeoutException {
-        return null;
-      }
-
-      @Override
-      public Entity get() throws InterruptedException, ExecutionException {
-        final fr.mncc.gwttoolbox.primitives.shared.Entity entity = new Entity(kind, id);
-
-        Statement st = null;
-        try {
-          st = conn.createStatement();
-          ResultSet resultSet = st.executeQuery("SELECT * FROM " + kind + " WHERE id = " + id);
-          ResultSetMetaData rsmd = resultSet.getMetaData();
-          int columnsNumber = rsmd.getColumnCount();
-
-          while (resultSet.next()) {
-            for (int j = 2; j <= columnsNumber; j++) {
-              if (!rsmd.getColumnName(j).equals(ID))
-                entity.put(rsmd.getColumnName(j), resultSet.getObject(j));
-            }
-          }
-          st.close();
-          resultSet.close();
-        } catch (SQLException e) {
-          System.out.println(e.getMessage());
-        }
-
-        return entity;
-      }
-
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
-      }
-    };
-
-    return idem;
-
   }
 
   public static Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
@@ -465,63 +321,14 @@ public class PostgreSql2 {
 
   public static Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
-    try {
-      return get(kind, ids, ancestorKind, ancestorId).get();
-    } catch (InterruptedException e) {
-      System.out.println(e.getMessage());
-      logger_.log(Level.SEVERE, e.getMessage(), e);
-    } catch (ExecutionException e) {
-      System.out.println(e.getMessage());
-      logger_.log(Level.SEVERE, e.getMessage(), e);
+    Map<Long, Entity> map = new HashMap<Long, Entity>();
+
+    for (Long id : ids) {
+      Entity entity = getSync(kind, id, ancestorKind, ancestorId);
+      map.put(id, entity);
     }
 
-    return null;
-  }
-
-  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
-      Iterable<Long> ids) {
-    return get(kind, ids, null, 0);
-  }
-
-  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(
-      final String kind, final Iterable<Long> ids, final String ancestorKind, final long ancestorId) {
-
-    Future<Map<Long, Entity>> mapOfEntities = new Future<Map<Long, Entity>>() {
-
-      @Override
-      public boolean isDone() {
-        return true;
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return false;
-      }
-
-      @Override
-      public Map<Long, Entity> get(long timeout, TimeUnit unit) throws InterruptedException,
-          ExecutionException, TimeoutException {
-        return null;
-      }
-
-      @Override
-      public Map<Long, Entity> get() throws InterruptedException, ExecutionException {
-        Map<Long, Entity> map = new HashMap<Long, Entity>();
-
-        for (Long id : ids) {
-          Entity entity = PostgreSql2.get(kind, id, ancestorKind, ancestorId).get();
-          map.put(id, entity);
-        }
-
-        return map;
-      }
-
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
-      }
-    };
-    return mapOfEntities;
+    return map;
   }
 
   public static boolean deleteSync(String kind, long id) {
@@ -533,45 +340,6 @@ public class PostgreSql2 {
     return deletePostgreSQL(kind, id, ancestorKind, ancestorId);
   }
 
-  public static Future<Void> delete(String kind, long id) {
-    return delete(kind, id, null, 0);
-  }
-
-  public static Future<Void> delete(String kind, long id, String ancestorKind, long ancestorId) {
-    deletePostgreSQL(kind, id, ancestorKind, ancestorId);
-
-    id = 0;
-    return new Future<Void>() {
-
-      @Override
-      public boolean isDone() {
-        return true;
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return false;
-      }
-
-      @Override
-      public Void get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-          TimeoutException {
-        return null;
-      }
-
-      @Override
-      public Void get() throws InterruptedException, ExecutionException {
-        return null;
-      }
-
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
-      }
-    };
-
-  }
-
   public static boolean deleteSync(String kind, Iterable<Long> ids) {
     return deleteSync(kind, ids, null, 0);
   }
@@ -579,57 +347,18 @@ public class PostgreSql2 {
   public static boolean deleteSync(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
 
+    boolean status = false;
     try {
-      delete(kind, ids, ancestorKind, ancestorId).get();
-      return true;
+
+      for (Long id : ids) {
+        status = deletePostgreSQL(kind, id, ancestorKind, ancestorId);
+      }
+
     } catch (Exception e) {
       logger_.log(Level.SEVERE, e.getMessage(), e);
     }
 
-    return false;
-
-  }
-
-  public static Future<Void> delete(String kind, Iterable<Long> ids) {
-    return delete(kind, ids, null, 0);
-  }
-
-  public static Future<Void> delete(final String kind, final Iterable<Long> ids,
-      final String ancestorKind, final long ancestorId) {
-
-    return new Future<Void>() {
-
-      @Override
-      public boolean isDone() {
-        return true;
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return false;
-      }
-
-      @Override
-      public Void get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-          TimeoutException {
-        return null;
-      }
-
-      @Override
-      public Void get() throws InterruptedException, ExecutionException {
-
-        for (Long id : ids) {
-          deletePostgreSQL(kind, id, ancestorKind, ancestorId);
-        }
-
-        return null;
-      }
-
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return false;
-      }
-    };
+    return status;
 
   }
 
@@ -640,7 +369,7 @@ public class PostgreSql2 {
     Statement stmt = null;
 
     try {
-      stmt = conn.createStatement();
+      stmt = conn_.createStatement();
       ResultSet rs = stmt.executeQuery(postGresQuery);
 
       while (rs.next()) {
@@ -649,7 +378,6 @@ public class PostgreSql2 {
       stmt.close();
       rs.close();
     } catch (SQLException e) {
-      System.out.println(e.getMessage());
       logger_.log(Level.SEVERE, e.getMessage(), e);
     }
 
