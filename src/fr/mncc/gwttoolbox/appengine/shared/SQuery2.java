@@ -67,7 +67,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     }
 
     @Override
-    public String toString() {
+    final public String toString() {
       return Objects.toStringHelper(this).add("propertyName_", propertyName_).add("isAscending_",
           isAscending_).omitNullValues().toString();
     }
@@ -117,7 +117,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     }
 
     @Override
-    public String toString() {
+    final public String toString() {
       return Objects.toStringHelper(this).add("operator_", operator_).add("propertyName_",
           propertyName_).add("propertyValue_", propertyValue_).add("propertyValues_",
           propertyValues_).omitNullValues().toString();
@@ -190,7 +190,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     }
 
     @Override
-    public String toString() {
+    final public String toString() {
       return Objects.toStringHelper(this).add("propertyName_", propertyName_).add("clazz_", clazz_)
           .omitNullValues().toString();
     }
@@ -447,7 +447,7 @@ public class SQuery2 implements IsSerializable, Serializable {
   }
 
   @Override
-  public String toString() {
+  final public String toString() {
     return Objects.toStringHelper(this).add("kind_", kind_).add("ancestorKind_", ancestorKind_)
         .add("ancestorId_", ancestorId_).add("projections_", projections_)
         .add("sorters_", sorters_).add("clause_", clause_).add("isKeysOnly_", isKeysOnly_)
