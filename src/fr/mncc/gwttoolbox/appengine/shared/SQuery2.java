@@ -446,11 +446,430 @@ public class SQuery2 implements IsSerializable, Serializable {
         && isValidClause(clause.getRightClause());
   }
 
+  private String toString2(SClause2 clause) {
+    if (clause == null) {
+      return "";
+    }
+
+    if (clause instanceof SFilter2) {
+
+      // EQUALS
+      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
+          && ObjectUtils.isBoolean(((SFilter2) clause).propertyValue_)) {
+        return "BOOLEAN_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
+          && ObjectUtils.isString(((SFilter2) clause).propertyValue_)) {
+        return "STRING_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
+          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
+        return "DATE_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
+          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
+        return "INTEGER_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
+          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
+        return "LONG_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      // NOT EQUALS
+      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
+          && ObjectUtils.isBoolean(((SFilter2) clause).propertyValue_)) {
+        return "BOOLEAN_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
+          && ObjectUtils.isString(((SFilter2) clause).propertyValue_)) {
+        return "STRING_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
+          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
+        return "DATE_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
+          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
+        return "INTEGER_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
+          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
+        return "LONG_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      // IN
+      if (((SFilter2) clause).operator_ == SFilterOperator2.IN) {
+        String list = "LONG_IN(\"";
+        list += ((SFilter2) clause).propertyName_ + "\",\"";
+        for (int i = 0; i < ((SFilter2) clause).propertyValues_.size(); i++) {
+          if (i != ((SFilter2) clause).propertyValues_.size() - 1) {
+            list += ((SFilter2) clause).propertyValues_.get(i) + "\",\"";
+          } else {
+            list += ((SFilter2) clause).propertyValues_.get(i);
+          }
+        }
+        list += "\")";
+        return list;
+      }
+      // GREATER THAN
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN
+          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
+        return "INTEGER_GREATER_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN
+          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
+        return "LONG_GREATER_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN
+          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
+        return "DATE_GREATER_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      // GREATER THAN OR EQUAL
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
+          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
+        return "INTEGER_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
+          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
+        return "LONG_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
+          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
+        return "DATE_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      // LESS THAN
+      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN
+          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
+        return "INTEGER_LESS_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN
+          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
+        return "LONG_LESS_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN
+          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
+        return "DATE_LESS_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      // LESS THAN OR EQUAL
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
+          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
+        return "INTEGER_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN_OR_EQUAL
+          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
+        return "LONG_LESS_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+
+      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN_OR_EQUAL
+          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
+        return "DATE_LESS_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      }
+    }
+
+    if (clause.isAnd_)
+      return "AND(" + toString2(clause.clauseLeft_) + "," + toString2(clause.clauseRight_) + ")";
+    return "OR(" + toString2(clause.clauseLeft_) + "," + toString2(clause.clauseRight_) + ")";
+
+  }
+
   @Override
   public String toString() {
     return Objects.toStringHelper(this).add("kind_", kind_).add("ancestorKind_", ancestorKind_)
         .add("ancestorId_", ancestorId_).add("projections_", projections_)
         .add("sorters_", sorters_).add("clause_", clause_).add("isKeysOnly_", isKeysOnly_)
         .omitNullValues().toString();
+  }
+
+  /**
+   * Return a String query
+   * 
+   * @return
+   */
+  final public String toString2() {
+
+    String queryData = "";
+
+    // SELECT(column1,column2,...)
+    queryData = "SELECT(\"";
+    if (projections_.size() != 0) {
+      for (int projection = 0; projection < projections_.size(); projection++) {
+
+        queryData += projections_.get(projection).getPropertyName();
+
+        if (projection != projections_.size() - 1) {
+          queryData += "\",\"";
+        }
+      }
+    }
+    queryData += "\")";
+
+    // FROM(kind)
+    queryData += "FROM(\"" + kind_ + "\")";
+
+    // WHERE
+    queryData += "WHERE(" + toString2(clause_) + ")";
+
+    // ORDERBY(column1,column2,...)
+    queryData += "ORDERBY(\"";
+    if (sorters_.size() != 0) {
+      for (int sorters = 0; sorters < sorters_.size(); sorters++) {
+
+        queryData += sorters_.get(sorters).getPropertyName();
+
+        if (sorters != sorters_.size() - 1) {
+          queryData += "\",\"";
+        }
+      }
+    }
+    queryData += "\")";
+
+    // KEYSONLY(TRUE/FALSE)
+    queryData += "KEYSONLY(\"" + isKeysOnly_ + "\")";
+
+    return queryData;
+  }
+
+  /**
+   * Transform a String query into a SQuery2 query
+   * 
+   * @param dataQuery
+   * @return
+   */
+  final static public SQuery2 fromString2(String dataQuery) {
+
+    SQuery2 squery = new SQuery2();
+
+    // parameters
+    int indexOpen = 0, indexClose = 0, start = 0;
+    String state = "", parameters = "";
+
+    while (start != dataQuery.length()) {
+      indexOpen = dataQuery.indexOf("(", start);
+      indexClose = dataQuery.indexOf(")", indexOpen);
+
+      if (indexOpen == -1) {
+        return null;
+      }
+      state = dataQuery.substring(start, indexOpen);
+
+      if (!state.equals("WHERE")) {
+
+        parameters = dataQuery.substring(indexOpen + 1, indexClose);
+        // test
+        squery.addParametersToQuery(state, parameters);
+        start = indexClose + 1;
+
+      } else if (state.equals("WHERE")) {
+
+        indexClose = dataQuery.indexOf("ORDERBY") - 1;
+        parameters = dataQuery.substring(indexOpen + 1, indexClose);
+        // test
+        System.out.println(parameters);
+        squery.clause_ = addWhereToQuery(parameters);
+        start = indexClose + 1;
+      }
+    }
+    return squery;
+  }
+
+  /**
+   * Add parameters(except clauses) to the query and return it
+   * 
+   * @param state
+   * @param parameters
+   * @param squery
+   * @return
+   */
+  private void addParametersToQuery(String state, String parameters) {
+
+    int indexStart = 0, indexStop = 0, start = 0;
+    String singleParameter = "";
+    if (parameters.length() != 2 && state.length() != 2) {
+      while (start != parameters.length()) {
+
+        indexStart = parameters.indexOf("\"", start) + 1;
+        indexStop = parameters.indexOf("\"", indexStart + 1);
+        singleParameter = parameters.substring(indexStart, indexStop);
+        // test
+        start = indexStop + 1;
+
+        if (state.equals("SELECT")) {
+          this.addStringProjection(singleParameter);
+        } else if (state.equals("FROM")) {
+          this.setKind(singleParameter);
+        } else if (state.equals("ORDERBY")) {
+          this.addAscendingSorter(singleParameter);
+        } else if (state.equals("KEYSONLY")) {
+          if (singleParameter.equals(true))
+            this.setKeysOnly();
+        }
+      }
+    }
+  }
+
+  /**
+   * Add clauses parameters to the query
+   * 
+   * @param parameters
+   */
+  private static final SClause2 addWhereToQuery(String parameters) {
+
+    SClause2 clause = new SClause2();
+    int nbParenthesis = 0, indexStart = 0, indexStop = 0, index = 0;
+    String operator = "";
+
+    indexStart = parameters.indexOf("(", 0) + 1;
+    operator = parameters.substring(0, indexStart - 1);
+
+    // If our clause is a AND or an OR
+    if (operator.equals("AND") || operator.equals("OR")) {
+      System.out.println("Operator : " + operator);
+      int nbClause = 0;
+      index = indexStart;
+
+      if (operator.equals("AND")) {
+        clause.isAnd_ = true;
+      } else {
+        clause.isAnd_ = false;
+      }
+
+      // Getting our 2 parameters and build new clause with it
+      while (index < parameters.length() && nbClause < 2) {
+
+        if (parameters.charAt(index) == '(') {
+          nbParenthesis++;
+        } else if (parameters.charAt(index) == ')') {
+          nbParenthesis--;
+        }
+
+        if (nbParenthesis == 0 && parameters.charAt(index) == ','
+            || index == parameters.length() - 1) {
+
+          indexStop = index;
+          System.out.println(parameters.substring(indexStart, indexStop));
+          // left clause
+          if (nbClause == 0) {
+            System.out.println("LEFT :" + parameters.substring(indexStart, indexStop));
+            clause.clauseLeft_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
+            nbClause++;
+            // right clause
+          } else if (nbClause == 1) {
+            System.out.println(operator + " RIGHT :" + parameters.substring(indexStart, indexStop));
+            clause.clauseRight_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
+            nbClause++;
+          }
+
+          indexStart = indexStop + 1;
+        }
+        index++;
+      }
+      indexStop = index;
+      return clause;
+    }
+    // If it's not AND or OR, we build a filter
+    else {
+      if (!operator.equals("LONG_IN")) {
+        System.out.println("filtre : " + parameters);
+        return addFilter(parameters);
+      } else {
+        return addInFilter(parameters);
+      }
+    }
+  }
+
+  private static SClause2 addInFilter(String parameters) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /**
+   * Takes a string Filter ( STRING_EQUAL("firstname","Alfred") ) and build an SFilter2 from it
+   * 
+   * @param stringFilter
+   * @return
+   */
+  private static SFilter2 addFilter(String stringFilter) {
+
+    int indexStart = 0, indexStop = 0, index = 0, nbParam = 0, intOperator;
+    String operator = "", propertyName = "", propertyValue = "";
+    Boolean openQuote = false;
+
+    indexStart = stringFilter.indexOf("(", 0) + 1;
+    operator = stringFilter.substring(0, indexStart - 1);
+
+    index = indexStart;
+
+    while (index < stringFilter.length() && nbParam < 2) {
+      if (stringFilter.charAt(index) == '"') {
+        if (!openQuote) {
+          openQuote = true;
+          indexStart = index + 1;
+        } else if (openQuote) {
+          openQuote = false;
+          indexStop = index;
+        }
+
+        if (!openQuote && indexStop > indexStart) {
+          if (nbParam == 0) {
+            System.out.println(indexStart + " " + indexStop);
+            propertyName = stringFilter.substring(indexStart, indexStop);
+            nbParam++;
+          } else if (nbParam == 1) {
+            propertyValue = stringFilter.substring(indexStart, indexStop);
+            nbParam++;
+          }
+        }
+      }
+      index++;
+    }
+    // TODO GERER DIFFERENT OPERATEURS
+    if(operator.equals("STRING_EQUAL"))
+    {
+      intOperator = 0;
+    }
+    
+    System.out
+        .println("SFILTER construit : " + operator + " " + propertyName + " " + propertyValue);
+    return new SFilter2(0, propertyName, propertyValue);
   }
 }
