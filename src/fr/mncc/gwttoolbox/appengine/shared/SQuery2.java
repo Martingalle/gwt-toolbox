@@ -27,6 +27,7 @@ import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class SQuery2 implements IsSerializable, Serializable {
 
@@ -629,19 +630,37 @@ public class SQuery2 implements IsSerializable, Serializable {
 
     String queryData = "";
 
-    // SELECT(column1,column2,...)
-    queryData = "SELECT(\"";
+    // TODO A changer si possible;
+    String string = "";
+    Date date = new Date();
+    Long longClass = new Long(0);
+    Float floatClass = new Float(0);
+    Boolean bool = false;
+
+    // SELECT(STRING_COLUMN("col"),BOOLEAN_COLUMN("bool"),...)
+    queryData = "SELECT(";
     if (projections_.size() != 0) {
       for (int projection = 0; projection < projections_.size(); projection++) {
 
+        if (projections_.get(projection).getClazz().equals(string.getClass())) {
+          queryData += "STRING_COLUMN(\"";
+        } else if (projections_.get(projection).getClazz().equals(date.getClass())) {
+          queryData += "DATE_COLUMN(\"";
+        } else if (projections_.get(projection).getClazz().equals(longClass.getClass())) {
+          queryData += "LONG_COLUMN(\"";
+        } else if (projections_.get(projection).getClazz().equals(floatClass.getClass())) {
+          queryData += "FLOAT_COLUMN(\"";
+        } else if (projections_.get(projection).getClazz().equals(bool.getClass())) {
+          queryData += "BOOLEAN_COLUMN(\"";
+        }
         queryData += projections_.get(projection).getPropertyName();
-
+        queryData += "\")";
         if (projection != projections_.size() - 1) {
-          queryData += "\",\"";
+          queryData += ",";
         }
       }
     }
-    queryData += "\")";
+    queryData += ")";
 
     // FROM(kind)
     queryData += "FROM(\"" + kind_ + "\")";
@@ -692,10 +711,9 @@ public class SQuery2 implements IsSerializable, Serializable {
       }
       state = dataQuery.substring(start, indexOpen);
 
-      if (!state.equals("WHERE")) {
+      if (!state.equals("WHERE") && !state.equals("SELECT")) {
 
         parameters = dataQuery.substring(indexOpen + 1, indexClose);
-        // test
         squery.addParametersToQuery(state, parameters);
         start = indexClose + 1;
 
@@ -703,9 +721,13 @@ public class SQuery2 implements IsSerializable, Serializable {
 
         indexClose = dataQuery.indexOf("ORDERBY") - 1;
         parameters = dataQuery.substring(indexOpen + 1, indexClose);
-        // test
-        System.out.println(parameters);
         squery.clause_ = addWhereToQuery(parameters);
+        start = indexClose + 1;
+
+      } else if (state.equals("SELECT")) {
+        indexClose = dataQuery.indexOf("FROM") - 1;
+        parameters = dataQuery.substring(indexOpen + 1, indexClose);
+        squery.addSelectToQuery(parameters);
         start = indexClose + 1;
       }
     }
@@ -713,7 +735,46 @@ public class SQuery2 implements IsSerializable, Serializable {
   }
 
   /**
-   * Add parameters(except clauses) to the query and return it
+   * Takes a string SELECT and add projections to the query
+   * 
+   * @param parameters
+   */
+  private void addSelectToQuery(String parameters) {
+    // TODO Auto-generated method stub
+    int indexStart = 0, indexStop = 0, start = 0;
+    String propertyColumn = "", operator = "";
+
+    if (parameters.length() != 2) {
+      while (start != parameters.length()) {
+        if (start != 0) {
+          start++;
+        }
+
+        indexStart = parameters.indexOf("(", start) + 1;
+        indexStop = parameters.indexOf(")", start);
+
+        operator = parameters.substring(start, indexStart - 1);
+        propertyColumn = parameters.substring(indexStart + 1, indexStop - 1);
+
+        start = indexStop + 1;
+
+        if (operator.equals("STRING_COLUMN")) {
+          this.addStringProjection(propertyColumn);
+        } else if (operator.equals("BOOLEAN_COLUMN")) {
+          this.addBooleanProjection(propertyColumn);
+        } else if (operator.equals("LONG_COLUMN")) {
+          this.addLongProjection(propertyColumn);
+        } else if (operator.equals("FLOAT_COLUMN")) {
+          this.addFloatProjection(propertyColumn);
+        } else if (operator.equals("DATE_COLUMN")) {
+          this.addDateProjection(propertyColumn);
+        }
+      }
+    }
+  }
+
+  /**
+   * Add parameters(except clauses and select) to the query and return it
    * 
    * @param state
    * @param parameters
@@ -724,18 +785,18 @@ public class SQuery2 implements IsSerializable, Serializable {
 
     int indexStart = 0, indexStop = 0, start = 0;
     String singleParameter = "";
+
     if (parameters.length() != 2 && state.length() != 2) {
       while (start != parameters.length()) {
 
         indexStart = parameters.indexOf("\"", start) + 1;
         indexStop = parameters.indexOf("\"", indexStart + 1);
+
         singleParameter = parameters.substring(indexStart, indexStop);
-        // test
+
         start = indexStop + 1;
 
-        if (state.equals("SELECT")) {
-          this.addStringProjection(singleParameter);
-        } else if (state.equals("FROM")) {
+        if (state.equals("FROM")) {
           this.setKind(singleParameter);
         } else if (state.equals("ORDERBY")) {
           this.addAscendingSorter(singleParameter);
@@ -763,7 +824,6 @@ public class SQuery2 implements IsSerializable, Serializable {
 
     // If our clause is a AND or an OR
     if (operator.equals("AND") || operator.equals("OR")) {
-      System.out.println("Operator : " + operator);
       int nbClause = 0;
       index = indexStart;
 
@@ -786,15 +846,10 @@ public class SQuery2 implements IsSerializable, Serializable {
             || index == parameters.length() - 1) {
 
           indexStop = index;
-          System.out.println(parameters.substring(indexStart, indexStop));
-          // left clause
           if (nbClause == 0) {
-            System.out.println("LEFT :" + parameters.substring(indexStart, indexStop));
             clause.clauseLeft_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
             nbClause++;
-            // right clause
           } else if (nbClause == 1) {
-            System.out.println(operator + " RIGHT :" + parameters.substring(indexStart, indexStop));
             clause.clauseRight_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
             nbClause++;
           }
@@ -809,7 +864,6 @@ public class SQuery2 implements IsSerializable, Serializable {
     // If it's not AND or OR, we build a filter
     else {
       if (!operator.equals("LONG_IN")) {
-        System.out.println("filtre : " + parameters);
         return addFilter(parameters);
       } else {
         return addInFilter(parameters);
@@ -817,30 +871,19 @@ public class SQuery2 implements IsSerializable, Serializable {
     }
   }
 
-  private static SClause2 addInFilter(String parameters) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+  private static SFilter2 addInFilter(String parameters) {
+    int indexStart = 0, indexStop = 0, index = 0;
+    String propertyName = "", operator;
+    ArrayList<Long> propertyValues = new ArrayList<Long>();
+    Boolean openQuote = false, firstParam = true;
 
-  /**
-   * Takes a string Filter ( STRING_EQUAL("firstname","Alfred") ) and build an SFilter2 from it
-   * 
-   * @param stringFilter
-   * @return
-   */
-  private static SFilter2 addFilter(String stringFilter) {
-
-    int indexStart = 0, indexStop = 0, index = 0, nbParam = 0, intOperator;
-    String operator = "", propertyName = "", propertyValue = "";
-    Boolean openQuote = false;
-
-    indexStart = stringFilter.indexOf("(", 0) + 1;
-    operator = stringFilter.substring(0, indexStart - 1);
+    indexStart = parameters.indexOf("(", 0) + 1;
+    operator = parameters.substring(0, indexStart - 1);
 
     index = indexStart;
 
-    while (index < stringFilter.length() && nbParam < 2) {
-      if (stringFilter.charAt(index) == '"') {
+    while (index < parameters.length()) {
+      if (parameters.charAt(index) == '"') {
         if (!openQuote) {
           openQuote = true;
           indexStart = index + 1;
@@ -848,28 +891,150 @@ public class SQuery2 implements IsSerializable, Serializable {
           openQuote = false;
           indexStop = index;
         }
+        // getting our propertyName then our propertyValue
+        if (!openQuote && indexStop > indexStart) {
+          if (firstParam) {
+            propertyName = parameters.substring(indexStart, indexStop);
+            firstParam = false;
+          } else {
+            propertyValues.add(Long.parseLong(parameters.substring(indexStart, indexStop)));
+          }
+        }
+      }
+      index++;
+    }
+    return new SFilter2(propertyName, propertyValues);
+  }
 
+  /**
+   * Takes a string Filter ( STRING_EQUAL("firstname","Alfred") ) and build an SFilter2 from it
+   * 
+   * @param parameters
+   * @return
+   */
+  private static SFilter2 addFilter(String parameters) {
+
+    int indexStart = 0, indexStop = 0, index = 0, nbParam = 0, intOperator = 0;
+    String operator = "", propertyName = "", propertyValue = "";
+    Boolean openQuote = false;
+
+    indexStart = parameters.indexOf("(", 0) + 1;
+    operator = parameters.substring(0, indexStart - 1);
+
+    index = indexStart;
+    // searching for our propertyName and our propertyValue
+    while (index < parameters.length() && nbParam < 2) {
+      if (parameters.charAt(index) == '"') {
+        if (!openQuote) {
+          openQuote = true;
+          indexStart = index + 1;
+        } else if (openQuote) {
+          openQuote = false;
+          indexStop = index;
+        }
+        // getting our propertyName then our propertyValue
         if (!openQuote && indexStop > indexStart) {
           if (nbParam == 0) {
-            System.out.println(indexStart + " " + indexStop);
-            propertyName = stringFilter.substring(indexStart, indexStop);
+            propertyName = parameters.substring(indexStart, indexStop);
             nbParam++;
           } else if (nbParam == 1) {
-            propertyValue = stringFilter.substring(indexStart, indexStop);
+            propertyValue = parameters.substring(indexStart, indexStop);
             nbParam++;
           }
         }
       }
       index++;
     }
-    // TODO GERER DIFFERENT OPERATEURS
-    if(operator.equals("STRING_EQUAL"))
-    {
+    // MANAGING DIFFERENT OPERATOR
+    // EQUAL
+    if (operator.equals("STRING_EQUAL")) {
       intOperator = 0;
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    } else if (operator.equals("LONG_EQUAL")) {
+      intOperator = 0;
+      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+    } else if (operator.equals("BOOLEAN_EQUAL")) {
+      intOperator = 0;
+      Boolean bool = false;
+      if (propertyValue.equals("true")) {
+        bool = true;
+      }
+      return new SFilter2(intOperator, propertyName, bool);
+    } else if (operator.equals("DATE_EQUAL")) {
+      intOperator = 0;
+
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    } else if (operator.equals("INTEGER_EQUAL")) {
+      intOperator = 0;
+      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
     }
-    
-    System.out
-        .println("SFILTER construit : " + operator + " " + propertyName + " " + propertyValue);
-    return new SFilter2(0, propertyName, propertyValue);
+    // NOT EQUAL
+    else if (operator.equals("STRING_NOT_EQUAL")) {
+      intOperator = 5;
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    } else if (operator.equals("BOOLEAN_NOT_EQUAL")) {
+      intOperator = 5;
+      Boolean bool = false;
+      if (propertyValue.equals("true")) {
+        bool = true;
+      }
+      return new SFilter2(intOperator, propertyName, bool);
+    } else if (operator.equals("DATE_NOT_EQUAL")) {
+      intOperator = 5;
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    } else if (operator.equals("INTEGER_NOT_EQUAL")) {
+      intOperator = 5;
+      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
+    } else if (operator.equals("LONG_NOT_EQUAL")) {
+      intOperator = 5;
+      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+    }
+    // GREATER THAN
+    else if (operator.equals("INTEGER_GREATER_THAN")) {
+      intOperator = 3;
+      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
+    } else if (operator.equals("LONG_GREATER_THAN")) {
+      intOperator = 3;
+      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+    } else if (operator.equals("DATE_GREATER_THAN")) {
+      intOperator = 3;
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    }
+    // GREATER THAN OR EQUAL
+    else if (operator.equals("INTEGER_GREATER_THAN_OR_EQUAL")) {
+      intOperator = 4;
+      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
+    } else if (operator.equals("LONG_GREATER_THAN_OR_EQUAL")) {
+      intOperator = 4;
+      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+    } else if (operator.equals("DATE_GREATER_THAN_OR_EQUAL")) {
+      intOperator = 4;
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    }
+    // LESS THAN
+    else if (operator.equals("INTEGER_LESS_THAN")) {
+      intOperator = 1;
+      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
+    } else if (operator.equals("LONG_LESS_THAN")) {
+      intOperator = 1;
+      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+    } else if (operator.equals("DATE_LESS_THAN")) {
+      intOperator = 1;
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    }
+    // LESS THAN OR EQUAL
+    else if (operator.equals("INTEGER_LESS_THAN_OR_EQUAL")) {
+      intOperator = 2;
+      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
+    } else if (operator.equals("LONG_LESS_THAN_OR_EQUAL")) {
+      intOperator = 2;
+      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+    }
+    // DATE LESS OR EQUAL
+    else {
+      intOperator = 2;
+      return new SFilter2(intOperator, propertyName, propertyValue);
+    }
+
   }
 }
