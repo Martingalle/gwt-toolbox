@@ -447,7 +447,15 @@ public class SQuery2 implements IsSerializable, Serializable {
         && isValidClause(clause.getRightClause());
   }
 
-  private String toString2(SClause2 clause) {
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this).add("kind_", kind_).add("ancestorKind_", ancestorKind_)
+        .add("ancestorId_", ancestorId_).add("projections_", projections_)
+        .add("sorters_", sorters_).add("clause_", clause_).add("isKeysOnly_", isKeysOnly_)
+        .omitNullValues().toString();
+  }
+
+  private String toStringClause2(SClause2 clause) {
     if (clause == null) {
       return "";
     }
@@ -608,17 +616,11 @@ public class SQuery2 implements IsSerializable, Serializable {
     }
 
     if (clause.isAnd_)
-      return "AND(" + toString2(clause.clauseLeft_) + "," + toString2(clause.clauseRight_) + ")";
-    return "OR(" + toString2(clause.clauseLeft_) + "," + toString2(clause.clauseRight_) + ")";
+      return "AND(" + toStringClause2(clause.clauseLeft_) + ","
+          + toStringClause2(clause.clauseRight_) + ")";
+    return "OR(" + toStringClause2(clause.clauseLeft_) + "," + toStringClause2(clause.clauseRight_)
+        + ")";
 
-  }
-
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this).add("kind_", kind_).add("ancestorKind_", ancestorKind_)
-        .add("ancestorId_", ancestorId_).add("projections_", projections_)
-        .add("sorters_", sorters_).add("clause_", clause_).add("isKeysOnly_", isKeysOnly_)
-        .omitNullValues().toString();
   }
 
   /**
@@ -666,7 +668,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     queryData += "FROM(\"" + kind_ + "\")";
 
     // WHERE
-    queryData += "WHERE(" + toString2(clause_) + ")";
+    queryData += "WHERE(" + toStringClause2(clause_) + ")";
 
     // ORDERBY(column1,column2,...)
     queryData += "ORDERBY(\"";
@@ -818,57 +820,59 @@ public class SQuery2 implements IsSerializable, Serializable {
     SClause2 clause = new SClause2();
     int nbParenthesis = 0, indexStart = 0, indexStop = 0, index = 0;
     String operator = "";
+    if (!parameters.equals("")) {
+      indexStart = parameters.indexOf("(", 0) + 1;
+      operator = parameters.substring(0, indexStart - 1);
 
-    indexStart = parameters.indexOf("(", 0) + 1;
-    operator = parameters.substring(0, indexStart - 1);
+      // If our clause is a AND or an OR
+      if (operator.equals("AND") || operator.equals("OR")) {
+        int nbClause = 0;
+        index = indexStart;
 
-    // If our clause is a AND or an OR
-    if (operator.equals("AND") || operator.equals("OR")) {
-      int nbClause = 0;
-      index = indexStart;
-
-      if (operator.equals("AND")) {
-        clause.isAnd_ = true;
-      } else {
-        clause.isAnd_ = false;
-      }
-
-      // Getting our 2 parameters and build new clause with it
-      while (index < parameters.length() && nbClause < 2) {
-
-        if (parameters.charAt(index) == '(') {
-          nbParenthesis++;
-        } else if (parameters.charAt(index) == ')') {
-          nbParenthesis--;
+        if (operator.equals("AND")) {
+          clause.isAnd_ = true;
+        } else {
+          clause.isAnd_ = false;
         }
 
-        if (nbParenthesis == 0 && parameters.charAt(index) == ','
-            || index == parameters.length() - 1) {
+        // Getting our 2 parameters and build new clause with it
+        while (index < parameters.length() && nbClause < 2) {
 
-          indexStop = index;
-          if (nbClause == 0) {
-            clause.clauseLeft_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
-            nbClause++;
-          } else if (nbClause == 1) {
-            clause.clauseRight_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
-            nbClause++;
+          if (parameters.charAt(index) == '(') {
+            nbParenthesis++;
+          } else if (parameters.charAt(index) == ')') {
+            nbParenthesis--;
           }
 
-          indexStart = indexStop + 1;
+          if (nbParenthesis == 0 && parameters.charAt(index) == ','
+              || index == parameters.length() - 1) {
+
+            indexStop = index;
+            if (nbClause == 0) {
+              clause.clauseLeft_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
+              nbClause++;
+            } else if (nbClause == 1) {
+              clause.clauseRight_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
+              nbClause++;
+            }
+
+            indexStart = indexStop + 1;
+          }
+          index++;
         }
-        index++;
+        indexStop = index;
+        return clause;
       }
-      indexStop = index;
-      return clause;
-    }
-    // If it's not AND or OR, we build a filter
-    else {
-      if (!operator.equals("LONG_IN")) {
-        return addFilter(parameters);
-      } else {
-        return addInFilter(parameters);
+      // If it's not AND or OR, we build a filter
+      else {
+        if (!operator.equals("LONG_IN")) {
+          return addFilter(parameters);
+        } else {
+          return addInFilter(parameters);
+        }
       }
     }
+    return null;
   }
 
   private static SFilter2 addInFilter(String parameters) {

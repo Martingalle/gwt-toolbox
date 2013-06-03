@@ -43,7 +43,7 @@ public class ObjectUtils {
   private static final int TYPE_LONG = 8;
   private static final int TYPE_TIMESTAMP = 9;
 
-  /**
+  /*
    * Convert a string into an object
    * 
    * @param str string

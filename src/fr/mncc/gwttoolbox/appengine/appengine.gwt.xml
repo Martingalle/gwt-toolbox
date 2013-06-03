@@ -8,4 +8,5 @@
 
 	<!-- Specify the paths for translatable code -->
 	<source path='shared' excludes="**/*Test.java" />
+	<source path='client' excludes="**/*Test.java" />
 </module>
