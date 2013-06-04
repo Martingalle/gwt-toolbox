@@ -526,7 +526,7 @@ public class SQuery2 implements IsSerializable, Serializable {
 
       // IN
       if (((SFilter2) clause).operator_ == SFilterOperator2.IN) {
-        String list = "LONG_IN(\"";
+        String list = "KEY_IN(\"";
         list += ((SFilter2) clause).propertyName_ + "\",\"";
         for (int i = 0; i < ((SFilter2) clause).propertyValues_.size(); i++) {
           if (i != ((SFilter2) clause).propertyValues_.size() - 1) {
@@ -640,7 +640,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     Boolean bool = false;
 
     // SELECT(STRING_COLUMN("col"),BOOLEAN_COLUMN("bool"),...)
-    queryData = "SELECT(";
+    queryData = "QUERY(SELECT(";
     if (projections_.size() != 0) {
       for (int projection = 0; projection < projections_.size(); projection++) {
 
@@ -685,7 +685,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     queryData += "\")";
 
     // KEYSONLY(TRUE/FALSE)
-    queryData += "KEYSONLY(\"" + isKeysOnly_ + "\")";
+    queryData += "KEYSONLY(\"" + isKeysOnly_ + "\"))";
 
     return queryData;
   }
@@ -704,36 +704,43 @@ public class SQuery2 implements IsSerializable, Serializable {
     int indexOpen = 0, indexClose = 0, start = 0;
     String state = "", parameters = "";
 
-    while (start != dataQuery.length()) {
-      indexOpen = dataQuery.indexOf("(", start);
-      indexClose = dataQuery.indexOf(")", indexOpen);
+    if (dataQuery.indexOf("QUERY(") != 0) {
+      System.out.println("This object is not a query");
+    } else {
+      //analyzing the code inside token Query( );
+      start = 6;
+      while (start != dataQuery.length() - 1) {
+        indexOpen = dataQuery.indexOf("(", start);
+        indexClose = dataQuery.indexOf(")", indexOpen);
 
-      if (indexOpen == -1) {
-        return null;
+        if (indexOpen == -1) {
+          return null;
+        }
+        state = dataQuery.substring(start, indexOpen);
+
+        if (!state.equals("WHERE") && !state.equals("SELECT")) {
+
+          parameters = dataQuery.substring(indexOpen + 1, indexClose);
+          squery.addParametersToQuery(state, parameters);
+          start = indexClose + 1;
+
+        } else if (state.equals("WHERE")) {
+
+          indexClose = dataQuery.indexOf("ORDERBY") - 1;
+          parameters = dataQuery.substring(indexOpen + 1, indexClose);
+          squery.clause_ = addWhereToQuery(parameters);
+          start = indexClose + 1;
+
+        } else if (state.equals("SELECT")) {
+          indexClose = dataQuery.indexOf("FROM") - 1;
+          parameters = dataQuery.substring(indexOpen + 1, indexClose);
+          squery.addSelectToQuery(parameters);
+          start = indexClose + 1;
+        }
       }
-      state = dataQuery.substring(start, indexOpen);
-
-      if (!state.equals("WHERE") && !state.equals("SELECT")) {
-
-        parameters = dataQuery.substring(indexOpen + 1, indexClose);
-        squery.addParametersToQuery(state, parameters);
-        start = indexClose + 1;
-
-      } else if (state.equals("WHERE")) {
-
-        indexClose = dataQuery.indexOf("ORDERBY") - 1;
-        parameters = dataQuery.substring(indexOpen + 1, indexClose);
-        squery.clause_ = addWhereToQuery(parameters);
-        start = indexClose + 1;
-
-      } else if (state.equals("SELECT")) {
-        indexClose = dataQuery.indexOf("FROM") - 1;
-        parameters = dataQuery.substring(indexOpen + 1, indexClose);
-        squery.addSelectToQuery(parameters);
-        start = indexClose + 1;
-      }
+      return squery;
     }
-    return squery;
+    return null;
   }
 
   /**
@@ -865,7 +872,7 @@ public class SQuery2 implements IsSerializable, Serializable {
       }
       // If it's not AND or OR, we build a filter
       else {
-        if (!operator.equals("LONG_IN")) {
+        if (!operator.equals("KEY_IN")) {
           return addFilter(parameters);
         } else {
           return addInFilter(parameters);
