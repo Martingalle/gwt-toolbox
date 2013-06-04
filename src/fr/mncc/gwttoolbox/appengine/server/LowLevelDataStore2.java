@@ -27,47 +27,55 @@ import com.google.java.contract.Requires;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LowLevelDataStore2 {
 
   private final static int OFFSET_LIMIT = 1000;
-  private final static AsyncDatastoreService dataStore_ = DatastoreServiceFactory
-      .getAsyncDatastoreService();
+  private final static Logger logger_ = Logger.getLogger(LowLevelDataStore2.class
+      .getCanonicalName());
+  private final static DatastoreService dataStore_ = DatastoreServiceFactory.getDatastoreService();
 
   @Ensures("dataStore_ != null")
-  public static AsyncDatastoreService getInstance() {
+  public static DatastoreService getInstance() {
     return dataStore_;
   }
 
   @Requires("entity != null")
-  public static Future<Key> put(com.google.appengine.api.datastore.Entity entity) {
+  public static Key put(com.google.appengine.api.datastore.Entity entity) {
     return dataStore_.put(entity);
   }
 
   @Requires("entities != null")
-  public static Future<List<Key>> put(Iterable<com.google.appengine.api.datastore.Entity> entities) {
+  public static List<Key> put(Iterable<com.google.appengine.api.datastore.Entity> entities) {
     return dataStore_.put(entities);
   }
 
   @Requires("key != null")
-  public static Future<com.google.appengine.api.datastore.Entity> get(Key key) {
-    return dataStore_.get(key);
+  public static com.google.appengine.api.datastore.Entity get(Key key) {
+    Entity entity = null;
+    try {
+      entity = dataStore_.get(key);
+    } catch (Exception e) {
+      logger_.log(Level.SEVERE, e.getMessage());
+    }
+    return entity;
   }
 
   @Requires("keys != null")
-  public static Future<Map<Key, com.google.appengine.api.datastore.Entity>> get(Iterable<Key> keys) {
+  public static Map<Key, com.google.appengine.api.datastore.Entity> get(Iterable<Key> keys) {
     return dataStore_.get(keys);
   }
 
   @Requires("key != null")
-  public static Future<Void> delete(Key key) {
-    return dataStore_.delete(key);
+  public static void delete(Key key) {
+    dataStore_.delete(key);
   }
 
   @Requires("keys != null")
-  public static Future<Void> delete(Iterable<Key> keys) {
-    return dataStore_.delete(keys);
+  public static void delete(Iterable<Key> keys) {
+    dataStore_.delete(keys);
   }
 
   @Requires("query != null")
