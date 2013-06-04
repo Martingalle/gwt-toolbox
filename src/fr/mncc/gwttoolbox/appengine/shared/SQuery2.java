@@ -463,67 +463,16 @@ public class SQuery2 implements IsSerializable, Serializable {
     if (clause instanceof SFilter2) {
 
       // EQUALS
-      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
-          && ObjectUtils.isBoolean(((SFilter2) clause).propertyValue_)) {
-        return "BOOLEAN_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
-          && ObjectUtils.isString(((SFilter2) clause).propertyValue_)) {
-        return "STRING_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
-          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
-        return "DATE_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
-          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
-        return "INTEGER_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL
-          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
-        return "LONG_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      if (((SFilter2) clause).operator_ == SFilterOperator2.EQUAL) {
+        return "EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_ + "\")";
       }
 
       // NOT EQUALS
-      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
-          && ObjectUtils.isBoolean(((SFilter2) clause).propertyValue_)) {
-        return "BOOLEAN_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL) {
+        return "NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_ + "\")";
       }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
-          && ObjectUtils.isString(((SFilter2) clause).propertyValue_)) {
-        return "STRING_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
-          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
-        return "DATE_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
-          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
-        return "INTEGER_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.NOT_EQUAL
-          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
-        return "LONG_NOT_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
       // IN
       if (((SFilter2) clause).operator_ == SFilterOperator2.IN) {
         String list = "KEY_IN(\"";
@@ -539,79 +488,26 @@ public class SQuery2 implements IsSerializable, Serializable {
         return list;
       }
       // GREATER THAN
-      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN
-          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
-        return "INTEGER_GREATER_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN
-          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
-        return "LONG_GREATER_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN
-          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
-        return "DATE_GREATER_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN) {
+        return "GREATER_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_ + "\")";
       }
 
       // GREATER THAN OR EQUAL
-      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
-          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
-        return "INTEGER_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
-          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
-        return "LONG_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
-          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
-        return "DATE_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL) {
+        return "GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_ + "\")";
       }
 
       // LESS THAN
-      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN
-          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
-        return "INTEGER_LESS_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN) {
+        return "LESS_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_ + "\")";
       }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN
-          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
-        return "LONG_LESS_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN
-          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
-        return "DATE_LESS_THAN(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
       // LESS THAN OR EQUAL
-      if (((SFilter2) clause).operator_ == SFilterOperator2.GREATER_THAN_OR_EQUAL
-          && ObjectUtils.isInteger(((SFilter2) clause).propertyValue_)) {
-        return "INTEGER_GREATER_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN_OR_EQUAL
-          && ObjectUtils.isLong(((SFilter2) clause).propertyValue_)) {
-        return "LONG_LESS_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
-      }
-
-      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN_OR_EQUAL
-          && ObjectUtils.isDate(((SFilter2) clause).propertyValue_)) {
-        return "DATE_LESS_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
-            + ((SFilter2) clause).propertyValue_.substring(2) + "\")";
+      if (((SFilter2) clause).operator_ == SFilterOperator2.LESS_THAN_OR_EQUAL) {
+        return "LESS_THAN_OR_EQUAL(\"" + ((SFilter2) clause).propertyName_ + "\",\""
+            + ((SFilter2) clause).propertyValue_ + "\")";
       }
     }
 
@@ -707,7 +603,7 @@ public class SQuery2 implements IsSerializable, Serializable {
     if (dataQuery.indexOf("QUERY(") != 0) {
       System.out.println("This object is not a query");
     } else {
-      //analyzing the code inside token Query( );
+      // analyzing the code inside token Query( );
       start = 6;
       while (start != dataQuery.length() - 1) {
         indexOpen = dataQuery.indexOf("(", start);
@@ -918,7 +814,7 @@ public class SQuery2 implements IsSerializable, Serializable {
   }
 
   /**
-   * Takes a string Filter ( STRING_EQUAL("firstname","Alfred") ) and build an SFilter2 from it
+   * Takes a string Filter (EQUAL("firstname","Alfred") ) and build an SFilter2 from it
    * 
    * @param parameters
    * @return
@@ -958,94 +854,39 @@ public class SQuery2 implements IsSerializable, Serializable {
     }
     // MANAGING DIFFERENT OPERATOR
     // EQUAL
-    if (operator.equals("STRING_EQUAL")) {
+    if (operator.equals("EQUAL")) {
       intOperator = 0;
-      return new SFilter2(intOperator, propertyName, propertyValue);
-    } else if (operator.equals("LONG_EQUAL")) {
-      intOperator = 0;
-      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
-    } else if (operator.equals("BOOLEAN_EQUAL")) {
-      intOperator = 0;
-      Boolean bool = false;
-      if (propertyValue.equals("true")) {
-        bool = true;
-      }
-      return new SFilter2(intOperator, propertyName, bool);
-    } else if (operator.equals("DATE_EQUAL")) {
-      intOperator = 0;
-
-      return new SFilter2(intOperator, propertyName, propertyValue);
-    } else if (operator.equals("INTEGER_EQUAL")) {
-      intOperator = 0;
-      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
     }
+
     // NOT EQUAL
-    else if (operator.equals("STRING_NOT_EQUAL")) {
+    else if (operator.equals("NOT_EQUAL")) {
       intOperator = 5;
-      return new SFilter2(intOperator, propertyName, propertyValue);
-    } else if (operator.equals("BOOLEAN_NOT_EQUAL")) {
-      intOperator = 5;
-      Boolean bool = false;
-      if (propertyValue.equals("true")) {
-        bool = true;
-      }
-      return new SFilter2(intOperator, propertyName, bool);
-    } else if (operator.equals("DATE_NOT_EQUAL")) {
-      intOperator = 5;
-      return new SFilter2(intOperator, propertyName, propertyValue);
-    } else if (operator.equals("INTEGER_NOT_EQUAL")) {
-      intOperator = 5;
-      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
-    } else if (operator.equals("LONG_NOT_EQUAL")) {
-      intOperator = 5;
-      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
     }
     // GREATER THAN
-    else if (operator.equals("INTEGER_GREATER_THAN")) {
+    else if (operator.equals("GREATER_THAN")) {
       intOperator = 3;
-      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
-    } else if (operator.equals("LONG_GREATER_THAN")) {
-      intOperator = 3;
-      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
-    } else if (operator.equals("DATE_GREATER_THAN")) {
-      intOperator = 3;
-      return new SFilter2(intOperator, propertyName, propertyValue);
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
     }
     // GREATER THAN OR EQUAL
-    else if (operator.equals("INTEGER_GREATER_THAN_OR_EQUAL")) {
+    else if (operator.equals("GREATER_THAN_OR_EQUAL")) {
       intOperator = 4;
-      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
-    } else if (operator.equals("LONG_GREATER_THAN_OR_EQUAL")) {
-      intOperator = 4;
-      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
-    } else if (operator.equals("DATE_GREATER_THAN_OR_EQUAL")) {
-      intOperator = 4;
-      return new SFilter2(intOperator, propertyName, propertyValue);
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
     }
     // LESS THAN
-    else if (operator.equals("INTEGER_LESS_THAN")) {
+    else if (operator.equals("LESS_THAN")) {
       intOperator = 1;
-      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
-    } else if (operator.equals("LONG_LESS_THAN")) {
-      intOperator = 1;
-      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
-    } else if (operator.equals("DATE_LESS_THAN")) {
-      intOperator = 1;
-      return new SFilter2(intOperator, propertyName, propertyValue);
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
     }
     // LESS THAN OR EQUAL
-    else if (operator.equals("INTEGER_LESS_THAN_OR_EQUAL")) {
+    else if (operator.equals("LESS_THAN_OR_EQUAL")) {
       intOperator = 2;
-      return new SFilter2(intOperator, propertyName, Integer.parseInt(propertyValue));
-    } else if (operator.equals("LONG_LESS_THAN_OR_EQUAL")) {
-      intOperator = 2;
-      return new SFilter2(intOperator, propertyName, Long.parseLong(propertyValue));
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
     }
-    // DATE LESS OR EQUAL
+    // never get here
     else {
-      intOperator = 2;
-      return new SFilter2(intOperator, propertyName, propertyValue);
+      return null;
     }
-
   }
 }
