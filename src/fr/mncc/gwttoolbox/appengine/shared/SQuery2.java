@@ -145,6 +145,10 @@ public class SQuery2 implements IsSerializable, Serializable {
       return isAnd_;
     }
 
+    public boolean isOr() {
+      return !isAnd();
+    }
+
     public SClause2 getLeftClause() {
       return clauseLeft_;
     }
