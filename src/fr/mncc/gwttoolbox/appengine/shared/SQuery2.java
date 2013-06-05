@@ -20,195 +20,38 @@
  */
 package fr.mncc.gwttoolbox.appengine.shared;
 
-import com.google.common.base.Objects;
-import com.google.gwt.user.client.rpc.IsSerializable;
-import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import com.google.common.base.Objects;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
 
 public class SQuery2 implements IsSerializable, Serializable {
-
-  public static class SFilterOperator2 implements IsSerializable, Serializable {
-    public static final int EQUAL = 0;
-    public static final int LESS_THAN = 1;
-    public static final int LESS_THAN_OR_EQUAL = 2;
-    public static final int GREATER_THAN = 3;
-    public static final int GREATER_THAN_OR_EQUAL = 4;
-    public static final int NOT_EQUAL = 5;
-    public static final int IN = 6;
-
-    protected SFilterOperator2() {
-
-    }
-  }
-
-  public static class SSort2 implements IsSerializable, Serializable {
-
-    private String propertyName_ = "";
-    private boolean isAscending_ = true;
-
-    protected SSort2() {
-
-    }
-
-    public SSort2(String propertyName, boolean isAscending) {
-      propertyName_ = propertyName;
-      isAscending_ = isAscending;
-    }
-
-    public String getPropertyName() {
-      return propertyName_;
-    }
-
-    public boolean isAscending() {
-      return isAscending_;
-    }
-
-    @Override
-    public String toString() {
-      return Objects.toStringHelper(this).add("propertyName_", propertyName_).add("isAscending_",
-          isAscending_).omitNullValues().toString();
-    }
-  }
-
-  public static class SFilter2 extends SClause2 implements IsSerializable, Serializable {
-
-    private int operator_;
-    private String propertyName_ = "";
-
-    private String propertyValue_ = ""; // EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL, GREATER_THAN,
-                                        // GREATER_THAN_OR_EQUAL, NOT_EQUAL
-    private ArrayList<Long> propertyValues_ = new ArrayList<Long>(); // IN
-
-    protected SFilter2() {
-
-    }
-
-    public SFilter2(int operator, String propertyName, Object propertyValue) {
-      if (operator != SFilterOperator2.IN) {
-        operator_ = operator;
-        propertyName_ = propertyName;
-        propertyValue_ = ObjectUtils.toString(propertyValue);
-      }
-    }
-
-    public SFilter2(String propertyName, ArrayList<Long> propertyValues) {
-      operator_ = SFilterOperator2.IN;
-      propertyName_ = propertyName;
-      propertyValues_ = propertyValues;
-    }
-
-    public int getOperator() {
-      return operator_;
-    }
-
-    public String getPropertyName() {
-      return propertyName_;
-    }
-
-    public Object getPropertyValue() {
-      return ObjectUtils.fromString(propertyValue_);
-    }
-
-    public ArrayList<Long> getPropertyValues() {
-      return propertyValues_;
-    }
-
-    @Override
-    public String toString() {
-      return Objects.toStringHelper(this).add("operator_", operator_).add("propertyName_",
-          propertyName_).add("propertyValue_", propertyValue_).add("propertyValues_",
-          propertyValues_).omitNullValues().toString();
-    }
-  }
-
-  public static class SClause2 implements IsSerializable, Serializable {
-
-    private boolean isAnd_ = true;
-    private SClause2 clauseLeft_ = null;
-    private SClause2 clauseRight_ = null;
-
-    protected SClause2() {
-
-    }
-
-    public SClause2(boolean isAnd, SClause2 clauseLeft, SClause2 clauseRight) {
-      isAnd_ = isAnd;
-      clauseLeft_ = clauseLeft;
-      clauseRight_ = clauseRight;
-    }
-
-    public boolean isAnd() {
-      return isAnd_;
-    }
-
-    public boolean isOr() {
-      return !isAnd();
-    }
-
-    public SClause2 getLeftClause() {
-      return clauseLeft_;
-    }
-
-    public SClause2 getRightClause() {
-      return clauseRight_;
-    }
-
-    public boolean isNode() {
-      return !isLeaf();
-    }
-
-    public boolean isLeaf() {
-      return clauseLeft_ == null && clauseRight_ == null;
-    }
-
-    @Override
-    public String toString() {
-      return Objects.toStringHelper(this).add("isAnd_", isAnd_).add("clauseLeft_", clauseLeft_)
-          .add("clauseRight_", clauseRight_).omitNullValues().toString();
-    }
-  }
-
-  public static class SProjection2 implements IsSerializable, Serializable {
-
-    private String propertyName_ = "";
-    private Class<?> clazz_ = null;
-
-    protected SProjection2() {
-
-    }
-
-    public SProjection2(String propertyName, Class<?> clazz) {
-      propertyName_ = propertyName;
-      clazz_ = clazz;
-    }
-
-    public String getPropertyName() {
-      return propertyName_;
-    }
-
-    public Class<?> getClazz() {
-      return clazz_;
-    }
-
-    @Override
-    public String toString() {
-      return Objects.toStringHelper(this).add("propertyName_", propertyName_).add("clazz_", clazz_)
-          .omitNullValues().toString();
-    }
-  }
 
   private String kind_;
   private String ancestorKind_;
   private long ancestorId_;
-
   private ArrayList<SProjection2> projections_ = new ArrayList<SProjection2>();
   private ArrayList<SSort2> sorters_ = new ArrayList<SSort2>();
   private SClause2 clause_ = null;
   private boolean isKeysOnly_ = false;
+
+  protected SQuery2() {
+    this("", "", 0);
+  }
+
+  public SQuery2(String kind) {
+    this(kind, "", 0);
+  }
+
+  public SQuery2(String kind, String ancestorKind, long ancestorId) {
+    kind_ = kind;
+    ancestorKind_ = ancestorKind;
+    ancestorId_ = ancestorId;
+  }
 
   public static SClause2 idEqual(long propertyValue) {
     return new SFilter2(SFilterOperator2.EQUAL, "__key__", propertyValue);
@@ -274,26 +117,242 @@ public class SQuery2 implements IsSerializable, Serializable {
     return new SClause2(false, clauseLeft, clauseRight);
   }
 
-  protected SQuery2() {
-    this("", "", 0);
+  /**
+   * Transform a String query into a SQuery2 query
+   * 
+   * @param dataQuery
+   * @return
+   */
+  final static public SQuery2 fromString2(String dataQuery) {
+
+    SQuery2 squery = new SQuery2();
+
+    // parameters
+    int indexOpen = 0, indexClose = 0, start = 0;
+    String state = "", parameters = "";
+
+    if (dataQuery.indexOf("QUERY(") != 0) {
+      System.out.println("This object is not a query");
+    } else {
+      // analyzing the code inside token Query( );
+      start = 6;
+      while (start != dataQuery.length() - 1) {
+        indexOpen = dataQuery.indexOf("(", start);
+        indexClose = dataQuery.indexOf(")", indexOpen);
+
+        if (indexOpen == -1) {
+          return null;
+        }
+        state = dataQuery.substring(start, indexOpen);
+
+        if (!state.equals("WHERE") && !state.equals("SELECT")) {
+
+          parameters = dataQuery.substring(indexOpen + 1, indexClose);
+          squery.addParametersToQuery(state, parameters);
+          start = indexClose + 1;
+
+        } else if (state.equals("WHERE")) {
+
+          indexClose = dataQuery.indexOf("ORDERBY") - 1;
+          parameters = dataQuery.substring(indexOpen + 1, indexClose);
+          squery.clause_ = addWhereToQuery(parameters);
+          start = indexClose + 1;
+
+        } else if (state.equals("SELECT")) {
+          indexClose = dataQuery.indexOf("FROM") - 1;
+          parameters = dataQuery.substring(indexOpen + 1, indexClose);
+          squery.addSelectToQuery(parameters);
+          start = indexClose + 1;
+        }
+      }
+      return squery;
+    }
+    return null;
   }
 
-  protected void setKind(String kind) {
-    kind_ = kind;
+  /**
+   * Add clauses parameters to the query
+   * 
+   * @param parameters
+   */
+  private static final SClause2 addWhereToQuery(String parameters) {
+
+    SClause2 clause = new SClause2();
+    int nbParenthesis = 0, indexStart = 0, indexStop = 0, index = 0;
+    String operator = "";
+    if (!parameters.equals("")) {
+      indexStart = parameters.indexOf("(", 0) + 1;
+      operator = parameters.substring(0, indexStart - 1);
+
+      // If our clause is a AND or an OR
+      if (operator.equals("AND") || operator.equals("OR")) {
+        int nbClause = 0;
+        index = indexStart;
+
+        if (operator.equals("AND")) {
+          clause.isAnd_ = true;
+        } else {
+          clause.isAnd_ = false;
+        }
+
+        // Getting our 2 parameters and build new clause with it
+        while (index < parameters.length() && nbClause < 2) {
+
+          if (parameters.charAt(index) == '(') {
+            nbParenthesis++;
+          } else if (parameters.charAt(index) == ')') {
+            nbParenthesis--;
+          }
+
+          if (nbParenthesis == 0 && parameters.charAt(index) == ','
+              || index == parameters.length() - 1) {
+
+            indexStop = index;
+            if (nbClause == 0) {
+              clause.clauseLeft_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
+              nbClause++;
+            } else if (nbClause == 1) {
+              clause.clauseRight_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
+              nbClause++;
+            }
+
+            indexStart = indexStop + 1;
+          }
+          index++;
+        }
+        indexStop = index;
+        return clause;
+      }
+      // If it's not AND or OR, we build a filter
+      else {
+        if (!operator.equals("KEY_IN")) {
+          return addFilter(parameters);
+        } else {
+          return addInFilter(parameters);
+        }
+      }
+    }
+    return null;
   }
 
-  public SQuery2(String kind) {
-    this(kind, "", 0);
+  private static SFilter2 addInFilter(String parameters) {
+    int indexStart = 0, indexStop = 0, index = 0;
+    String propertyName = "", operator;
+    ArrayList<Long> propertyValues = new ArrayList<Long>();
+    Boolean openQuote = false, firstParam = true;
+
+    indexStart = parameters.indexOf("(", 0) + 1;
+    operator = parameters.substring(0, indexStart - 1);
+
+    index = indexStart;
+
+    while (index < parameters.length()) {
+      if (parameters.charAt(index) == '"') {
+        if (!openQuote) {
+          openQuote = true;
+          indexStart = index + 1;
+        } else if (openQuote) {
+          openQuote = false;
+          indexStop = index;
+        }
+        // getting our propertyName then our propertyValue
+        if (!openQuote && indexStop > indexStart) {
+          if (firstParam) {
+            propertyName = parameters.substring(indexStart, indexStop);
+            firstParam = false;
+          } else {
+            propertyValues.add(Long.parseLong(parameters.substring(indexStart, indexStop)));
+          }
+        }
+      }
+      index++;
+    }
+    return new SFilter2(propertyName, propertyValues);
   }
 
-  public SQuery2(String kind, String ancestorKind, long ancestorId) {
-    kind_ = kind;
-    ancestorKind_ = ancestorKind;
-    ancestorId_ = ancestorId;
+  /**
+   * Takes a string Filter (EQUAL("firstname","Alfred") ) and build an SFilter2 from it
+   * 
+   * @param parameters
+   * @return
+   */
+  private static SFilter2 addFilter(String parameters) {
+
+    int indexStart = 0, indexStop = 0, index = 0, nbParam = 0, intOperator = 0;
+    String operator = "", propertyName = "", propertyValue = "";
+    Boolean openQuote = false;
+
+    indexStart = parameters.indexOf("(", 0) + 1;
+    operator = parameters.substring(0, indexStart - 1);
+
+    index = indexStart;
+    // searching for our propertyName and our propertyValue
+    while (index < parameters.length() && nbParam < 2) {
+      if (parameters.charAt(index) == '"') {
+        if (!openQuote) {
+          openQuote = true;
+          indexStart = index + 1;
+        } else if (openQuote) {
+          openQuote = false;
+          indexStop = index;
+        }
+        // getting our propertyName then our propertyValue
+        if (!openQuote && indexStop > indexStart) {
+          if (nbParam == 0) {
+            propertyName = parameters.substring(indexStart, indexStop);
+            nbParam++;
+          } else if (nbParam == 1) {
+            propertyValue = parameters.substring(indexStart, indexStop);
+            nbParam++;
+          }
+        }
+      }
+      index++;
+    }
+    // MANAGING DIFFERENT OPERATOR
+    // EQUAL
+    if (operator.equals("EQUAL")) {
+      intOperator = 0;
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+    }
+
+    // NOT EQUAL
+    else if (operator.equals("NOT_EQUAL")) {
+      intOperator = 5;
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+    }
+    // GREATER THAN
+    else if (operator.equals("GREATER_THAN")) {
+      intOperator = 3;
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+    }
+    // GREATER THAN OR EQUAL
+    else if (operator.equals("GREATER_THAN_OR_EQUAL")) {
+      intOperator = 4;
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+    }
+    // LESS THAN
+    else if (operator.equals("LESS_THAN")) {
+      intOperator = 1;
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+    }
+    // LESS THAN OR EQUAL
+    else if (operator.equals("LESS_THAN_OR_EQUAL")) {
+      intOperator = 2;
+      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+    }
+    // never get here
+    else {
+      return null;
+    }
   }
 
   public String getKind() {
     return kind_;
+  }
+
+  protected void setKind(String kind) {
+    kind_ = kind;
   }
 
   public String getAncestorKind() {
@@ -591,59 +650,6 @@ public class SQuery2 implements IsSerializable, Serializable {
   }
 
   /**
-   * Transform a String query into a SQuery2 query
-   * 
-   * @param dataQuery
-   * @return
-   */
-  final static public SQuery2 fromString2(String dataQuery) {
-
-    SQuery2 squery = new SQuery2();
-
-    // parameters
-    int indexOpen = 0, indexClose = 0, start = 0;
-    String state = "", parameters = "";
-
-    if (dataQuery.indexOf("QUERY(") != 0) {
-      System.out.println("This object is not a query");
-    } else {
-      // analyzing the code inside token Query( );
-      start = 6;
-      while (start != dataQuery.length() - 1) {
-        indexOpen = dataQuery.indexOf("(", start);
-        indexClose = dataQuery.indexOf(")", indexOpen);
-
-        if (indexOpen == -1) {
-          return null;
-        }
-        state = dataQuery.substring(start, indexOpen);
-
-        if (!state.equals("WHERE") && !state.equals("SELECT")) {
-
-          parameters = dataQuery.substring(indexOpen + 1, indexClose);
-          squery.addParametersToQuery(state, parameters);
-          start = indexClose + 1;
-
-        } else if (state.equals("WHERE")) {
-
-          indexClose = dataQuery.indexOf("ORDERBY") - 1;
-          parameters = dataQuery.substring(indexOpen + 1, indexClose);
-          squery.clause_ = addWhereToQuery(parameters);
-          start = indexClose + 1;
-
-        } else if (state.equals("SELECT")) {
-          indexClose = dataQuery.indexOf("FROM") - 1;
-          parameters = dataQuery.substring(indexOpen + 1, indexClose);
-          squery.addSelectToQuery(parameters);
-          start = indexClose + 1;
-        }
-      }
-      return squery;
-    }
-    return null;
-  }
-
-  /**
    * Takes a string SELECT and add projections to the query
    * 
    * @param parameters
@@ -717,180 +723,172 @@ public class SQuery2 implements IsSerializable, Serializable {
     }
   }
 
-  /**
-   * Add clauses parameters to the query
-   * 
-   * @param parameters
-   */
-  private static final SClause2 addWhereToQuery(String parameters) {
+  public static class SFilterOperator2 implements IsSerializable, Serializable {
+    public static final int EQUAL = 0;
+    public static final int LESS_THAN = 1;
+    public static final int LESS_THAN_OR_EQUAL = 2;
+    public static final int GREATER_THAN = 3;
+    public static final int GREATER_THAN_OR_EQUAL = 4;
+    public static final int NOT_EQUAL = 5;
+    public static final int IN = 6;
 
-    SClause2 clause = new SClause2();
-    int nbParenthesis = 0, indexStart = 0, indexStop = 0, index = 0;
-    String operator = "";
-    if (!parameters.equals("")) {
-      indexStart = parameters.indexOf("(", 0) + 1;
-      operator = parameters.substring(0, indexStart - 1);
+    protected SFilterOperator2() {
 
-      // If our clause is a AND or an OR
-      if (operator.equals("AND") || operator.equals("OR")) {
-        int nbClause = 0;
-        index = indexStart;
-
-        if (operator.equals("AND")) {
-          clause.isAnd_ = true;
-        } else {
-          clause.isAnd_ = false;
-        }
-
-        // Getting our 2 parameters and build new clause with it
-        while (index < parameters.length() && nbClause < 2) {
-
-          if (parameters.charAt(index) == '(') {
-            nbParenthesis++;
-          } else if (parameters.charAt(index) == ')') {
-            nbParenthesis--;
-          }
-
-          if (nbParenthesis == 0 && parameters.charAt(index) == ','
-              || index == parameters.length() - 1) {
-
-            indexStop = index;
-            if (nbClause == 0) {
-              clause.clauseLeft_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
-              nbClause++;
-            } else if (nbClause == 1) {
-              clause.clauseRight_ = addWhereToQuery(parameters.substring(indexStart, indexStop));
-              nbClause++;
-            }
-
-            indexStart = indexStop + 1;
-          }
-          index++;
-        }
-        indexStop = index;
-        return clause;
-      }
-      // If it's not AND or OR, we build a filter
-      else {
-        if (!operator.equals("KEY_IN")) {
-          return addFilter(parameters);
-        } else {
-          return addInFilter(parameters);
-        }
-      }
     }
-    return null;
   }
 
-  private static SFilter2 addInFilter(String parameters) {
-    int indexStart = 0, indexStop = 0, index = 0;
-    String propertyName = "", operator;
-    ArrayList<Long> propertyValues = new ArrayList<Long>();
-    Boolean openQuote = false, firstParam = true;
+  public static class SSort2 implements IsSerializable, Serializable {
 
-    indexStart = parameters.indexOf("(", 0) + 1;
-    operator = parameters.substring(0, indexStart - 1);
+    private String propertyName_ = "";
+    private boolean isAscending_ = true;
 
-    index = indexStart;
+    protected SSort2() {
 
-    while (index < parameters.length()) {
-      if (parameters.charAt(index) == '"') {
-        if (!openQuote) {
-          openQuote = true;
-          indexStart = index + 1;
-        } else if (openQuote) {
-          openQuote = false;
-          indexStop = index;
-        }
-        // getting our propertyName then our propertyValue
-        if (!openQuote && indexStop > indexStart) {
-          if (firstParam) {
-            propertyName = parameters.substring(indexStart, indexStop);
-            firstParam = false;
-          } else {
-            propertyValues.add(Long.parseLong(parameters.substring(indexStart, indexStop)));
-          }
-        }
-      }
-      index++;
     }
-    return new SFilter2(propertyName, propertyValues);
+
+    public SSort2(String propertyName, boolean isAscending) {
+      propertyName_ = propertyName;
+      isAscending_ = isAscending;
+    }
+
+    public String getPropertyName() {
+      return propertyName_;
+    }
+
+    public boolean isAscending() {
+      return isAscending_;
+    }
+
+    @Override
+    public String toString() {
+      return Objects.toStringHelper(this).add("propertyName_", propertyName_).add("isAscending_",
+          isAscending_).omitNullValues().toString();
+    }
   }
 
-  /**
-   * Takes a string Filter (EQUAL("firstname","Alfred") ) and build an SFilter2 from it
-   * 
-   * @param parameters
-   * @return
-   */
-  private static SFilter2 addFilter(String parameters) {
+  public static class SFilter2 extends SClause2 implements IsSerializable, Serializable {
 
-    int indexStart = 0, indexStop = 0, index = 0, nbParam = 0, intOperator = 0;
-    String operator = "", propertyName = "", propertyValue = "";
-    Boolean openQuote = false;
+    private int operator_;
+    private String propertyName_ = "";
+    private String propertyValue_ = ""; // EQUAL, LESS_THAN, LESS_THAN_OR_EQUAL, GREATER_THAN,
+                                        // GREATER_THAN_OR_EQUAL, NOT_EQUAL
+    private ArrayList<Long> propertyValues_ = new ArrayList<Long>(); // IN
 
-    indexStart = parameters.indexOf("(", 0) + 1;
-    operator = parameters.substring(0, indexStart - 1);
+    protected SFilter2() {
 
-    index = indexStart;
-    // searching for our propertyName and our propertyValue
-    while (index < parameters.length() && nbParam < 2) {
-      if (parameters.charAt(index) == '"') {
-        if (!openQuote) {
-          openQuote = true;
-          indexStart = index + 1;
-        } else if (openQuote) {
-          openQuote = false;
-          indexStop = index;
-        }
-        // getting our propertyName then our propertyValue
-        if (!openQuote && indexStop > indexStart) {
-          if (nbParam == 0) {
-            propertyName = parameters.substring(indexStart, indexStop);
-            nbParam++;
-          } else if (nbParam == 1) {
-            propertyValue = parameters.substring(indexStart, indexStop);
-            nbParam++;
-          }
-        }
+    }
+
+    public SFilter2(int operator, String propertyName, Object propertyValue) {
+      if (operator != SFilterOperator2.IN) {
+        operator_ = operator;
+        propertyName_ = propertyName;
+        propertyValue_ = ObjectUtils.toString(propertyValue);
       }
-      index++;
-    }
-    // MANAGING DIFFERENT OPERATOR
-    // EQUAL
-    if (operator.equals("EQUAL")) {
-      intOperator = 0;
-      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
     }
 
-    // NOT EQUAL
-    else if (operator.equals("NOT_EQUAL")) {
-      intOperator = 5;
-      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+    public SFilter2(String propertyName, ArrayList<Long> propertyValues) {
+      operator_ = SFilterOperator2.IN;
+      propertyName_ = propertyName;
+      propertyValues_ = propertyValues;
     }
-    // GREATER THAN
-    else if (operator.equals("GREATER_THAN")) {
-      intOperator = 3;
-      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+
+    public int getOperator() {
+      return operator_;
     }
-    // GREATER THAN OR EQUAL
-    else if (operator.equals("GREATER_THAN_OR_EQUAL")) {
-      intOperator = 4;
-      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+
+    public String getPropertyName() {
+      return propertyName_;
     }
-    // LESS THAN
-    else if (operator.equals("LESS_THAN")) {
-      intOperator = 1;
-      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+
+    public Object getPropertyValue() {
+      return ObjectUtils.fromString(propertyValue_);
     }
-    // LESS THAN OR EQUAL
-    else if (operator.equals("LESS_THAN_OR_EQUAL")) {
-      intOperator = 2;
-      return new SFilter2(intOperator, propertyName, ObjectUtils.fromString(propertyValue));
+
+    public ArrayList<Long> getPropertyValues() {
+      return propertyValues_;
     }
-    // never get here
-    else {
-      return null;
+
+    @Override
+    public String toString() {
+      return Objects.toStringHelper(this).add("operator_", operator_).add("propertyName_",
+          propertyName_).add("propertyValue_", propertyValue_).add("propertyValues_",
+          propertyValues_).omitNullValues().toString();
+    }
+  }
+
+  public static class SClause2 implements IsSerializable, Serializable {
+
+    private boolean isAnd_ = true;
+    private SClause2 clauseLeft_ = null;
+    private SClause2 clauseRight_ = null;
+
+    protected SClause2() {
+
+    }
+
+    public SClause2(boolean isAnd, SClause2 clauseLeft, SClause2 clauseRight) {
+      isAnd_ = isAnd;
+      clauseLeft_ = clauseLeft;
+      clauseRight_ = clauseRight;
+    }
+
+    public boolean isAnd() {
+      return isAnd_;
+    }
+
+    public boolean isOr() {
+      return !isAnd();
+    }
+
+    public SClause2 getLeftClause() {
+      return clauseLeft_;
+    }
+
+    public SClause2 getRightClause() {
+      return clauseRight_;
+    }
+
+    public boolean isNode() {
+      return !isLeaf();
+    }
+
+    public boolean isLeaf() {
+      return clauseLeft_ == null && clauseRight_ == null;
+    }
+
+    @Override
+    public String toString() {
+      return Objects.toStringHelper(this).add("isAnd_", isAnd_).add("clauseLeft_", clauseLeft_)
+          .add("clauseRight_", clauseRight_).omitNullValues().toString();
+    }
+  }
+
+  public static class SProjection2 implements IsSerializable, Serializable {
+
+    private String propertyName_ = "";
+    private Class<?> clazz_ = null;
+
+    protected SProjection2() {
+
+    }
+
+    public SProjection2(String propertyName, Class<?> clazz) {
+      propertyName_ = propertyName;
+      clazz_ = clazz;
+    }
+
+    public String getPropertyName() {
+      return propertyName_;
+    }
+
+    public Class<?> getClazz() {
+      return clazz_;
+    }
+
+    @Override
+    public String toString() {
+      return Objects.toStringHelper(this).add("propertyName_", propertyName_).add("clazz_", clazz_)
+          .omitNullValues().toString();
     }
   }
 }
