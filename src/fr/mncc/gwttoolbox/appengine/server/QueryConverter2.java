@@ -20,17 +20,14 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
+import fr.mncc.gwttoolbox.appengine.shared.*;
 
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SProjection2;
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SSort2;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QueryConverter2 {
 
@@ -65,12 +62,12 @@ public class QueryConverter2 {
       query.setKeysOnly();
 
     // Add projections
-    for (SQuery2.SProjection2 projection : squery.getProjections())
+    for (Projection2 projection : squery.getProjections())
       query.addProjection(new PropertyProjection(projection.getPropertyName(), projection
           .getClazz()));
 
     // Add sort order
-    for (SQuery2.SSort2 sorter : squery.getSorters())
+    for (Sort2 sorter : squery.getSorters())
       query.addSort(sorter.getPropertyName(), sorter.isAscending() ? Query.SortDirection.ASCENDING
           : Query.SortDirection.DESCENDING);
 
@@ -80,10 +77,10 @@ public class QueryConverter2 {
     return query;
   }
 
-  private static Query.Filter buildClause(SQuery2 squery, SQuery2.SClause2 clause) {
+  private static Query.Filter buildClause(SQuery2 squery, Clause2 clause) {
     if (clause.isLeaf()) {
-      SQuery2.Filter2 sfilter = (SQuery2.Filter2) clause;
-      if (sfilter.getOperator() != SQuery2.SFilterOperator2.IN) {
+      Filter2 sfilter = (Filter2) clause;
+      if (sfilter.getOperator() != FilterOperator2.IN) {
         if (sfilter.getPropertyName().equals("__key__")
             && sfilter.getPropertyValue() instanceof Long) {
           if (hasAncestor(squery))
@@ -117,19 +114,19 @@ public class QueryConverter2 {
   }
 
   private static Query.FilterOperator getAsFilterOperator(int operator) {
-    if (operator == SQuery2.SFilterOperator2.EQUAL)
+    if (operator == FilterOperator2.EQUAL)
       return Query.FilterOperator.EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.LESS_THAN)
+    else if (operator == FilterOperator2.LESS_THAN)
       return Query.FilterOperator.LESS_THAN;
-    else if (operator == SQuery2.SFilterOperator2.LESS_THAN_OR_EQUAL)
+    else if (operator == FilterOperator2.LESS_THAN_OR_EQUAL)
       return Query.FilterOperator.LESS_THAN_OR_EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.GREATER_THAN)
+    else if (operator == FilterOperator2.GREATER_THAN)
       return Query.FilterOperator.GREATER_THAN;
-    else if (operator == SQuery2.SFilterOperator2.GREATER_THAN_OR_EQUAL)
+    else if (operator == FilterOperator2.GREATER_THAN_OR_EQUAL)
       return Query.FilterOperator.GREATER_THAN_OR_EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.NOT_EQUAL)
+    else if (operator == FilterOperator2.NOT_EQUAL)
       return Query.FilterOperator.NOT_EQUAL;
-    else if (operator == SQuery2.SFilterOperator2.IN)
+    else if (operator == FilterOperator2.IN)
       return Query.FilterOperator.IN;
     return null; // This case should never happen
   }
@@ -146,30 +143,29 @@ public class QueryConverter2 {
    * @return
    */
   private static String getAsPostgreSqlOperator(int operator) {
-    if (operator == SQuery2.SFilterOperator2.EQUAL)
+    if (operator == FilterOperator2.EQUAL)
       return "=";
-    if (operator == SQuery2.SFilterOperator2.LESS_THAN)
+    if (operator == FilterOperator2.LESS_THAN)
       return "<";
-    if (operator == SQuery2.SFilterOperator2.LESS_THAN_OR_EQUAL)
+    if (operator == FilterOperator2.LESS_THAN_OR_EQUAL)
       return "<=";
-    if (operator == SQuery2.SFilterOperator2.GREATER_THAN)
+    if (operator == FilterOperator2.GREATER_THAN)
       return ">";
-    if (operator == SQuery2.SFilterOperator2.GREATER_THAN_OR_EQUAL)
+    if (operator == FilterOperator2.GREATER_THAN_OR_EQUAL)
       return ">=";
-    if (operator == SQuery2.SFilterOperator2.NOT_EQUAL)
+    if (operator == FilterOperator2.NOT_EQUAL)
       return "<>";
-    if (operator == SQuery2.SFilterOperator2.IN)
+    if (operator == FilterOperator2.IN)
       return "IN";
-
     return null; // This case should never happen
   }
 
   private static String getSortQuery(SQuery2 squery) {
     String sortQuery = " ORDER BY ";
 
-    List<SSort2> listOfSorters = squery.getSorters();
+    List<Sort2> listOfSorters = squery.getSorters();
 
-    for (SSort2 sorter : listOfSorters) {
+    for (Sort2 sorter : listOfSorters) {
       sortQuery += sorter.getPropertyName() + " ";
       sortQuery += sorter.isAscending() ? "ASC, " : "DESC, ";
     }
@@ -183,7 +179,7 @@ public class QueryConverter2 {
     String projections = "";
     boolean containsIdColumn = false;
 
-    List<SProjection2> listOfProjections = squery.getProjections();
+    List<Projection2> listOfProjections = squery.getProjections();
 
     if (squery.isKeysOnly())
       return "id";
@@ -192,7 +188,7 @@ public class QueryConverter2 {
 
     // checks if the column id projection was created
     // set containsIdColumn to true if it exists as a projection, sets to false otherwise
-    for (SProjection2 sp : listOfProjections) {
+    for (Projection2 sp : listOfProjections) {
       if (sp.getPropertyName().equalsIgnoreCase("id")) {
         containsIdColumn = true;
         break;
@@ -201,9 +197,9 @@ public class QueryConverter2 {
 
     // add coulumn id projection if column id projection doesn't exist
     if (!containsIdColumn)
-      listOfProjections.add(0, new SProjection2("id", Long.class));
+      listOfProjections.add(0, Projection2.of("id", Long.class));
 
-    for (SProjection2 projection : listOfProjections) {
+    for (Projection2 projection : listOfProjections) {
       projections += projection.getPropertyName() + ", ";
     }
 
@@ -212,17 +208,17 @@ public class QueryConverter2 {
 
   }
 
-  private static void buildClause(SQuery2.SClause2 clause, List<String> result) {
+  private static void buildClause(Clause2 clause, List<String> result) {
 
     if (clause.getLeftClause() != null) {
       buildClause(clause.getLeftClause(), result);
     }
 
     if (clause.isLeaf()) {
-      SQuery2.Filter2 sfilter = (SQuery2.Filter2) clause;
+      Filter2 sfilter = (Filter2) clause;
 
-      result.add(sfilter.getPropertyName() + " " + getAsPostgreSqlOperator(sfilter.getOperator()) + " "
-          + PostgreSql2.preparedQuery(sfilter.getPropertyValue()));
+      result.add(sfilter.getPropertyName() + " " + getAsPostgreSqlOperator(sfilter.getOperator())
+          + " " + PostgreSql2.preparedQuery(sfilter.getPropertyValue()));
     }
 
     if (clause.getRightClause() != null) {
