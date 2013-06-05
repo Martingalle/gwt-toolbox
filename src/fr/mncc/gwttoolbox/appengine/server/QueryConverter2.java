@@ -82,7 +82,7 @@ public class QueryConverter2 {
 
   private static Query.Filter buildClause(SQuery2 squery, SQuery2.SClause2 clause) {
     if (clause.isLeaf()) {
-      SQuery2.SFilter2 sfilter = (SQuery2.SFilter2) clause;
+      SQuery2.Filter2 sfilter = (SQuery2.Filter2) clause;
       if (sfilter.getOperator() != SQuery2.SFilterOperator2.IN) {
         if (sfilter.getPropertyName().equals("__key__")
             && sfilter.getPropertyValue() instanceof Long) {
@@ -219,7 +219,7 @@ public class QueryConverter2 {
     }
 
     if (clause.isLeaf()) {
-      SQuery2.SFilter2 sfilter = (SQuery2.SFilter2) clause;
+      SQuery2.Filter2 sfilter = (SQuery2.Filter2) clause;
 
       result.add(sfilter.getPropertyName() + " " + getAsPostgreSqlOperator(sfilter.getOperator()) + " "
           + PostgreSql2.preparedQuery(sfilter.getPropertyValue()));

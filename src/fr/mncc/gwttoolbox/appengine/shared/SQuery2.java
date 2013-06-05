@@ -51,86 +51,6 @@ public class SQuery2 implements IsSerializable, Serializable {
     ancestorId_ = (int) ancestorId;
   }
 
-  @Deprecated
-  public static Filter2 idEqual(long propertyValue) {
-    return Filter2.idEqual(propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 idLessThan(long propertyValue) {
-    return Filter2.idLessThan(propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 idLessThanOrEqual(long propertyValue) {
-    return Filter2.idLessThanOrEqual(propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 idGreaterThan(long propertyValue) {
-    return Filter2.idGreaterThan(propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 idGreaterThanOrEqual(long propertyValue) {
-    return Filter2.idGreaterThanOrEqual(propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 idNotEqual(Object propertyValue) {
-    return Filter2.idNotEqual(propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 idIn(ArrayList<Long> propertyValues) {
-    return Filter2.idIn(propertyValues);
-  }
-
-  @Deprecated
-  public static Filter2 equal(String propertyName, Object propertyValue) {
-    return Filter2.equal(propertyName, propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 lessThan(String propertyName, Object propertyValue) {
-    return Filter2.lessThan(propertyName, propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 lessThanOrEqual(String propertyName, Object propertyValue) {
-    return Filter2.lessThanOrEqual(propertyName, propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 greaterThan(String propertyName, Object propertyValue) {
-    return Filter2.greaterThan(propertyName, propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 greaterThanOrEqual(String propertyName, Object propertyValue) {
-    return Filter2.greaterThanOrEqual(propertyName, propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 notEqual(String propertyName, Object propertyValue) {
-    return Filter2.notEqual(propertyName, propertyValue);
-  }
-
-  @Deprecated
-  public static Filter2 in(String propertyName, ArrayList<Long> propertyValues) {
-    return Filter2.in(propertyName, propertyValues);
-  }
-
-  @Deprecated
-  public static Clause2 and(Clause2 clauseLeft, Clause2 clauseRight) {
-    return Clause2.and(clauseLeft, clauseRight);
-  }
-
-  @Deprecated
-  public static Clause2 or(Clause2 clauseLeft, Clause2 clauseRight) {
-    return Clause2.or(clauseLeft, clauseRight);
-  }
-
   public String getKind() {
     return kind_;
   }
@@ -147,12 +67,12 @@ public class SQuery2 implements IsSerializable, Serializable {
     return ancestorId_;
   }
 
-  public ArrayList<SProjection2> getProjections() {
-    return (ArrayList<SProjection2>) (ArrayList<?>) projections_;
+  public ArrayList<Projection2> getProjections() {
+    return projections_;
   }
 
-  public ArrayList<SSort2> getSorters() {
-    return (ArrayList<SSort2>) (ArrayList<?>) sorters_;
+  public ArrayList<Sort2> getSorters() {
+    return sorters_;
   }
 
   public Clause2 getClause() {
@@ -267,7 +187,8 @@ public class SQuery2 implements IsSerializable, Serializable {
       return isValidProjection(propertyName, clause.getLeftClause())
           && isValidProjection(propertyName, clause.getRightClause());
 
-    Filter2 filter = (Filter2) clause;
+    fr.mncc.gwttoolbox.appengine.shared.Filter2 filter =
+        (fr.mncc.gwttoolbox.appengine.shared.Filter2) clause;
     if (filter.getOperator() != FilterOperator2.IN && filter.getOperator() != FilterOperator2.EQUAL)
       return true;
     return !filter.getPropertyName().equals(propertyName);
@@ -299,25 +220,5 @@ public class SQuery2 implements IsSerializable, Serializable {
         .add("ancestorId_", ancestorId_).add("projections_", projections_)
         .add("sorters_", sorters_).add("clause_", clause_).add("isKeysOnly_", isKeysOnly_)
         .omitNullValues().toString();
-  }
-
-  @Deprecated
-  public static class SFilterOperator2 extends FilterOperator2 {
-  }
-
-  @Deprecated
-  public static class SSort2 extends Sort2 {
-  }
-
-  @Deprecated
-  public static class SFilter2 extends Filter2 {
-  }
-
-  @Deprecated
-  public static class SClause2 extends Clause2 {
-  }
-
-  @Deprecated
-  public static class SProjection2 extends Projection2 {
   }
 }

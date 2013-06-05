@@ -1,21 +1,21 @@
 /**
  * Copyright (c) 2013 MNCC
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge, publish, distribute,
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
  * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ * 
  * @author http://www.mncc.fr
  */
 package fr.mncc.gwttoolbox.appengine.server;
@@ -25,10 +25,9 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+import fr.mncc.gwttoolbox.appengine.shared.Clause2;
+import fr.mncc.gwttoolbox.appengine.shared.Filter2;
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SClause2;
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SFilter2;
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2.SFilterOperator2;
 import fr.mncc.gwttoolbox.primitives.server.DateUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -46,16 +45,13 @@ import static junit.framework.Assert.assertEquals;
 
 public class AppEngineVsPostgreSqlTest {
 
-  private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-      new LocalDatastoreServiceTestConfig());
-
   private static Connection conn = JdbcPostgresConnection.getConnection("127.0.0.1", 5432, "mydb",
       "postgres", "zamani95");
-
   private static String createTable =
       "CREATE TABLE person (id serial, name varchar(100), age bigint, height double precision, birthdate date, salary real,status boolean)";
-
   private static String dropTable = "DROP TABLE IF EXISTS person";
+  private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
+      new LocalDatastoreServiceTestConfig());
 
   @Before
   public void setUp() {
@@ -126,13 +122,13 @@ public class AppEngineVsPostgreSqlTest {
   @Test
   public void listSize() {
     createEntity();
-    SFilter2 clauseLeft2 = new SFilter2(SFilterOperator2.EQUAL, "name", "nedved");
-    SFilter2 clauseRight2 = new SFilter2(SFilterOperator2.GREATER_THAN_OR_EQUAL, "age", 64);
+    Filter2 clauseLeft2 = Filter2.equal("name", "nedved");
+    Filter2 clauseRight2 = Filter2.greaterThanOrEqual("age", 64);
 
-    SClause2 clauseLeft = new SClause2(true, clauseLeft2, clauseRight2);
-    SFilter2 clauseRight = new SFilter2(SFilterOperator2.EQUAL, "age", 34);;
+    Clause2 clauseLeft = Filter2.and(clauseLeft2, clauseRight2);
+    Filter2 clauseRight = Filter2.equal("age", 34);;
 
-    SClause2 sc = new SClause2(false, clauseLeft, clauseRight);
+    Clause2 sc = Filter2.or(clauseLeft, clauseRight);
 
     SQuery2 squery = new SQuery2("person");
     squery.addClause(sc);
@@ -150,13 +146,13 @@ public class AppEngineVsPostgreSqlTest {
   @Test
   public void list() {
     createEntity();
-    SFilter2 clauseLeft2 = new SFilter2(SFilterOperator2.EQUAL, "name", "seedorf");
-    SFilter2 clauseRight2 = new SFilter2(SFilterOperator2.GREATER_THAN_OR_EQUAL, "age", 64);
+    Filter2 clauseLeft2 = Filter2.equal("name", "seedorf");
+    Filter2 clauseRight2 = Filter2.greaterThanOrEqual("age", 64);
 
-    SClause2 clauseLeft = new SClause2(true, clauseLeft2, clauseRight2);
-    SFilter2 clauseRight = new SFilter2(SFilterOperator2.EQUAL, "age", 34);;
+    Clause2 clauseLeft = Clause2.and(clauseLeft2, clauseRight2);
+    Filter2 clauseRight = Filter2.equal("age", 34);;
 
-    SClause2 sc = new SClause2(false, clauseLeft, clauseRight);
+    Clause2 sc = Clause2.or(clauseLeft, clauseRight);
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -182,13 +178,13 @@ public class AppEngineVsPostgreSqlTest {
   public void list2() {
     dropAndCreateTable();
     createEntity();
-    SFilter2 clauseLeft2 = new SFilter2(SFilterOperator2.EQUAL, "name", "seedorf");
-    SFilter2 clauseRight2 = new SFilter2(SFilterOperator2.GREATER_THAN_OR_EQUAL, "age", 64);
+    Filter2 clauseLeft2 = Filter2.equal("name", "seedorf");
+    Filter2 clauseRight2 = Filter2.greaterThanOrEqual("age", 64);
 
-    SClause2 clauseLeft = new SClause2(true, clauseLeft2, clauseRight2);
-    SFilter2 clauseRight = new SFilter2(SFilterOperator2.EQUAL, "age", 34);;
+    Clause2 clauseLeft = Clause2.and(clauseLeft2, clauseRight2);
+    Filter2 clauseRight = Filter2.equal("age", 34);
 
-    SClause2 sc = new SClause2(false, clauseLeft, clauseRight);
+    Clause2 sc = Clause2.or(clauseLeft, clauseRight);
 
     SQuery2 squery = new SQuery2("person");
     // squery.setKeysOnly();
@@ -213,13 +209,13 @@ public class AppEngineVsPostgreSqlTest {
   @Test
   public void listIDs() {
     createEntity();
-    SFilter2 clauseLeft2 = new SFilter2(SFilterOperator2.EQUAL, "name", "cesc");
-    SFilter2 clauseRight2 = new SFilter2(SFilterOperator2.GREATER_THAN_OR_EQUAL, "age", 64);
+    Filter2 clauseLeft2 = Filter2.equal("name", "cesc");
+    Filter2 clauseRight2 = Filter2.greaterThanOrEqual("age", 64);
 
-    SClause2 clauseLeft = new SClause2(true, clauseLeft2, clauseRight2);
-    SFilter2 clauseRight = new SFilter2(SFilterOperator2.EQUAL, "age", 34);;
+    Clause2 clauseLeft = Clause2.and(clauseLeft2, clauseRight2);
+    Filter2 clauseRight = Filter2.equal("age", 34);;
 
-    SClause2 sc = new SClause2(false, clauseLeft, clauseRight);
+    Clause2 sc = Clause2.or(clauseLeft, clauseRight);
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -242,13 +238,13 @@ public class AppEngineVsPostgreSqlTest {
   @Test
   public void listIDs2() {
     createEntity();
-    SFilter2 clauseLeft2 = new SFilter2(SFilterOperator2.EQUAL, "name", "cesc");
-    SFilter2 clauseRight2 = new SFilter2(SFilterOperator2.GREATER_THAN_OR_EQUAL, "age", 64);
+    Filter2 clauseLeft2 = Filter2.equal("name", "cesc");
+    Filter2 clauseRight2 = Filter2.greaterThanOrEqual("age", 64);
 
-    SClause2 clauseLeft = new SClause2(true, clauseLeft2, clauseRight2);
-    SFilter2 clauseRight = new SFilter2(SFilterOperator2.EQUAL, "age", 34);;
+    Clause2 clauseLeft = Clause2.and(clauseLeft2, clauseRight2);
+    Filter2 clauseRight = Filter2.equal("age", 34);;
 
-    SClause2 sc = new SClause2(false, clauseLeft, clauseRight);
+    Clause2 sc = Clause2.or(clauseLeft, clauseRight);
 
     SQuery2 squery = new SQuery2("person");
 
@@ -298,7 +294,7 @@ public class AppEngineVsPostgreSqlTest {
   public void testEqualOperation() {
     createEntity();
 
-    SFilter2 sFilter = new SFilter2(SFilterOperator2.EQUAL, "name", "nedved");
+    Filter2 sFilter = Filter2.equal("name", "nedved");
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -316,7 +312,7 @@ public class AppEngineVsPostgreSqlTest {
   public void testNotEqualOperation() {
     createEntity();
 
-    SFilter2 sFilter = new SFilter2(SFilterOperator2.NOT_EQUAL, "name", "nedved");
+    Filter2 sFilter = Filter2.notEqual("name", "nedved");
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -334,7 +330,7 @@ public class AppEngineVsPostgreSqlTest {
   public void testLessThanOperation() {
     createEntity();
 
-    SFilter2 sFilter = new SFilter2(SFilterOperator2.LESS_THAN, "age", 60);
+    Filter2 sFilter = Filter2.lessThan("age", 60);
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -352,7 +348,7 @@ public class AppEngineVsPostgreSqlTest {
   public void testLessThanOrEqualOperation() {
     createEntity();
 
-    SFilter2 sFilter = new SFilter2(SFilterOperator2.LESS_THAN_OR_EQUAL, "age", 60);
+    Filter2 sFilter = Filter2.lessThanOrEqual("age", 60);
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -370,7 +366,7 @@ public class AppEngineVsPostgreSqlTest {
   public void testGreaterThanOperation() {
     createEntity();
 
-    SFilter2 sFilter = new SFilter2(SFilterOperator2.GREATER_THAN, "age", 60);
+    Filter2 sFilter = Filter2.greaterThan("age", 60);
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -388,7 +384,7 @@ public class AppEngineVsPostgreSqlTest {
   public void testGreaterThanOrEqualOperation() {
     createEntity();
 
-    SFilter2 sFilter = new SFilter2(SFilterOperator2.GREATER_THAN_OR_EQUAL, "age", 60);
+    Filter2 sFilter = Filter2.greaterThanOrEqual("age", 60);
 
     SQuery2 squery = new SQuery2("person");
     squery.setKeysOnly();
@@ -462,8 +458,8 @@ public class AppEngineVsPostgreSqlTest {
       // Create PostgreSql2 query
       String query =
           "INSERT INTO person (name, age, height, birthdate, salary, status) VALUES('" + name
-          + "', " + +age + ", " + Math.round(height * 100.0D) / 100.0D + ", '" + str + "', "
-          + +salary + ", " + "'" + status + "')";
+              + "', " + +age + ", " + Math.round(height * 100.0D) / 100.0D + ", '" + str + "', "
+              + +salary + ", " + "'" + status + "')";
 
       try {
         Statement stmt = conn.createStatement();
