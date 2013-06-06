@@ -73,6 +73,7 @@ public final class CrawlFilter implements Filter {
 
       // use the headless browser to obtain an HTML snapshot
       URL url = new URL(SCHEME, domain, port, url_with_hash_fragment);
+      logger_.log(Level.INFO, "url=" + url.toString());
       HtmlPage page = webClient_.get().getPage(url);
 
       // important! Give the headless browser enough time to execute JavaScript
