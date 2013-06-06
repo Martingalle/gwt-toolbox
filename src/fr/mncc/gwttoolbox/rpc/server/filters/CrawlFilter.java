@@ -20,20 +20,19 @@
  */
 package fr.mncc.gwttoolbox.rpc.server.filters;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.UrlFetchWebConnection;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.UrlFetchWebConnection;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * For AJAX crawlable websites
@@ -43,8 +42,14 @@ public final class CrawlFilter implements Filter {
   public final static String SCHEME = "http";
   public final static long PUMP_TIME = 5000;
   private final static Logger logger_ = Logger.getLogger(CrawlFilter.class.getCanonicalName());
-
-  private WebClient webClient;
+  private final static ThreadLocal<WebClient> webClient_ = new ThreadLocal<WebClient>() {
+    @Override
+    protected synchronized WebClient initialValue() {
+      WebClient result = new WebClient(BrowserVersion.FIREFOX_10);
+      result.setWebConnection(new UrlFetchWebConnection(result));
+      return result;
+    }
+  };
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -52,6 +57,8 @@ public final class CrawlFilter implements Filter {
 
     HttpServletRequest req = (HttpServletRequest) request;
     String queryString = req.getQueryString();
+    logger_.log(Level.INFO, "queryString=" + queryString);
+    logger_.log(Level.INFO, "requestURL=" + req.getRequestURL());
 
     if (queryString != null && queryString.contains("_escaped_fragment_=")) {
 
@@ -62,17 +69,20 @@ public final class CrawlFilter implements Filter {
       // rewrite the URL back to the original #! version
       // remember to unescape any %XX characters
       String url_with_hash_fragment = uri + rewriteQueryString(queryString);
+      logger_.log(Level.INFO, "url_with_hash_fragment=" + url_with_hash_fragment);
 
       // use the headless browser to obtain an HTML snapshot
       URL url = new URL(SCHEME, domain, port, url_with_hash_fragment);
-      HtmlPage page = webClient.getPage(url);
+      HtmlPage page = webClient_.get().getPage(url);
 
       // important! Give the headless browser enough time to execute JavaScript
       // The exact time to wait may depend on your application.
-      webClient.waitForBackgroundJavaScript(PUMP_TIME);
+      webClient_.get().waitForBackgroundJavaScript(PUMP_TIME);
 
       // GAE hack because its single threaded
-      webClient.getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
+      webClient_.get().getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
+
+      logger_.log(Level.INFO, "page.asXml()=" + page.asXml());
 
       response.setContentType("text/html;charset=UTF-8");
       ServletOutputStream out = response.getOutputStream();
@@ -92,8 +102,8 @@ public final class CrawlFilter implements Filter {
    */
   @Override
   public void destroy() {
-    if (webClient != null) {
-      webClient.closeAllWindows();
+    if (webClient_.get() != null) {
+      webClient_.get().closeAllWindows();
     }
   }
 
@@ -102,8 +112,7 @@ public final class CrawlFilter implements Filter {
    */
   @Override
   public void init(FilterConfig arg0) throws ServletException {
-    webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
-    webClient.setWebConnection(new UrlFetchWebConnection(webClient));
+
   }
 
   public String rewriteQueryString(String url_with_escaped_fragment) {
