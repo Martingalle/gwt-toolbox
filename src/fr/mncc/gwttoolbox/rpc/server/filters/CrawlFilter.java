@@ -20,14 +20,13 @@
  */
 package fr.mncc.gwttoolbox.rpc.server.filters;
 
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.UrlFetchWebConnection;
-import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -41,15 +40,8 @@ public final class CrawlFilter implements Filter {
 
   public final static String SCHEME = "http";
   public final static long PUMP_TIME = 5000;
+  public final static long WAIT_FOR = 2500;
   private final static Logger logger_ = Logger.getLogger(CrawlFilter.class.getCanonicalName());
-  private final static ThreadLocal<WebClient> webClient_ = new ThreadLocal<WebClient>() {
-    @Override
-    protected synchronized WebClient initialValue() {
-      WebClient result = new WebClient(BrowserVersion.FIREFOX_10);
-      result.setWebConnection(new UrlFetchWebConnection(result));
-      return result;
-    }
-  };
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -69,25 +61,76 @@ public final class CrawlFilter implements Filter {
       // rewrite the URL back to the original #! version
       // remember to unescape any %XX characters
       String url_with_hash_fragment = uri + rewriteQueryString(queryString);
+
       logger_.log(Level.INFO, "url_with_hash_fragment=" + url_with_hash_fragment);
 
-      // use the headless browser to obtain an HTML snapshot
+      // and use the headless browser to obtain an HTML snapshot
       URL url = new URL(SCHEME, domain, port, url_with_hash_fragment);
+
       logger_.log(Level.INFO, "url=" + url.toString());
-      HtmlPage page = webClient_.get().getPage(url);
 
-      // important! Give the headless browser enough time to execute JavaScript
+      // Create webClient
+      WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
+      webClient.setWebConnection(new UrlFetchWebConnection(webClient) {
+        @Override
+        public WebResponse getResponse(WebRequest request) throws IOException {
+
+          final URL url = request.getUrl();
+          final String file = url.getFile();
+
+          logger_.log(Level.INFO, url.toString());
+
+          if (!file.endsWith(".css") && !file.endsWith(".jpg") && !file.endsWith(".gif")
+              && !file.endsWith(".png") && !(file.contains("jquery") && file.endsWith(".js")))
+            return super.getResponse(request);
+          return new StringWebResponse("", request.getUrl());
+        }
+      });
+      webClient.setAjaxController(new AjaxController() {
+        @Override
+        public boolean processSynchron(HtmlPage page, WebRequest request, boolean async) {
+          return true;
+        }
+      });
+      webClient.getCache().clear();
+      webClient.setCssErrorHandler(new SilentCssErrorHandler());
+      webClient.setThrowExceptionOnScriptError(false);
+      webClient.setThrowExceptionOnFailingStatusCode(false);
+      webClient.setCssEnabled(false);
+      webClient.setPopupBlockerEnabled(false);
+      webClient.setRedirectEnabled(false);
+      webClient.setJavaScriptEnabled(true);
+
+      HtmlPage page = webClient.getPage(url);
+
+      // Important! Give the headless browser enough time to execute JavaScript
       // The exact time to wait may depend on your application.
-      webClient_.get().waitForBackgroundJavaScript(PUMP_TIME);
+      webClient.getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
 
-      // GAE hack because its single threaded
-      webClient_.get().getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
+      int waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR);
+      int counter = 0;
+      while (waitForBackgroundJavaScript > 0 && counter++ < 5) {
+        synchronized (page) {
+          try {
+            page.wait(100L);
+          } catch (InterruptedException e) {
+            logger_.log(Level.SEVERE, e.getMessage());
+          }
+        }
+        waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR);
+        logger_.log(Level.INFO, "Waiting...");
+      }
 
-      logger_.log(Level.INFO, "page.asXml()=" + page.asXml());
+      String staticSnapshotHtml = page.asXml();
+      webClient.closeAllWindows();
+
+      logger_.log(Level.INFO, "page.asXml()=" + staticSnapshotHtml);
 
       response.setContentType("text/html;charset=UTF-8");
-      ServletOutputStream out = response.getOutputStream();
-      out.println(page.asXml());
+      PrintWriter out = response.getWriter();
+      out.println(staticSnapshotHtml);
+      out.flush();
+      out.close();
     } else {
       try {
         // not an _escaped_fragment_ URL, so move up the chain of servlet (filters)
@@ -103,9 +146,7 @@ public final class CrawlFilter implements Filter {
    */
   @Override
   public void destroy() {
-    if (webClient_.get() != null) {
-      webClient_.get().closeAllWindows();
-    }
+
   }
 
   /**
