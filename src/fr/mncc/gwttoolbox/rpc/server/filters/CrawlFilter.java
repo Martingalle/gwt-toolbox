@@ -87,7 +87,7 @@ public final class CrawlFilter implements Filter {
             logger_.log(Level.INFO, url.toString());
 
             if (!file.endsWith(".css") && !file.endsWith(".jpg") && !file.endsWith(".gif")
-                && !file.endsWith(".png") && !(file.contains("jquery") && file.endsWith(".js")))
+                && !file.endsWith(".png"))
               return super.getResponse(request);
             return new StringWebResponse("", request.getUrl());
           }
