@@ -22,6 +22,8 @@ package fr.mncc.gwttoolbox.rpc.server.filters;
 
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import fr.mncc.gwttoolbox.appengine.server.Memcache2;
+import fr.mncc.gwttoolbox.crypto.server.CryptoApi;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -69,60 +71,68 @@ public final class CrawlFilter implements Filter {
 
       logger_.log(Level.INFO, "url=" + url.toString());
 
-      // Create webClient
-      WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
-      webClient.setWebConnection(new UrlFetchWebConnection(webClient) {
-        @Override
-        public WebResponse getResponse(WebRequest request) throws IOException {
+      String staticSnapshotHtml =
+          (String) Memcache2.getSync("GOOGLEBOT", CryptoApi.hash(url.toString()));
+      if (staticSnapshotHtml == null || staticSnapshotHtml.isEmpty()) {
 
-          final URL url = request.getUrl();
-          final String file = url.getFile();
+        // Create webClient
+        WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
+        webClient.setWebConnection(new UrlFetchWebConnection(webClient) {
+          @Override
+          public WebResponse getResponse(WebRequest request) throws IOException {
 
-          logger_.log(Level.INFO, url.toString());
+            final URL url = request.getUrl();
+            final String file = url.getFile();
 
-          if (!file.endsWith(".css") && !file.endsWith(".jpg") && !file.endsWith(".gif")
-              && !file.endsWith(".png") && !(file.contains("jquery") && file.endsWith(".js")))
-            return super.getResponse(request);
-          return new StringWebResponse("", request.getUrl());
-        }
-      });
-      webClient.setAjaxController(new AjaxController() {
-        @Override
-        public boolean processSynchron(HtmlPage page, WebRequest request, boolean async) {
-          return true;
-        }
-      });
-      webClient.getCache().clear();
-      webClient.setCssErrorHandler(new SilentCssErrorHandler());
-      webClient.setThrowExceptionOnScriptError(false);
-      webClient.setThrowExceptionOnFailingStatusCode(false);
-      webClient.setCssEnabled(false);
-      webClient.setPopupBlockerEnabled(false);
-      webClient.setRedirectEnabled(false);
-      webClient.setJavaScriptEnabled(true);
+            logger_.log(Level.INFO, url.toString());
 
-      HtmlPage page = webClient.getPage(url);
-
-      // Important! Give the headless browser enough time to execute JavaScript
-      // The exact time to wait may depend on your application.
-      webClient.getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
-
-      int waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR);
-      int counter = 0;
-      while (waitForBackgroundJavaScript > 0 && counter++ < 5) {
-        synchronized (page) {
-          try {
-            page.wait(100L);
-          } catch (InterruptedException e) {
-            logger_.log(Level.SEVERE, e.getMessage());
+            if (!file.endsWith(".css") && !file.endsWith(".jpg") && !file.endsWith(".gif")
+                && !file.endsWith(".png") && !(file.contains("jquery") && file.endsWith(".js")))
+              return super.getResponse(request);
+            return new StringWebResponse("", request.getUrl());
           }
-        }
-        waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR);
-        logger_.log(Level.INFO, "Waiting...");
-      }
+        });
+        webClient.setAjaxController(new AjaxController() {
+          @Override
+          public boolean processSynchron(HtmlPage page, WebRequest request, boolean async) {
+            return true;
+          }
+        });
+        webClient.getCache().clear();
+        webClient.setCssErrorHandler(new SilentCssErrorHandler());
+        webClient.setThrowExceptionOnScriptError(false);
+        webClient.setThrowExceptionOnFailingStatusCode(false);
+        webClient.setCssEnabled(false);
+        webClient.setPopupBlockerEnabled(false);
+        webClient.setRedirectEnabled(false);
+        webClient.setJavaScriptEnabled(true);
 
-      String staticSnapshotHtml = page.asXml();
-      webClient.closeAllWindows();
+        HtmlPage page = webClient.getPage(url);
+
+        // Important! Give the headless browser enough time to execute JavaScript
+        // The exact time to wait may depend on your application.
+        webClient.getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
+
+        int waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR);
+        int counter = 0;
+        while (waitForBackgroundJavaScript > 0 && counter++ < 5) {
+          synchronized (page) {
+            try {
+              page.wait(100L);
+            } catch (InterruptedException e) {
+              logger_.log(Level.SEVERE, e.getMessage());
+            }
+          }
+          waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR);
+          logger_.log(Level.INFO, "Waiting...");
+        }
+
+        staticSnapshotHtml = page.asXml();
+        webClient.closeAllWindows();
+
+        Memcache2.put("GOOGLEBOT", CryptoApi.hash(url.toString()), staticSnapshotHtml,
+            7 * 24 * 60 * 60);
+      }
 
       logger_.log(Level.INFO, "page.asXml()=" + staticSnapshotHtml);
 
