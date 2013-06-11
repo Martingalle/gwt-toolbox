@@ -85,6 +85,7 @@ public class RestCall {
     try {
       final RequestBuilder rb = new RequestBuilder(method, URL.encode(url));
       rb.setHeader("Accept", "application/json");
+      rb.setHeader("Content-Type", "application/json");
       rb.sendRequest(data, new RequestCallback() {
         @Override
         public void onError(final com.google.gwt.http.client.Request request,
