@@ -20,15 +20,6 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Text;
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
-import fr.mncc.gwttoolbox.primitives.shared.Entity;
-
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
@@ -37,6 +28,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Text;
+import com.google.java.contract.Ensures;
+import com.google.java.contract.Requires;
+
+import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.primitives.shared.Entity;
 
 @SuppressWarnings("serial")
 public class DataStore2 {
@@ -119,6 +120,10 @@ public class DataStore2 {
 
     // Fill the AppEngine entity with the proper values, taking care of a few AppEngine limitations
     for (String propertyName : toolboxEntity.keySet()) {
+
+      if (propertyName.startsWith("__") || propertyName.endsWith("__")) {
+        continue;
+      }
 
       Object propertyValue = toolboxEntity.getAsObject(propertyName);
       if (propertyValue == null)
