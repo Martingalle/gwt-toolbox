@@ -1,21 +1,21 @@
 /**
  * Copyright (c) 2012 MNCC
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge, publish, distribute,
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
  * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ * 
  * @author http://www.mncc.fr
  */
 package fr.mncc.gwttoolbox.primitives.shared;
@@ -202,7 +202,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return object instanceof Integer ? (Integer) object : object instanceof Long ? ((Long) object)
         .intValue() : object instanceof Double ? ((Double) object).intValue()
         : object instanceof Float ? ((Float) object).intValue() : object instanceof String
-        ? StringUtils.parseInt((String) object) : DefaultValues.intDefaultValue();
+            ? StringUtils.parseInt((String) object) : DefaultValues.intDefaultValue();
   }
 
   @Requires("propertyName != null")
@@ -211,7 +211,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return object instanceof Long ? (Long) object : object instanceof Integer ? ((Integer) object)
         .longValue() : object instanceof Double ? ((Double) object).longValue()
         : object instanceof Float ? ((Float) object).longValue() : object instanceof String
-        ? StringUtils.parseLong((String) object) : DefaultValues.longDefaultValue();
+            ? StringUtils.parseLong((String) object) : DefaultValues.longDefaultValue();
   }
 
   @Requires("propertyName != null")
@@ -220,7 +220,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return object instanceof Double ? (Double) object : object instanceof Float ? ((Float) object)
         .doubleValue() : object instanceof Long ? ((Long) object).doubleValue()
         : object instanceof Integer ? ((Integer) object).doubleValue() : object instanceof String
-        ? StringUtils.parseDouble((String) object) : DefaultValues.doubleDefaultValue();
+            ? StringUtils.parseDouble((String) object) : DefaultValues.doubleDefaultValue();
   }
 
   @Requires("propertyName != null")
@@ -229,7 +229,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return object instanceof Float ? (Float) object : object instanceof Double ? ((Double) object)
         .floatValue() : object instanceof Long ? ((Long) object).floatValue()
         : object instanceof Integer ? ((Integer) object).floatValue() : object instanceof String
-        ? StringUtils.parseFloat((String) object) : DefaultValues.floatDefaultValue();
+            ? StringUtils.parseFloat((String) object) : DefaultValues.floatDefaultValue();
   }
 
   @Requires("propertyName != null")
@@ -244,7 +244,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     Object object = getAsObject(propertyName);
     return object instanceof Timestamp ? new Date(((Timestamp) object).getTime())
         : object instanceof Time ? new Date(((Time) object).getTime()) : object instanceof Date
-        ? (Date) object : DefaultValues.dateDefaultValue();
+            ? (Date) object : DefaultValues.dateDefaultValue();
 
   }
 
@@ -253,7 +253,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     Object object = getAsObject(propertyName);
     return object instanceof Timestamp ? new Time(((Timestamp) object).getTime())
         : object instanceof Time ? (Time) object : object instanceof Date ? new Time(
-        ((Date) object).getTime()) : DefaultValues.timeDefaultValue();
+            ((Date) object).getTime()) : DefaultValues.timeDefaultValue();
   }
 
   @Requires("propertyName != null")
@@ -261,7 +261,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     Object object = getAsObject(propertyName);
     return object instanceof Timestamp ? (Timestamp) object : object instanceof Time
         ? new Timestamp(((Time) object).getTime()) : object instanceof Date ? new Timestamp(
-        ((Date) object).getTime()) : DefaultValues.timestampDefaultValue();
+            ((Date) object).getTime()) : DefaultValues.timestampDefaultValue();
   }
 
   @Ensures("result != null")
@@ -312,8 +312,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("id_", getId()).add("kind_", getKind()).add(
-        "properties_", properties_).toString();
+    return Objects.toStringHelper(this).add("properties_", properties_).toString();
   }
 
   @Override
