@@ -32,7 +32,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
 
-@Invariant({"id_ != null && id_ >= 0", "kind_ != null", "properties_ != null"})
+@Invariant({"properties_ != null"})
 public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId,
     HasTimestamp {
 
