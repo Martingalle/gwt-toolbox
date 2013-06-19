@@ -20,18 +20,21 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
+import java.io.Serializable;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.google.java.contract.Ensures;
 import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
-
-import java.io.Serializable;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.*;
 
 @Invariant({"properties_ != null"})
 public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId,
@@ -129,22 +132,36 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
    * @return the timestamp value from the list of properties of an entity or <b>null</b> if the list
    *         of properties doesn't contain any timestamp value
    */
+  @SuppressWarnings("deprecation")
   private static Date getTimestampValue(List<String> properties) {
 
     for (int i = 0; i < properties.size(); i++) {
-      String string = properties.get(i); // properties (KEY:TYPE:VALUE)
-      String[] key = string.split(":", 3);
+      String property = properties.get(i); // properties (KEY:TYPE:VALUE)
+      String[] key = property.split(":", 3);
       if (key[0].equals("__timestamp__")) {
-        DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss");
-        Date parsedDate = null;
-        // System.out.println(key[2].split("\\.")[0]);
-        parsedDate = dateFormat.parse(key[2].split("\\.")[0]);
-        Timestamp timestamp = new Timestamp(parsedDate.getTime());
-        return parsedDate;
+        String str = key[2];
+        int endIndex = str.indexOf("GMT");
+        str = str.substring(0, endIndex);
+        return new Date(str);
       }
     }
 
     return null;
+  }
+
+  /**
+   * Updates the timestamp value of the entity after every put or remove.<br>
+   * It's better to use this method, as setTimestamp would result in to an infinite loop if used in
+   * the put and remove methods
+   */
+  private void updateTimestamp() {
+    int size = properties_.size();
+    for (int i = 0; i < size; i++) {
+      String property = properties_.get(i);
+      if (property.startsWith("__timestamp__")) {
+        properties_.set(i, createProperty("__timestamp__", new Timestamp(new Date().getTime())));
+      }
+    }
   }
 
   /**
@@ -227,7 +244,6 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
     diffArrayList.clear();
     diffArrayList.addAll(arrayList);
-    System.out.println("diff =" + diffArrayList);
 
     return diffArrayList;
   }
@@ -255,7 +271,6 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     }
 
     if (size1 >= size2) {
-      System.out.println("size1 >= size2");
       for (int i = 0; i < size1; i++) {
         boolean isInserted = false;
         property1 = list1.get(i);
@@ -270,7 +285,6 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
           if (str1.equals(str2)) {
             if (!property1.equals(property2)) {
-              // System.out.println(property1 + "\t\t" + property2);
               if (timestamp1.after(timestamp2)) {
                 isInserted = diff.add(property1);
               } else {
@@ -279,14 +293,11 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
             }
           }
         }
-        // System.out.println(bool);
         if (!isInserted && timestamp1.after(timestamp2)) {
-          // System.out.println("entered here & " + property1);
           diff.add(property1);
         }
       }
     } else {
-      System.out.println("size1 < size2");
       for (int i = 0; i < size2; i++) {
         boolean isInserted = false;
         property2 = list2.get(i);
@@ -308,13 +319,11 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
           }
         }
         if (!isInserted && timestamp2.after(timestamp1)) {
-          // System.out.println("entered here & " + property1);
           diff.add(property2);
         }
       }
     }
 
-    System.out.println("pdiff =" + diff);
     return diff;
   }
 
@@ -335,7 +344,6 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     }
 
     List<String> properties = getSameTypeAndValueOfProperties(entity1, entity2);
-    // System.out.println("common properties =" + samePropertiesList);
 
     Entity entity = new Entity(entity1.getKind(), entity1.getId(), properties);
 
@@ -351,9 +359,9 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
    */
   private static Entity createEntityOf(List<String> priorityDiff, Entity e) {
 
-    if (e.getId() == 0) {
-      return new Entity(e.getKind());
-    }
+    // if (e.getId() == 0) {
+    // return new Entity(e.getKind());
+    // }
 
     List<String> properties = new ArrayList<String>();
 
@@ -427,6 +435,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   public void put(String propertyName, Object propertyValue) {
     remove(propertyName);
     properties_.add(createProperty(propertyName, propertyValue));
+    updateTimestamp();
   }
 
   @Requires("propertyName != null")
@@ -435,6 +444,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     String property = get(propertyName);
     if (property != null)
       properties_.remove(property);
+    updateTimestamp();
   }
 
   public Object getAsObject(String propertyName) {
