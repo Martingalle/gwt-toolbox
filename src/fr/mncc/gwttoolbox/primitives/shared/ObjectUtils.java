@@ -47,7 +47,6 @@ public class ObjectUtils {
    * Convert a string into an object
    * 
    * @param str string
-   * 
    * @return Object representation of str, null if str cannot be de-serialized
    */
   public static Object fromString(String str) {
@@ -314,14 +313,14 @@ public class ObjectUtils {
   @SuppressWarnings("deprecation")
   private static String dateToString(Date date) {
     if (date == null)
-      return dateToString(DefaultValues.timestampDefaultValue());
+      return dateToString(DefaultValues.dateDefaultValue());
     return date.toGMTString();
   }
 
   @SuppressWarnings("deprecation")
   private static Date dateFromString(String str) {
     if (str == null)
-      return DefaultValues.timestampDefaultValue();
-    return new Timestamp(Timestamp.parse(str));
+      return DefaultValues.dateDefaultValue();
+    return new Date(Date.parse(str));
   }
 }
