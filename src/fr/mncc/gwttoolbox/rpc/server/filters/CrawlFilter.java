@@ -46,7 +46,7 @@ public class CrawlFilter implements Filter {
 
     @Override
     protected WebClient initialValue() {
-      WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
+      WebClient webClient = new WebClient(BrowserVersion.FIREFOX_10);
       webClient.setAjaxController(new AjaxController() {
         @Override
         public boolean processSynchron(HtmlPage page, WebRequest request, boolean async) {
@@ -60,6 +60,7 @@ public class CrawlFilter implements Filter {
       webClient.getOptions().setPopupBlockerEnabled(false);
       webClient.getOptions().setRedirectEnabled(false);
       webClient.getOptions().setJavaScriptEnabled(true);
+      java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
       return webClient;
     }
   };
