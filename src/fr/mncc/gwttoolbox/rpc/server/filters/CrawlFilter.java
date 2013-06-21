@@ -42,7 +42,6 @@ public class CrawlFilter implements Filter {
 
   public final static String SCHEME = "http";
   public final static long PUMP_TIME = 500;
-  public final static long WAIT_FOR_JAVASCRIPT = 100;
   private final static Logger logger_ = Logger.getLogger(CrawlFilter.class.getCanonicalName());
 
   @Override
@@ -130,21 +129,6 @@ public class CrawlFilter implements Filter {
         // Important! Give the headless browser enough time to execute JavaScript
         // The exact time to wait may depend on your application.
         webClient.getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
-
-        int waitForBackgroundJavaScript =
-            webClient.waitForBackgroundJavaScript(WAIT_FOR_JAVASCRIPT);
-        int counter = 0;
-        while (waitForBackgroundJavaScript > 0 && counter++ < 5) {
-          synchronized (page) {
-            try {
-              page.wait(100L);
-            } catch (InterruptedException e) {
-              logger_.log(Level.SEVERE, e.getMessage());
-            }
-          }
-          waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR_JAVASCRIPT);
-          logger_.log(Level.INFO, "Waiting...");
-        }
 
         staticSnapshotHtml = page.asXml();
         webClient.closeAllWindows();
