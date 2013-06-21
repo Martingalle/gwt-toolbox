@@ -22,6 +22,7 @@ package fr.mncc.gwttoolbox.rpc.server.filters;
 
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.google.common.base.Stopwatch;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,28 +44,6 @@ public class CrawlFilter implements Filter {
   public final static long PUMP_TIME = 500;
   public final static long WAIT_FOR_JAVASCRIPT = 100;
   private final static Logger logger_ = Logger.getLogger(CrawlFilter.class.getCanonicalName());
-  private final static ThreadLocal<WebClient> webClient_ = new ThreadLocal<WebClient>() {
-
-    @Override
-    protected WebClient initialValue() {
-      WebClient webClient = new WebClient(BrowserVersion.FIREFOX_10);
-      webClient.setAjaxController(new AjaxController() {
-        @Override
-        public boolean processSynchron(HtmlPage page, WebRequest request, boolean async) {
-          return true;
-        }
-      });
-      webClient.setCssErrorHandler(new SilentCssErrorHandler());
-      webClient.getOptions().setThrowExceptionOnScriptError(false);
-      webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
-      webClient.getOptions().setCssEnabled(false);
-      webClient.getOptions().setPopupBlockerEnabled(false);
-      webClient.getOptions().setRedirectEnabled(false);
-      webClient.getOptions().setJavaScriptEnabled(true);
-      java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
-      return webClient;
-    }
-  };
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -96,9 +76,28 @@ public class CrawlFilter implements Filter {
       String staticSnapshotHtml = getPageFromCache(url.toString());
       if (staticSnapshotHtml == null || staticSnapshotHtml.isEmpty()) {
 
-        // Create webClient
-        webClient_.get().getCache().clear();
-        webClient_.get().setWebConnection(new UrlFetchWebConnection(webClient_.get()) {
+        WebClient webClient = new WebClient(BrowserVersion.FIREFOX_10);
+        webClient.setAjaxController(new AjaxController() {
+
+          @Override
+          public boolean processSynchron(HtmlPage page, WebRequest request, boolean async) {
+            return true;
+          }
+        });
+        webClient.setCssErrorHandler(new SilentCssErrorHandler());
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
+        webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+        webClient.getOptions().setCssEnabled(false);
+        webClient.getOptions().setPopupBlockerEnabled(true);
+        webClient.getOptions().setRedirectEnabled(false);
+        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.setJavaScriptTimeout(0);
+        java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF);
+
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.start();
+
+        webClient.setWebConnection(new UrlFetchWebConnection(webClient) {
           @Override
           public WebResponse getResponse(WebRequest request) throws IOException {
 
@@ -114,14 +113,26 @@ public class CrawlFilter implements Filter {
             return new StringWebResponse("", request.getUrl());
           }
         });
-        final HtmlPage page = webClient_.get().getPage(webRequest);
+
+        stopwatch.stop();
+        logger_.log(Level.INFO, "doFilter() : webClient_.get().setWebConnection() --> "
+            + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms");
+
+        stopwatch.reset();
+        stopwatch.start();
+
+        final HtmlPage page = webClient.getPage(webRequest);
+
+        stopwatch.stop();
+        logger_.log(Level.INFO, "doFilter() : webClient_.get().getPage() --> "
+            + stopwatch.elapsed(TimeUnit.MILLISECONDS) + "ms");
 
         // Important! Give the headless browser enough time to execute JavaScript
         // The exact time to wait may depend on your application.
-        webClient_.get().getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
+        webClient.getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
 
         int waitForBackgroundJavaScript =
-            webClient_.get().waitForBackgroundJavaScript(WAIT_FOR_JAVASCRIPT);
+            webClient.waitForBackgroundJavaScript(WAIT_FOR_JAVASCRIPT);
         int counter = 0;
         while (waitForBackgroundJavaScript > 0 && counter++ < 5) {
           synchronized (page) {
@@ -131,13 +142,12 @@ public class CrawlFilter implements Filter {
               logger_.log(Level.SEVERE, e.getMessage());
             }
           }
-          waitForBackgroundJavaScript =
-              webClient_.get().waitForBackgroundJavaScript(WAIT_FOR_JAVASCRIPT);
+          waitForBackgroundJavaScript = webClient.waitForBackgroundJavaScript(WAIT_FOR_JAVASCRIPT);
           logger_.log(Level.INFO, "Waiting...");
         }
 
         staticSnapshotHtml = page.asXml();
-        webClient_.get().closeAllWindows();
+        webClient.closeAllWindows();
 
         savePageToCache(url.toString(), staticSnapshotHtml);
       }
