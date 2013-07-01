@@ -20,6 +20,17 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
+import java.io.Serializable;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -27,14 +38,15 @@ import com.google.java.contract.Ensures;
 import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
 
-import java.io.Serializable;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.*;
-
 @Invariant({"properties_ != null"})
 public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId,
     HasTimestamp {
+
+  public static final int NO_FLAGS = 0;
+
+  public static final int ID = 1;
+  public static final int KIND = 2;
+  public static final int TIMESTAMP = 4;
 
   private List<String> properties_ = new ArrayList<String>(); // List of properties (KEY:TYPE:VALUE)
 
@@ -117,6 +129,56 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return true;
   }
 
+  private static Map<String, Object> mapOf(List<String> list) {
+    Map<String, Object> keys = new HashMap<String, Object>();
+
+    for (String property : list) {
+      keys.put(getKey(property), getValueAsObject(property));
+    }
+
+    return keys;
+  }
+
+  public static Map<String, Object> diff(Entity entity1, Entity entity2, int flags) {
+
+    Map<String, Object> diff = new HashMap<String, Object>();
+
+    Map<String, Object> map1 = mapOf(entity1.getProperties());
+    Map<String, Object> map2 = mapOf(entity2.getProperties());
+
+    Set<String> keys = map1.keySet();
+
+    for (String key : keys) {
+      if ((flags & ID) == ID) {
+        if (key.equals("__id__")) {
+          continue;
+        }
+      }
+
+      if ((flags & KIND) == KIND) {
+        if (key.equals("__kind__")) {
+          continue;
+        }
+      }
+
+      if ((flags & TIMESTAMP) == TIMESTAMP) {
+        if (key.equals("__timestamp__")) {
+          continue;
+        }
+      }
+
+      if (!map2.containsKey(key)) {
+        diff.put(key, map1.get(key));
+      } else {
+        if (!map1.get(key).equals(map2.get(key))) {
+          diff.put(key, map1.get(key));
+        }
+      }
+    }
+
+    return diff;
+  }
+
   @Ensures("result >= 0")
   @Override
   public long getId() {
@@ -136,6 +198,8 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
   public void setTimestamp() {
     put("__timestamp__", new Date());
+
+    // put("__timestamp__", new Timestamp(new Date().getTime()));
   }
 
   @Ensures("result != null")
@@ -166,6 +230,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   public void put(String propertyName, Object propertyValue) {
     remove(propertyName);
     properties_.add(createProperty(propertyName, propertyValue));
+    // updateTimestamp();
   }
 
   @Requires("propertyName != null")
