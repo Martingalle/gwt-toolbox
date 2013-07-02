@@ -129,7 +129,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return true;
   }
 
-  private static Map<String, Object> mapOf(List<String> list) {
+  private Map<String, Object> mapOf(List<String> list) {
     Map<String, Object> keys = new HashMap<String, Object>();
 
     for (String property : list) {
@@ -139,12 +139,12 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return keys;
   }
 
-  public static Map<String, Object> diff(Entity entity1, Entity entity2, int flags) {
+  public Map<String, Object> diff(Entity entity, int flags) {
 
     Map<String, Object> diff = new HashMap<String, Object>();
 
-    Map<String, Object> map1 = mapOf(entity1.getProperties());
-    Map<String, Object> map2 = mapOf(entity2.getProperties());
+    Map<String, Object> map1 = mapOf(getProperties());
+    Map<String, Object> map2 = mapOf(entity.getProperties());
 
     Set<String> keys = map1.keySet();
 
@@ -169,14 +169,31 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
       if (!map2.containsKey(key)) {
         diff.put(key, map1.get(key));
-      } else {
-        if (!map1.get(key).equals(map2.get(key))) {
-          diff.put(key, map1.get(key));
-        }
+      } else if (!map1.get(key).equals(map2.get(key))) {
+        diff.put(key, map1.get(key));
       }
     }
 
     return diff;
+  }
+
+  public Map<String, Object> gcd(Entity entity) {
+    Map<String, Object> gcdMap = new HashMap<String, Object>();
+
+    Map<String, Object> map1 = mapOf(getProperties());
+    Map<String, Object> map2 = mapOf(entity.getProperties());
+
+    Set<String> keys = map1.keySet();
+
+    for (String key : keys) {
+      if (map2.containsKey(key)) {
+        if (map1.get(key).equals(map2.get(key))) {
+          gcdMap.put(key, map1.get(key));
+        }
+      }
+    }
+
+    return gcdMap;
   }
 
   @Ensures("result >= 0")
@@ -198,8 +215,6 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
   public void setTimestamp() {
     put("__timestamp__", new Date());
-
-    // put("__timestamp__", new Timestamp(new Date().getTime()));
   }
 
   @Ensures("result != null")
@@ -230,7 +245,6 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   public void put(String propertyName, Object propertyValue) {
     remove(propertyName);
     properties_.add(createProperty(propertyName, propertyValue));
-    // updateTimestamp();
   }
 
   @Requires("propertyName != null")
