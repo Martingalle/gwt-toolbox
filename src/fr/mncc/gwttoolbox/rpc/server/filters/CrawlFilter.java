@@ -130,7 +130,7 @@ public class CrawlFilter implements Filter {
         // The exact time to wait may depend on your application.
         webClient.getJavaScriptEngine().pumpEventLoop(PUMP_TIME);
 
-        staticSnapshotHtml = page.asXml();
+        staticSnapshotHtml = getPage(page, url.toString());
         webClient.closeAllWindows();
 
         savePageToCache(url.toString(), staticSnapshotHtml);
@@ -192,6 +192,10 @@ public class CrawlFilter implements Filter {
    */
   protected boolean ignoreFile(String file) {
     return false;
+  }
+
+  protected String getPage(HtmlPage page, String url) {
+    return page.asXml();
   }
 
   protected void savePageToCache(String url, String page) {
