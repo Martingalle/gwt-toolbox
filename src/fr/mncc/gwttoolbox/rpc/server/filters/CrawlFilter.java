@@ -75,7 +75,7 @@ public class CrawlFilter implements Filter {
       String staticSnapshotHtml = getPageFromCache(url.toString());
       if (staticSnapshotHtml == null || staticSnapshotHtml.isEmpty()) {
 
-        WebClient webClient = new WebClient(BrowserVersion.FIREFOX_10);
+        WebClient webClient = new WebClient(BrowserVersion.FIREFOX_3_6);
         webClient.setAjaxController(new AjaxController() {
 
           @Override
