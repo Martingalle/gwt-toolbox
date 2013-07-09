@@ -26,7 +26,10 @@ import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import fr.mncc.gwttoolbox.appengine.shared.*;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class QueryConverter2 {
@@ -92,6 +95,12 @@ public class QueryConverter2 {
               .getOperator()), KeyFactory.createKey(squery.getKind(), (Long) sfilter
               .getPropertyValue()));
         }
+        if (sfilter.getPropertyValue() instanceof Timestamp)
+          return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+              .getOperator()), new Date(((Timestamp) sfilter.getPropertyValue()).getTime()));
+        if (sfilter.getPropertyValue() instanceof Time)
+          return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+              .getOperator()), new Date(((Time) sfilter.getPropertyValue()).getTime()));
         return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
             .getOperator()), sfilter.getPropertyValue());
       }
