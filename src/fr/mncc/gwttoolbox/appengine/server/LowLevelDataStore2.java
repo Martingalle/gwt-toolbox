@@ -20,15 +20,24 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import com.google.appengine.api.datastore.*;
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Projection;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.QueryResultList;
+import com.google.java.contract.Ensures;
+import com.google.java.contract.Requires;
 
 public class LowLevelDataStore2 {
 
