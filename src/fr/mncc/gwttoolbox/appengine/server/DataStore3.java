@@ -27,7 +27,7 @@ import com.google.java.contract.Requires;
 
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
 
-public class DataStore3 {
+public class DataStore3 implements DatabaseDriver {
 
   public static class LowLevelDataStore2 {
 
@@ -322,12 +322,14 @@ public class DataStore3 {
     return toolboxEntities;
   }
 
+  @Override
   @Requires("entity != null")
   @Ensures("result != null")
   public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
     return putSync(entity, null, 0);
   }
 
+  @Override
   @Requires("entity != null")
   @Ensures("result != null")
   public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
@@ -336,12 +338,14 @@ public class DataStore3 {
         .getId();
   }
 
+  @Override
   @Requires("entities != null")
   @Ensures("result != null")
   public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
     return putSync(entities, null, 0);
   }
 
+  @Override
   @Requires("entities != null")
   @Ensures("result != null")
   public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
@@ -353,12 +357,14 @@ public class DataStore3 {
     return idsTmp;
   }
 
+  @Override
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
   public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id) {
     return getSync(kind, id, null, 0);
   }
 
+  @Override
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
   public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id,
@@ -368,6 +374,7 @@ public class DataStore3 {
     return convertToToolboxEntity(LowLevelDataStore2.get(key));
   }
 
+  @Override
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
   public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
@@ -375,6 +382,7 @@ public class DataStore3 {
     return getSync(kind, ids, null, 0);
   }
 
+  @Override
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
   public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
@@ -392,11 +400,13 @@ public class DataStore3 {
     return toolboxEntitiesTmp;
   }
 
+  @Override
   @Requires({"kind != null", "id > 0"})
   public boolean deleteSync(String kind, long id) {
     return deleteSync(kind, id, null, 0);
   }
 
+  @Override
   @Requires({"kind != null", "id > 0"})
   public boolean deleteSync(String kind, long id, String ancestorKind, long ancestorId) {
     if (ancestorKind == null)
@@ -406,11 +416,13 @@ public class DataStore3 {
     return true;
   }
 
+  @Override
   @Requires({"kind != null", "ids != null"})
   public boolean deleteSync(String kind, Iterable<Long> ids) {
     return deleteSync(kind, ids, null, 0);
   }
 
+  @Override
   @Requires({"kind != null", "ids != null"})
   public boolean deleteSync(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
     if (ancestorKind.isEmpty())
@@ -420,6 +432,7 @@ public class DataStore3 {
     return true;
   }
 
+  @Override
   @Requires("toolboxQuery != null")
   @Ensures("result >= 0")
   public long listSize(SQuery2 toolboxQuery) {
@@ -428,6 +441,7 @@ public class DataStore3 {
     return LowLevelDataStore2.listSize(appEngineQuery);
   }
 
+  @Override
   @Requires("toolboxQuery != null")
   @Ensures("result != null")
   public Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list(SQuery2 toolboxQuery) {
@@ -436,6 +450,7 @@ public class DataStore3 {
     return convertToToolboxEntities(LowLevelDataStore2.list(appEngineQuery));
   }
 
+  @Override
   @Requires({"toolboxQuery != null", "startIndex >= 0", "amount > 0"})
   @Ensures("result != null")
   public Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list(SQuery2 toolboxQuery,
@@ -445,6 +460,7 @@ public class DataStore3 {
     return convertToToolboxEntities(LowLevelDataStore2.list(appEngineQuery, startIndex, amount));
   }
 
+  @Override
   @Requires("toolboxQuery != null")
   @Ensures("result != null")
   public Iterable<Long> listIds(SQuery2 toolboxQuery) {
@@ -456,6 +472,7 @@ public class DataStore3 {
     return ids;
   }
 
+  @Override
   @Requires({"toolboxQuery != null", "startIndex >= 0", "amount > 0"})
   @Ensures("result != null")
   public Iterable<Long> listIds(SQuery2 toolboxQuery, int startIndex, int amount) {

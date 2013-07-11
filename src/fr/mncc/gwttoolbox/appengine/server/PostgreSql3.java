@@ -19,7 +19,7 @@ import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
 import fr.mncc.gwttoolbox.primitives.shared.Entity;
 import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
 
-public class PostgreSql3 {
+public class PostgreSql3 implements DatabaseDriver {
 
   /**
    * This class makes an instance of a JDBC connection to a PostgreSQL database
@@ -228,10 +228,12 @@ public class PostgreSql3 {
     return null;
   }
 
+  @Override
   public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
     return putSync(entity, null, 0);
   }
 
+  @Override
   public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
       long ancestorId) {
     try {
@@ -269,10 +271,12 @@ public class PostgreSql3 {
     return 0L;
   }
 
+  @Override
   public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
     return putSync(entities, null, 0);
   }
 
+  @Override
   public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
     List<Long> keys = new ArrayList<Long>();
@@ -285,10 +289,12 @@ public class PostgreSql3 {
     return keys;
   }
 
+  @Override
   public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id) {
     return getSync(kind, id, null, 0);
   }
 
+  @Override
   public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id,
       String ancestorKind, long ancestorId) {
 
@@ -321,11 +327,13 @@ public class PostgreSql3 {
     return null;
   }
 
+  @Override
   public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
       Iterable<Long> ids) {
     return getSync(kind, ids, null, 0);
   }
 
+  @Override
   public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
     Map<Long, Entity> map = new HashMap<Long, Entity>();
@@ -338,18 +346,22 @@ public class PostgreSql3 {
     return map;
   }
 
+  @Override
   public boolean deleteSync(String kind, long id) {
     return deleteSync(kind, id, null, 0);
   }
 
+  @Override
   public boolean deleteSync(String kind, long id, String ancestorKind, long ancestorId) {
     return deletePostgreSQL(kind, id, ancestorKind, ancestorId);
   }
 
+  @Override
   public boolean deleteSync(String kind, Iterable<Long> ids) {
     return deleteSync(kind, ids, null, 0);
   }
 
+  @Override
   public boolean deleteSync(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
     boolean status = false;
     try {
@@ -363,6 +375,7 @@ public class PostgreSql3 {
     return status;
   }
 
+  @Override
   public long listSize(SQuery2 toolboxQuery) {
     int size = 0;
 
@@ -385,20 +398,24 @@ public class PostgreSql3 {
     return size;
   }
 
+  @Override
   public Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list(SQuery2 toolboxQuery) {
     return list2(toolboxQuery, 0, 0);
   }
 
+  @Override
   public Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list(SQuery2 toolboxQuery,
       int startIndex, int amount) {
     return list2(toolboxQuery, startIndex, amount);
   }
 
+  @Override
   public Iterable<Long> listIds(SQuery2 toolboxQuery) {
     return getIds(toolboxQuery, 0, 0);
 
   }
 
+  @Override
   public Iterable<Long> listIds(SQuery2 toolboxQuery, int startIndex, int amount) {
     return getIds(toolboxQuery, startIndex, amount);
   }
