@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.base.Objects;
@@ -42,11 +43,26 @@ import com.google.java.contract.Requires;
 public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId,
     HasTimestamp {
 
-  public static final int NO_FLAGS = 0;
+  /** Indicates that the merge was not successful */
+  public static final int MERGE_ERROR = 0;
+  /** Indicates that the merge was successful */
+  public static final int MERGE_SUCCESS = 1;
 
-  public static final int ID = 1;
-  public static final int KIND = 2;
-  public static final int TIMESTAMP = 4;
+  /**
+   * Indicates that the __id__ of an entity should be overlooked when computing the diff between two
+   * entities
+   */
+  public static final int TAKE_ID_INTO_ACCOUNT = 2;
+  /**
+   * Indicates that the __kind__ of an entity should be overlooked when computing the diff between
+   * two entities
+   */
+  public static final int TAKE_KIND_INTO_ACCOUNT = 4;
+  /**
+   * Indicates that the __timestamp__ of an entity should be overlooked when computing the diff
+   * between two entities
+   */
+  public static final int TAKE_TIMESTAMP_INTO_ACCOUNT = 8;
 
   private List<String> properties_ = new ArrayList<String>(); // List of properties (KEY:TYPE:VALUE)
 
@@ -64,6 +80,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   @Ensures("getKind().equals(kind)")
   public Entity(String kind) {
     setKind(kind);
+    setTimestamp();
   }
 
   @Requires({"kind != null", "id >= 0"})
@@ -71,6 +88,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   public Entity(String kind, long id) {
     setKind(kind);
     setId(id);
+    setTimestamp();
   }
 
   @Requires({"kind != null", "id >= 0", "properties != null"})
@@ -78,6 +96,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
   public Entity(String kind, long id, List<String> properties) {
     setId(id);
     setKind(kind);
+    setTimestamp();
     setProperties(new ArrayList<String>(properties));
   }
 
@@ -129,59 +148,78 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return true;
   }
 
-  private Map<String, Object> mapOf(List<String> list) {
-    Map<String, Object> keys = new HashMap<String, Object>();
+  /**
+   * Converts a List into a Map
+   * 
+   * @param list - a List
+   * @return the map converted from a list
+   */
+  private Map<String, String> mapOf(List<String> list) {
+    Map<String, String> map = new HashMap<String, String>();
 
-    for (String property : list) {
-      keys.put(getKey(property), getValueAsObject(property));
-    }
+    for (String property : list)
+      map.put(getKey(property), getValueAsString(property));
 
-    return keys;
+    return map;
   }
 
-  public Map<String, Object> diff(Entity entity, int flags) {
+  /**
+   * Finds the difference between the properties of the current entity and another entity.
+   * 
+   * 
+   * @param entity - an entity
+   * @param flags - the flag(s)
+   * @return a <b>{@code Map<String, Object>}</b> that contains the difference between the
+   *         properties of the current entity and <b>entity</b>
+   */
+  public Map<String, String> diff(Entity entity, int flags) {
+    Map<String, String> diff = new HashMap<String, String>();
 
-    Map<String, Object> diff = new HashMap<String, Object>();
-
-    Map<String, Object> map1 = mapOf(getProperties());
-    Map<String, Object> map2 = mapOf(entity.getProperties());
+    Map<String, String> map1 = mapOf(getProperties());
+    Map<String, String> map2 = mapOf(entity.getProperties());
 
     Set<String> keys = map1.keySet();
 
     for (String key : keys) {
-      if ((flags & ID) == ID) {
+      if ((flags & TAKE_ID_INTO_ACCOUNT) == TAKE_ID_INTO_ACCOUNT) {
         if (key.equals("__id__")) {
           continue;
         }
       }
 
-      if ((flags & KIND) == KIND) {
+      if ((flags & TAKE_KIND_INTO_ACCOUNT) == TAKE_KIND_INTO_ACCOUNT) {
         if (key.equals("__kind__")) {
           continue;
         }
       }
 
-      if ((flags & TIMESTAMP) == TIMESTAMP) {
-        if (key.equals("__timestamp__")) {
+      if ((flags & TAKE_TIMESTAMP_INTO_ACCOUNT) == TAKE_TIMESTAMP_INTO_ACCOUNT) {
+        if (key.equals("timestamp")) {
           continue;
         }
       }
 
-      if (!map2.containsKey(key)) {
+      if (!map2.containsKey(key))
         diff.put(key, map1.get(key));
-      } else if (!map1.get(key).equals(map2.get(key))) {
+      else if (!map1.get(key).equals(map2.get(key)))
         diff.put(key, map1.get(key));
-      }
     }
 
     return diff;
   }
 
-  public Map<String, Object> gcd(Entity entity) {
-    Map<String, Object> gcdMap = new HashMap<String, Object>();
+  /**
+   * Finds the common properties between the current entity's properties and another entity's
+   * properties.
+   * 
+   * @param entity - an entity
+   * @return a map containing the common
+   */
+  public Map<String, String> gcd(Entity entity) {
+    Map<String, String> gcdMap = new HashMap<String, String>();
 
-    Map<String, Object> map1 = mapOf(getProperties());
-    Map<String, Object> map2 = mapOf(entity.getProperties());
+    Map<String, String> map1 = mapOf(getProperties());
+    Map<String, String> map2 = mapOf(entity.getProperties());
 
     Set<String> keys = map1.keySet();
 
@@ -194,6 +232,50 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     }
 
     return gcdMap;
+  }
+
+  public KeyValuePair<Integer, Entity> merge(Entity entity) {
+    // get the timestamps
+    Timestamp timestamp1 = getTimestamp();
+    Timestamp timestamp2 = entity.getTimestamp();
+
+    // get the common properties between the two entities
+    Map<String, String> commonProperties = gcd(entity);
+
+    // compute the diffs
+    Map<String, String> mapDiff1 =
+        diff(entity, TAKE_ID_INTO_ACCOUNT | TAKE_KIND_INTO_ACCOUNT | TAKE_TIMESTAMP_INTO_ACCOUNT);
+    Map<String, String> mapDiff2 =
+        entity.diff(this, TAKE_ID_INTO_ACCOUNT | TAKE_KIND_INTO_ACCOUNT
+            | TAKE_TIMESTAMP_INTO_ACCOUNT);
+
+    Map<String, String> map = new HashMap<String, String>();
+    Entity updatedEntity = null;
+
+    if (timestamp1.equals(timestamp2)) {
+      return KeyValuePair.of(MERGE_ERROR, this);
+    }
+    if (timestamp1.after(timestamp2)) {
+      updatedEntity = new Entity(getKind());
+      // set timestamp
+      updatedEntity.put("timestamp", timestamp1);
+      map.putAll(mapDiff1);
+    } else if (timestamp2.after(timestamp1)) {
+      updatedEntity = new Entity(entity.getKind());
+      // set timestamp
+      updatedEntity.put("timestamp", timestamp2);
+      map.putAll(mapDiff2);
+    }
+
+    // add the common properties
+    map.putAll(commonProperties);
+
+    // add the values and keys in the map as property of the updatedEntity.
+    for (Entry<String, String> entry : map.entrySet()) {
+      updatedEntity.put(entry.getKey(), ObjectUtils.fromString(entry.getValue()));
+    }
+
+    return KeyValuePair.of(MERGE_SUCCESS, updatedEntity);
   }
 
   @Ensures("result >= 0")
@@ -210,11 +292,12 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
   @Override
   public Timestamp getTimestamp() {
-    return getAsTimestamp("__timestamp__");
+    return getAsTimestamp("timestamp");
   }
 
   public void setTimestamp() {
-    put("__timestamp__", new Date());
+    remove("timestamp");
+    properties_.add(createProperty("timestamp", new Timestamp(new Date().getTime())));
   }
 
   @Ensures("result != null")
@@ -243,16 +326,22 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
       "properties_.containsKey(propertyName)",
       "ObjectUtils.toString(getAsObject(propertyName)).equals(ObjectUtils.toString(propertyValue))"})
   public void put(String propertyName, Object propertyValue) {
-    remove(propertyName);
-    properties_.add(createProperty(propertyName, propertyValue));
+    // don't put if propertyName matches any String that startswith/endwith underscores (__)
+    if (!propertyName.matches("^(__){1,}[a-zA-z]*(__)?|(__)?[a-zA-Z]*(__){1,}$")
+        || propertyName.equals("__kind__") || propertyName.equals("__id__")) {
+      remove(propertyName);
+      properties_.add(createProperty(propertyName, propertyValue));
+      setTimestamp();
+    }
   }
 
   @Requires("propertyName != null")
   @Ensures({"!properties_.containsKey(propertyName)", "getAsObject(propertyName) == null"})
   public void remove(String propertyName) {
     String property = get(propertyName);
-    if (property != null)
+    if (property != null) {
       properties_.remove(property);
+    }
   }
 
   public Object getAsObject(String propertyName) {

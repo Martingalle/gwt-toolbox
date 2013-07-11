@@ -22,7 +22,11 @@ package fr.mncc.gwttoolbox.appengine.server;
 
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -126,6 +130,7 @@ public class DataStore2 {
       }
 
       Object propertyValue = toolboxEntity.getAsObject(propertyName);
+
       if (propertyValue == null)
         continue;
 
@@ -140,6 +145,7 @@ public class DataStore2 {
 
       appEngineEntity.setProperty(propertyName, propertyValue);
     }
+
     return appEngineEntity;
   }
 
@@ -147,7 +153,6 @@ public class DataStore2 {
   @Ensures("result != null")
   private static fr.mncc.gwttoolbox.primitives.shared.Entity convertToToolboxEntity(
       com.google.appengine.api.datastore.Entity appEngineEntity) {
-
     // Create a new Toolbox entity
     fr.mncc.gwttoolbox.primitives.shared.Entity toolboxEntity =
         new fr.mncc.gwttoolbox.primitives.shared.Entity(appEngineEntity.getKind(), appEngineEntity
