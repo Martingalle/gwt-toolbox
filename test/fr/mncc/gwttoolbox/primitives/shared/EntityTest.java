@@ -26,10 +26,12 @@ import fr.mncc.gwttoolbox.primitives.shared.Entity;
 import fr.mncc.gwttoolbox.primitives.shared.KeyValuePair;
 import fr.mncc.synchronization.LocalDatabase2;
 
+import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 
 import static junit.framework.Assert.*;
 import static org.junit.Assert.assertNull;
@@ -544,5 +546,32 @@ public class EntityTest {
     }
   }
 
+  private static Entity createNewLocalEntity() {
+    String[] array =
+        {
+            "giaccherini", "nedved", "shevchenko", "seedorf", "carzola", "podolski", "walcott",
+            "rebrov", "robben", "silva", "luiz"};
+
+    Random r = new Random();
+    long id = (long) Math.floor(Math.random() * 900L) + 100L;
+
+    Entity entity = new Entity("person", id);
+
+    String name = array[r.nextInt(array.length)];
+    double height = 188D;
+    float salary = r.nextFloat() * (10000.0F - 5000.0F) + 5000.0F;
+    BigDecimal bd = new BigDecimal(Float.toString(salary));
+    BigDecimal rounded = bd.setScale(3, BigDecimal.ROUND_HALF_UP);
+    salary = rounded.floatValue();
+
+    entity.put("name", name);
+    entity.put("age", 20L);
+    entity.put("height", height);
+    entity.put("salary", salary);
+    entity.put("status", r.nextBoolean());
+    entity.put("__timestamp__", "asdfasdFASDF");
+
+    return entity;
+  }
 
 }
