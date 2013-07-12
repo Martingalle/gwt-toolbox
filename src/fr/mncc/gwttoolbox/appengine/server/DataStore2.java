@@ -20,21 +20,14 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
-import com.google.appengine.api.datastore.Key;
 import com.google.java.contract.Ensures;
 import com.google.java.contract.Requires;
 
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
-import fr.mncc.gwttoolbox.primitives.shared.Entity;
 
 public class DataStore2 {
 
@@ -56,44 +49,14 @@ public class DataStore2 {
   @Requires("entity != null")
   @Ensures("result != null")
   public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    return put(entity, null, 0);
+    return dsThreadLocal.get().put(entity);
   }
 
   @Requires("entity != null")
   @Ensures("result != null")
   public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity,
       String ancestorKind, long ancestorId) {
-    final Future<Key> key =
-        LowLevelDataStore2Async.put(dsThreadLocal.get().convertToAppEngineEntity(entity,
-            ancestorKind, ancestorId));
-    final Future<Long> id = new Future<Long>() {
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return key.cancel(mayInterruptIfRunning);
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return key.isCancelled();
-      }
-
-      @Override
-      public boolean isDone() {
-        return key.isDone();
-      }
-
-      @Override
-      public Long get() throws InterruptedException, ExecutionException {
-        return key.get().getId();
-      }
-
-      @Override
-      public Long get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
-          TimeoutException {
-        return key.get(timeout, unit).getId();
-      }
-    };
-    return id;
+    return dsThreadLocal.get().put(entity, ancestorKind, ancestorId);
   }
 
   @Requires("entities != null")
@@ -113,7 +76,7 @@ public class DataStore2 {
   @Ensures("result != null")
   public static Future<List<Long>> put(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return put(entities, null, 0);
+    return dsThreadLocal.get().put(entities);
   }
 
   @Requires("entities != null")
@@ -121,45 +84,7 @@ public class DataStore2 {
   public static Future<List<Long>> put(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities, String ancestorKind,
       long ancestorId) {
-    final Future<List<Key>> keys =
-        LowLevelDataStore2Async.put(dsThreadLocal.get().convertToAppEngineEntities(entities,
-            ancestorKind, ancestorId));
-    final Future<List<Long>> ids = new Future<List<Long>>() {
-      @Override
-      public boolean cancel(boolean mayInterruptIfRunning) {
-        return keys.cancel(mayInterruptIfRunning);
-      }
-
-      @Override
-      public boolean isCancelled() {
-        return keys.isCancelled();
-      }
-
-      @Override
-      public boolean isDone() {
-        return keys.isDone();
-      }
-
-      @Override
-      public List<Long> get() throws InterruptedException, ExecutionException {
-        List<Long> idsTmp = new ArrayList<Long>();
-        List<Key> keysTmp = keys.get();
-        for (Key key : keysTmp)
-          idsTmp.add(key.getId());
-        return idsTmp;
-      }
-
-      @Override
-      public List<Long> get(long timeout, TimeUnit unit) throws InterruptedException,
-          ExecutionException, TimeoutException {
-        List<Long> idsTmp = new ArrayList<Long>();
-        List<Key> keysTmp = keys.get(timeout, unit);
-        for (Key key : keysTmp)
-          idsTmp.add(key.getId());
-        return idsTmp;
-      }
-    };
-    return ids;
+    return dsThreadLocal.get().put(entities, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "id > 0"})
@@ -178,48 +103,14 @@ public class DataStore2 {
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
   public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id) {
-    return get(kind, id, null, 0);
+    return dsThreadLocal.get().get(kind, id);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
   public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id,
       String ancestorKind, long ancestorId) {
-    final Key key =
-        ancestorKind == null ? dsThreadLocal.get().createKey(kind, id) : dsThreadLocal.get()
-            .createKey(kind, id, ancestorKind, ancestorId);
-    final Future<com.google.appengine.api.datastore.Entity> appEngineEntity =
-        LowLevelDataStore2Async.get(key);
-    final Future<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntity =
-        new Future<fr.mncc.gwttoolbox.primitives.shared.Entity>() {
-          @Override
-          public boolean cancel(boolean mayInterruptIfRunning) {
-            return appEngineEntity.cancel(mayInterruptIfRunning);
-          }
-
-          @Override
-          public boolean isCancelled() {
-            return appEngineEntity.isCancelled();
-          }
-
-          @Override
-          public boolean isDone() {
-            return appEngineEntity.isDone();
-          }
-
-          @Override
-          public fr.mncc.gwttoolbox.primitives.shared.Entity get() throws InterruptedException,
-              ExecutionException {
-            return dsThreadLocal.get().convertToToolboxEntity(appEngineEntity.get());
-          }
-
-          @Override
-          public fr.mncc.gwttoolbox.primitives.shared.Entity get(long timeout, TimeUnit unit)
-              throws InterruptedException, ExecutionException, TimeoutException {
-            return dsThreadLocal.get().convertToToolboxEntity(appEngineEntity.get(timeout, unit));
-          }
-        };
-    return toolboxEntity;
+    return dsThreadLocal.get().get(kind, id, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "ids != null"})
@@ -240,61 +131,14 @@ public class DataStore2 {
   @Ensures("result != null")
   public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
       Iterable<Long> ids) {
-    return get(kind, ids, null, 0);
+    return dsThreadLocal.get().get(kind, ids);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
   public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
-    final Iterable<Key> keys =
-        ancestorKind == null ? dsThreadLocal.get().createKeys(kind, ids) : dsThreadLocal.get()
-            .createKeys(kind, ids, ancestorKind, ancestorId);
-    final Future<Map<Key, com.google.appengine.api.datastore.Entity>> appEngineEntities =
-        LowLevelDataStore2Async.get(keys);
-    final Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> toolboxEntities =
-        new Future<Map<Long, Entity>>() {
-          @Override
-          public boolean cancel(boolean mayInterruptIfRunning) {
-            return appEngineEntities.cancel(mayInterruptIfRunning);
-          }
-
-          @Override
-          public boolean isCancelled() {
-            return appEngineEntities.isCancelled();
-          }
-
-          @Override
-          public boolean isDone() {
-            return appEngineEntities.isDone();
-          }
-
-          @Override
-          public Map<Long, Entity> get() throws InterruptedException, ExecutionException {
-            Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntitiesTmp =
-                new HashMap<Long, Entity>();
-            Map<Key, com.google.appengine.api.datastore.Entity> appEngineEntitiesTmp =
-                appEngineEntities.get();
-            for (Key key : appEngineEntitiesTmp.keySet())
-              toolboxEntitiesTmp.put(key.getId(), dsThreadLocal.get().convertToToolboxEntity(
-                  appEngineEntitiesTmp.get(key)));
-            return toolboxEntitiesTmp;
-          }
-
-          @Override
-          public Map<Long, Entity> get(long timeout, TimeUnit unit) throws InterruptedException,
-              ExecutionException, TimeoutException {
-            Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntitiesTmp =
-                new HashMap<Long, Entity>();
-            Map<Key, com.google.appengine.api.datastore.Entity> appEngineEntitiesTmp =
-                appEngineEntities.get(timeout, unit);
-            for (Key key : appEngineEntitiesTmp.keySet())
-              toolboxEntitiesTmp.put(key.getId(), dsThreadLocal.get().convertToToolboxEntity(
-                  appEngineEntitiesTmp.get(key)));
-            return toolboxEntitiesTmp;
-          }
-        };
-    return toolboxEntities;
+    return dsThreadLocal.get().get(kind, ids, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "id > 0"})
@@ -310,16 +154,13 @@ public class DataStore2 {
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
   public static Future<Void> delete(String kind, long id) {
-    return delete(kind, id, null, 0);
+    return dsThreadLocal.get().delete(kind, id);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
   public static Future<Void> delete(String kind, long id, String ancestorKind, long ancestorId) {
-    if (ancestorKind == null)
-      return LowLevelDataStore2Async.delete(dsThreadLocal.get().createKey(kind, id));
-    return LowLevelDataStore2Async.delete(dsThreadLocal.get().createKey(kind, id, ancestorKind,
-        ancestorId));
+    return dsThreadLocal.get().delete(kind, id, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "ids != null"})
@@ -336,17 +177,14 @@ public class DataStore2 {
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
   public static Future<Void> delete(String kind, Iterable<Long> ids) {
-    return delete(kind, ids, null, 0);
+    return dsThreadLocal.get().delete(kind, ids);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
   public static Future<Void> delete(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
-    if (ancestorKind.isEmpty())
-      return LowLevelDataStore2Async.delete(dsThreadLocal.get().createKeys(kind, ids));
-    return LowLevelDataStore2Async.delete(dsThreadLocal.get().createKeys(kind, ids, ancestorKind,
-        ancestorId));
+    return dsThreadLocal.get().delete(kind, ids, ancestorKind, ancestorId);
   }
 
   @Requires("toolboxQuery != null")

@@ -7,25 +7,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Projection;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.QueryResultList;
-import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.*;
 import com.google.java.contract.Ensures;
 import com.google.java.contract.Requires;
 
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.primitives.shared.Entity;
 
 public class DataStore3 implements DatabaseDriver {
 
@@ -54,7 +48,7 @@ public class DataStore3 implements DatabaseDriver {
 
     @Requires("key != null")
     public static com.google.appengine.api.datastore.Entity get(Key key) {
-      Entity entity = null;
+      com.google.appengine.api.datastore.Entity entity = null;
       try {
         entity = dataStore_.get(key);
       } catch (Exception e) {
@@ -338,6 +332,48 @@ public class DataStore3 implements DatabaseDriver {
         .getId();
   }
 
+  @Requires("entity != null")
+  @Ensures("result != null")
+  public Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
+    return put(entity, null, 0);
+  }
+
+  @Requires("entity != null")
+  @Ensures("result != null")
+  public Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
+      long ancestorId) {
+    final Future<Key> key =
+        LowLevelDataStore2Async.put(convertToAppEngineEntity(entity, ancestorKind, ancestorId));
+    final Future<Long> id = new Future<Long>() {
+      @Override
+      public boolean cancel(boolean mayInterruptIfRunning) {
+        return key.cancel(mayInterruptIfRunning);
+      }
+
+      @Override
+      public boolean isCancelled() {
+        return key.isCancelled();
+      }
+
+      @Override
+      public boolean isDone() {
+        return key.isDone();
+      }
+
+      @Override
+      public Long get() throws InterruptedException, ExecutionException {
+        return key.get().getId();
+      }
+
+      @Override
+      public Long get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
+          TimeoutException {
+        return key.get(timeout, unit).getId();
+      }
+    };
+    return id;
+  }
+
   @Override
   @Requires("entities != null")
   @Ensures("result != null")
@@ -357,6 +393,56 @@ public class DataStore3 implements DatabaseDriver {
     return idsTmp;
   }
 
+  @Requires("entities != null")
+  @Ensures("result != null")
+  public Future<List<Long>> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
+    return put(entities, null, 0);
+  }
+
+  @Requires("entities != null")
+  @Ensures("result != null")
+  public Future<List<Long>> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
+      String ancestorKind, long ancestorId) {
+    final Future<List<Key>> keys =
+        LowLevelDataStore2Async.put(convertToAppEngineEntities(entities, ancestorKind, ancestorId));
+    final Future<List<Long>> ids = new Future<List<Long>>() {
+      @Override
+      public boolean cancel(boolean mayInterruptIfRunning) {
+        return keys.cancel(mayInterruptIfRunning);
+      }
+
+      @Override
+      public boolean isCancelled() {
+        return keys.isCancelled();
+      }
+
+      @Override
+      public boolean isDone() {
+        return keys.isDone();
+      }
+
+      @Override
+      public List<Long> get() throws InterruptedException, ExecutionException {
+        List<Long> idsTmp = new ArrayList<Long>();
+        List<Key> keysTmp = keys.get();
+        for (Key key : keysTmp)
+          idsTmp.add(key.getId());
+        return idsTmp;
+      }
+
+      @Override
+      public List<Long> get(long timeout, TimeUnit unit) throws InterruptedException,
+          ExecutionException, TimeoutException {
+        List<Long> idsTmp = new ArrayList<Long>();
+        List<Key> keysTmp = keys.get(timeout, unit);
+        for (Key key : keysTmp)
+          idsTmp.add(key.getId());
+        return idsTmp;
+      }
+    };
+    return ids;
+  }
+
   @Override
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
@@ -372,6 +458,52 @@ public class DataStore3 implements DatabaseDriver {
     final Key key =
         ancestorKind == null ? createKey(kind, id) : createKey(kind, id, ancestorKind, ancestorId);
     return convertToToolboxEntity(LowLevelDataStore2.get(key));
+  }
+
+  @Requires({"kind != null", "id > 0"})
+  @Ensures("result != null")
+  public Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id) {
+    return get(kind, id, null, 0);
+  }
+
+  @Requires({"kind != null", "id > 0"})
+  @Ensures("result != null")
+  public Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id,
+      String ancestorKind, long ancestorId) {
+    final Key key =
+        ancestorKind == null ? createKey(kind, id) : createKey(kind, id, ancestorKind, ancestorId);
+    final Future<com.google.appengine.api.datastore.Entity> appEngineEntity =
+        LowLevelDataStore2Async.get(key);
+    final Future<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntity =
+        new Future<fr.mncc.gwttoolbox.primitives.shared.Entity>() {
+          @Override
+          public boolean cancel(boolean mayInterruptIfRunning) {
+            return appEngineEntity.cancel(mayInterruptIfRunning);
+          }
+
+          @Override
+          public boolean isCancelled() {
+            return appEngineEntity.isCancelled();
+          }
+
+          @Override
+          public boolean isDone() {
+            return appEngineEntity.isDone();
+          }
+
+          @Override
+          public fr.mncc.gwttoolbox.primitives.shared.Entity get() throws InterruptedException,
+              ExecutionException {
+            return convertToToolboxEntity(appEngineEntity.get());
+          }
+
+          @Override
+          public fr.mncc.gwttoolbox.primitives.shared.Entity get(long timeout, TimeUnit unit)
+              throws InterruptedException, ExecutionException, TimeoutException {
+            return convertToToolboxEntity(appEngineEntity.get(timeout, unit));
+          }
+        };
+    return toolboxEntity;
   }
 
   @Override
@@ -400,6 +532,66 @@ public class DataStore3 implements DatabaseDriver {
     return toolboxEntitiesTmp;
   }
 
+  @Requires({"kind != null", "ids != null"})
+  @Ensures("result != null")
+  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
+      Iterable<Long> ids) {
+    return get(kind, ids, null, 0);
+  }
+
+  @Requires({"kind != null", "ids != null"})
+  @Ensures("result != null")
+  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
+      Iterable<Long> ids, String ancestorKind, long ancestorId) {
+    final Iterable<Key> keys =
+        ancestorKind == null ? createKeys(kind, ids) : createKeys(kind, ids, ancestorKind,
+            ancestorId);
+    final Future<Map<Key, com.google.appengine.api.datastore.Entity>> appEngineEntities =
+        LowLevelDataStore2Async.get(keys);
+    final Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> toolboxEntities =
+        new Future<Map<Long, Entity>>() {
+          @Override
+          public boolean cancel(boolean mayInterruptIfRunning) {
+            return appEngineEntities.cancel(mayInterruptIfRunning);
+          }
+
+          @Override
+          public boolean isCancelled() {
+            return appEngineEntities.isCancelled();
+          }
+
+          @Override
+          public boolean isDone() {
+            return appEngineEntities.isDone();
+          }
+
+          @Override
+          public Map<Long, Entity> get() throws InterruptedException, ExecutionException {
+            Map<Long, Entity> toolboxEntitiesTmp = new HashMap<Long, Entity>();
+            Map<Key, com.google.appengine.api.datastore.Entity> appEngineEntitiesTmp =
+                appEngineEntities.get();
+            for (Key key : appEngineEntitiesTmp.keySet())
+              toolboxEntitiesTmp.put(key.getId(), convertToToolboxEntity(appEngineEntitiesTmp
+                  .get(key)));
+            return toolboxEntitiesTmp;
+          }
+
+          @Override
+          public Map<Long, Entity> get(long timeout, TimeUnit unit) throws InterruptedException,
+              ExecutionException, TimeoutException {
+            Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntitiesTmp =
+                new HashMap<Long, Entity>();
+            Map<Key, com.google.appengine.api.datastore.Entity> appEngineEntitiesTmp =
+                appEngineEntities.get(timeout, unit);
+            for (Key key : appEngineEntitiesTmp.keySet())
+              toolboxEntitiesTmp.put(key.getId(), convertToToolboxEntity(appEngineEntitiesTmp
+                  .get(key)));
+            return toolboxEntitiesTmp;
+          }
+        };
+    return toolboxEntities;
+  }
+
   @Override
   @Requires({"kind != null", "id > 0"})
   public boolean deleteSync(String kind, long id) {
@@ -416,6 +608,20 @@ public class DataStore3 implements DatabaseDriver {
     return true;
   }
 
+  @Requires({"kind != null", "id > 0"})
+  @Ensures("result != null")
+  public Future<Void> delete(String kind, long id) {
+    return delete(kind, id, null, 0);
+  }
+
+  @Requires({"kind != null", "id > 0"})
+  @Ensures("result != null")
+  public Future<Void> delete(String kind, long id, String ancestorKind, long ancestorId) {
+    if (ancestorKind == null)
+      return LowLevelDataStore2Async.delete(createKey(kind, id));
+    return LowLevelDataStore2Async.delete(createKey(kind, id, ancestorKind, ancestorId));
+  }
+
   @Override
   @Requires({"kind != null", "ids != null"})
   public boolean deleteSync(String kind, Iterable<Long> ids) {
@@ -430,6 +636,20 @@ public class DataStore3 implements DatabaseDriver {
     else
       LowLevelDataStore2.delete(createKeys(kind, ids, ancestorKind, ancestorId));
     return true;
+  }
+
+  @Requires({"kind != null", "ids != null"})
+  @Ensures("result != null")
+  public Future<Void> delete(String kind, Iterable<Long> ids) {
+    return delete(kind, ids, null, 0);
+  }
+
+  @Requires({"kind != null", "ids != null"})
+  @Ensures("result != null")
+  public Future<Void> delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
+    if (ancestorKind.isEmpty())
+      return LowLevelDataStore2Async.delete(createKeys(kind, ids));
+    return LowLevelDataStore2Async.delete(createKeys(kind, ids, ancestorKind, ancestorId));
   }
 
   @Override
