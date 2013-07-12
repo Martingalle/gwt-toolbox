@@ -15,7 +15,12 @@ import java.util.logging.Logger;
 
 import org.postgresql.PGResultSetMetaData;
 
+import fr.mncc.gwttoolbox.appengine.shared.Clause2;
+import fr.mncc.gwttoolbox.appengine.shared.Filter2;
+import fr.mncc.gwttoolbox.appengine.shared.FilterOperator2;
+import fr.mncc.gwttoolbox.appengine.shared.Projection2;
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.appengine.shared.Sort2;
 import fr.mncc.gwttoolbox.primitives.shared.Entity;
 import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
 
@@ -25,12 +30,12 @@ public class PostgreSql3 implements DatabaseDriver {
    * This class makes an instance of a JDBC connection to a PostgreSQL database
    * 
    */
-  public static class JdbcPostgresConnection {
+  private static class JdbcPostgresConnection {
 
     private final static Logger logger_ = Logger.getLogger(JdbcPostgresConnection.class
         .getCanonicalName());
 
-    private static final String DB_DRIVER = "org.postgresql.Driver";
+    private final static String DB_DRIVER = "org.postgresql.Driver";
 
     public static Connection getConnection(String host, int port, String databaseName,
         String userName, String password) {
@@ -51,6 +56,125 @@ public class PostgreSql3 implements DatabaseDriver {
       }
 
       return connection;
+    }
+  }
+
+  private static class QueryConverter2 {
+
+    public static String getAsPostgreSqlQuery(SQuery2 squery) {
+
+      // Add projections
+      String query =
+          "SELECT " + getProjectionQuery(squery) + " FROM " + squery.getKind() + " WHERE ";
+
+      // Add clauses
+      List<String> clauses = new ArrayList<String>();
+      buildClause(squery.getClause(), clauses);
+
+      for (String clause : clauses) {
+        query += clause;
+      }
+
+      // Add sort order
+      if (!squery.getSorters().isEmpty())
+        query += getSortQuery(squery);
+
+      return query;
+
+    }
+
+    /**
+     * Returns an int which signifies the operator to be used
+     * 
+     * @param operator
+     * @return
+     */
+    private static String getAsPostgreSqlOperator(int operator) {
+      if (operator == FilterOperator2.EQUAL)
+        return "=";
+      if (operator == FilterOperator2.LESS_THAN)
+        return "<";
+      if (operator == FilterOperator2.LESS_THAN_OR_EQUAL)
+        return "<=";
+      if (operator == FilterOperator2.GREATER_THAN)
+        return ">";
+      if (operator == FilterOperator2.GREATER_THAN_OR_EQUAL)
+        return ">=";
+      if (operator == FilterOperator2.NOT_EQUAL)
+        return "<>";
+      if (operator == FilterOperator2.IN)
+        return "IN";
+      return null; // This case should never happen
+    }
+
+    private static String getSortQuery(SQuery2 squery) {
+      String sortQuery = " ORDER BY ";
+
+      List<Sort2> listOfSorters = squery.getSorters();
+
+      for (Sort2 sorter : listOfSorters) {
+        sortQuery += sorter.getPropertyName() + " ";
+        sortQuery += sorter.isAscending() ? "ASC, " : "DESC, ";
+      }
+
+      sortQuery = sortQuery.substring(0, sortQuery.length() - 2);
+
+      return sortQuery;
+    }
+
+    private static String getProjectionQuery(SQuery2 squery) {
+      String projections = "";
+      boolean containsIdColumn = false;
+
+      List<Projection2> listOfProjections = squery.getProjections();
+
+      if (squery.isKeysOnly())
+        return "id";
+      if (listOfProjections.isEmpty() || listOfProjections == null)
+        return "*";
+
+      // checks if the column id projection was created
+      // set containsIdColumn to true if it exists as a projection, sets to false otherwise
+      for (Projection2 sp : listOfProjections) {
+        if (sp.getPropertyName().equalsIgnoreCase("id")) {
+          containsIdColumn = true;
+          break;
+        }
+      }
+
+      // add coulumn id projection if column id projection doesn't exist
+      if (!containsIdColumn)
+        listOfProjections.add(0, Projection2.of("id", Long.class));
+
+      for (Projection2 projection : listOfProjections) {
+        projections += projection.getPropertyName() + ", ";
+      }
+
+      projections = projections.substring(0, projections.length() - 2);
+      return projections;
+
+    }
+
+    private static void buildClause(Clause2 clause, List<String> result) {
+
+      if (clause.getLeftClause() != null) {
+        buildClause(clause.getLeftClause(), result);
+      }
+
+      if (clause.isLeaf()) {
+        Filter2 sfilter = (Filter2) clause;
+
+        result.add(sfilter.getPropertyName() + " " + getAsPostgreSqlOperator(sfilter.getOperator())
+            + " " + preparedQuery(sfilter.getPropertyValue()));
+      }
+
+      if (clause.getRightClause() != null) {
+        if (clause.isAnd())
+          result.add(" AND ");
+        else
+          result.add(" OR ");
+        buildClause(clause.getRightClause(), result);
+      }
     }
   }
 
@@ -198,7 +322,7 @@ public class PostgreSql3 implements DatabaseDriver {
    * @param obj
    * @return String a prepared string to be used in an INSERT or UPDATE query
    */
-  public String preparedQuery(Object obj) {
+  private static String preparedQuery(Object obj) {
     String value = ObjectUtils.toString(obj);
     if (ObjectUtils.isTimeStamp(value))
       return "to_timestamp('" + obj + "', 'YYYY-MM-DD HH24:MI:SS')";
@@ -381,6 +505,7 @@ public class PostgreSql3 implements DatabaseDriver {
     int size = 0;
 
     String postGresQuery = QueryConverter2.getAsPostgreSqlQuery(toolboxQuery);
+    System.out.println(postGresQuery);
     Statement stmt = null;
 
     try {

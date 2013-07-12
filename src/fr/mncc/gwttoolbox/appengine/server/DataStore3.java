@@ -22,18 +22,24 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Projection;
+import com.google.appengine.api.datastore.PropertyProjection;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.QueryResultList;
 import com.google.appengine.api.datastore.Text;
 import com.google.java.contract.Ensures;
 import com.google.java.contract.Requires;
 
+import fr.mncc.gwttoolbox.appengine.shared.Clause2;
+import fr.mncc.gwttoolbox.appengine.shared.Filter2;
+import fr.mncc.gwttoolbox.appengine.shared.FilterOperator2;
+import fr.mncc.gwttoolbox.appengine.shared.Projection2;
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.appengine.shared.Sort2;
 import fr.mncc.gwttoolbox.primitives.shared.Entity;
 
 public class DataStore3 implements DatabaseDriver {
 
-  public static class LowLevelDataStore2 {
+  private static class LowLevelDataStore2 {
 
     private final static int OFFSET_LIMIT = 1000;
     private final static Logger logger_ = Logger.getLogger(LowLevelDataStore2.class
@@ -177,24 +183,117 @@ public class DataStore3 implements DatabaseDriver {
     }
   }
 
+  private static class QueryConverter2 {
+
+    public static Query getAsAppEngineQuery(SQuery2 squery) {
+      Query query =
+          hasAncestor(squery) ? new Query(squery.getKind(), KeyFactory.createKey(squery
+              .getAncestorKind(), squery.getAncestorId())) : new Query(squery.getKind());
+
+      // Set keys only
+      if (squery.isKeysOnly())
+        query.setKeysOnly();
+
+      // Add projections
+      for (Projection2 projection : squery.getProjections())
+        query.addProjection(new PropertyProjection(projection.getPropertyName(), projection
+            .getClazz()));
+
+      // Add sort order
+      for (Sort2 sorter : squery.getSorters())
+        query.addSort(sorter.getPropertyName(), sorter.isAscending()
+            ? Query.SortDirection.ASCENDING : Query.SortDirection.DESCENDING);
+
+      // Add clause
+      if (squery.getClause() != null)
+        query.setFilter(buildClause(squery, squery.getClause()));
+      return query;
+    }
+
+    private static Query.Filter buildClause(SQuery2 squery, Clause2 clause) {
+      if (clause.isLeaf()) {
+        Filter2 sfilter = (Filter2) clause;
+        if (sfilter.getOperator() != FilterOperator2.IN) {
+          if (sfilter.getPropertyName().equals("__key__")
+              && sfilter.getPropertyValue() instanceof Long) {
+            if (hasAncestor(squery))
+              return new Query.FilterPredicate(sfilter.getPropertyName(),
+                  getAsFilterOperator(sfilter.getOperator()), KeyFactory.createKey(KeyFactory
+                      .createKey(squery.getAncestorKind(), squery.getAncestorId()), squery
+                      .getKind(), (Long) sfilter.getPropertyValue()));
+            return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+                .getOperator()), KeyFactory.createKey(squery.getKind(), (Long) sfilter
+                .getPropertyValue()));
+          }
+          if (sfilter.getPropertyValue() instanceof Timestamp)
+            return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+                .getOperator()), new Date(((Timestamp) sfilter.getPropertyValue()).getTime()));
+          if (sfilter.getPropertyValue() instanceof Time)
+            return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+                .getOperator()), new Date(((Time) sfilter.getPropertyValue()).getTime()));
+          return new Query.FilterPredicate(sfilter.getPropertyName(), getAsFilterOperator(sfilter
+              .getOperator()), sfilter.getPropertyValue());
+        }
+
+        List<Key> keys = new ArrayList<Key>();
+        for (Long id : sfilter.getPropertyValues()) {
+          if (hasAncestor(squery))
+            keys.add(KeyFactory.createKey(KeyFactory.createKey(squery.getAncestorKind(), squery
+                .getAncestorId()), squery.getKind(), id));
+          else
+            keys.add(KeyFactory.createKey(squery.getKind(), id));
+        }
+        return new Query.FilterPredicate("__key__", Query.FilterOperator.IN, keys);
+      }
+      if (clause.isAnd())
+        return Query.CompositeFilterOperator.and(buildClause(squery, clause.getLeftClause()),
+            buildClause(squery, clause.getRightClause()));
+      return Query.CompositeFilterOperator.or(buildClause(squery, clause.getLeftClause()),
+          buildClause(squery, clause.getRightClause()));
+    }
+
+    private static Query.FilterOperator getAsFilterOperator(int operator) {
+      if (operator == FilterOperator2.EQUAL)
+        return Query.FilterOperator.EQUAL;
+      else if (operator == FilterOperator2.LESS_THAN)
+        return Query.FilterOperator.LESS_THAN;
+      else if (operator == FilterOperator2.LESS_THAN_OR_EQUAL)
+        return Query.FilterOperator.LESS_THAN_OR_EQUAL;
+      else if (operator == FilterOperator2.GREATER_THAN)
+        return Query.FilterOperator.GREATER_THAN;
+      else if (operator == FilterOperator2.GREATER_THAN_OR_EQUAL)
+        return Query.FilterOperator.GREATER_THAN_OR_EQUAL;
+      else if (operator == FilterOperator2.NOT_EQUAL)
+        return Query.FilterOperator.NOT_EQUAL;
+      else if (operator == FilterOperator2.IN)
+        return Query.FilterOperator.IN;
+      return null; // This case should never happen
+    }
+
+    private static boolean hasAncestor(SQuery2 squery) {
+      return squery.getAncestorKind() != null && !squery.getAncestorKind().isEmpty()
+          && squery.getAncestorId() > 0;
+    }
+  }
+
   private final static Logger logger_ = Logger.getLogger(DataStore3.class.getCanonicalName());
 
   @Requires({"kind != null", "id >= 0"})
   @Ensures("result != null")
-  public final Key createKey(String kind, long id) {
+  private final Key createKey(String kind, long id) {
     return KeyFactory.createKey(kind, id);
   }
 
   @Requires({"kind != null", "id >= 0", "ancestorKind != null", "ancestorId >= 0"})
   @Ensures("result != null")
-  public final Key createKey(String kind, long id, String ancestorKind, long ancestorId) {
+  private final Key createKey(String kind, long id, String ancestorKind, long ancestorId) {
     return ancestorKind == null ? createKey(kind, id) : KeyFactory.createKey(createKey(
         ancestorKind, ancestorId), kind, id);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public final Iterable<Key> createKeys(String kind, Iterable<Long> ids) {
+  private final Iterable<Key> createKeys(String kind, Iterable<Long> ids) {
     List<Key> keys = new ArrayList<Key>();
     for (Long id : ids)
       keys.add(createKey(kind, id));
@@ -203,7 +302,7 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"kind != null", "ids != null", "ancestorKind != null", "ancestorId >= 0"})
   @Ensures("result != null")
-  public final Iterable<Key> createKeys(String kind, Iterable<Long> ids, String ancestorKind,
+  private final Iterable<Key> createKeys(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
     if (ancestorKind == null)
       return createKeys(kind, ids);
@@ -214,15 +313,8 @@ public class DataStore3 implements DatabaseDriver {
     return keys;
   }
 
-  @Override
   @Deprecated
-  public fr.mncc.gwttoolbox.primitives.shared.Entity fromAppEngineEntity(
-      com.google.appengine.api.datastore.Entity appEngineEntity) {
-    return convertToToolboxEntity(appEngineEntity);
-  }
-
-  @Deprecated
-  public final com.google.appengine.api.datastore.Entity toAppEngineEntity(
+  private final com.google.appengine.api.datastore.Entity toAppEngineEntity(
       fr.mncc.gwttoolbox.primitives.shared.Entity toolboxEntity, String ancestorKind,
       long ancestorId) {
     return convertToAppEngineEntity(toolboxEntity, ancestorKind, ancestorId);
@@ -230,7 +322,7 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"toolboxEntity != null", "ancestorKind != null", "ancestorId >= 0"})
   @Ensures("result != null")
-  public final com.google.appengine.api.datastore.Entity convertToAppEngineEntity(
+  private final com.google.appengine.api.datastore.Entity convertToAppEngineEntity(
       fr.mncc.gwttoolbox.primitives.shared.Entity toolboxEntity, String ancestorKind,
       long ancestorId) {
 
@@ -283,7 +375,7 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires("appEngineEntity != null")
   @Ensures("result != null")
-  public final fr.mncc.gwttoolbox.primitives.shared.Entity convertToToolboxEntity(
+  private final fr.mncc.gwttoolbox.primitives.shared.Entity convertToToolboxEntity(
       com.google.appengine.api.datastore.Entity appEngineEntity) {
     // Create a new Toolbox entity
     fr.mncc.gwttoolbox.primitives.shared.Entity toolboxEntity =
@@ -306,7 +398,7 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"toolboxEntities != null", "ancestorKind != null", "ancestorId >= 0"})
   @Ensures("result != null")
-  public final Iterable<com.google.appengine.api.datastore.Entity> convertToAppEngineEntities(
+  private final Iterable<com.google.appengine.api.datastore.Entity> convertToAppEngineEntities(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntities, String ancestorKind,
       long ancestorId) {
     List<com.google.appengine.api.datastore.Entity> appEngineEntities =
@@ -318,13 +410,20 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires("appEngineEntities != null")
   @Ensures("result != null")
-  public final Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> convertToToolboxEntities(
+  private final Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> convertToToolboxEntities(
       Iterable<com.google.appengine.api.datastore.Entity> appEngineEntities) {
     List<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntities =
         new ArrayList<fr.mncc.gwttoolbox.primitives.shared.Entity>();
     for (com.google.appengine.api.datastore.Entity appEngineEntity : appEngineEntities)
       toolboxEntities.add(convertToToolboxEntity(appEngineEntity));
     return toolboxEntities;
+  }
+
+  @Override
+  @Deprecated
+  public fr.mncc.gwttoolbox.primitives.shared.Entity fromAppEngineEntity(
+      com.google.appengine.api.datastore.Entity appEngineEntity) {
+    return convertToToolboxEntity(appEngineEntity);
   }
 
   @Override
