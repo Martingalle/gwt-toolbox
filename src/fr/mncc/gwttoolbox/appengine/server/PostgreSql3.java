@@ -223,6 +223,7 @@ public class PostgreSql3 implements DatabaseDriver {
     return "";
   }
 
+  @Override
   public fr.mncc.gwttoolbox.primitives.shared.Entity fromAppEngineEntity(
       com.google.appengine.api.datastore.Entity appEngineEntity) {
     return null;

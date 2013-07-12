@@ -7,6 +7,9 @@ import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
 import fr.mncc.gwttoolbox.primitives.shared.Entity;
 
 public interface DatabaseDriver {
+
+  Entity fromAppEngineEntity(com.google.appengine.api.datastore.Entity appEngineEntity);
+
   Long putSync(Entity entity);
 
   Long putSync(Entity entity, String ancestorKind, long ancestorId);
