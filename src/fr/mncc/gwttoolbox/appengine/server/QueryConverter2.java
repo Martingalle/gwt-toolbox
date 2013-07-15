@@ -20,17 +20,23 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PropertyProjection;
-import com.google.appengine.api.datastore.Query;
-import fr.mncc.gwttoolbox.appengine.shared.*;
-
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.PropertyProjection;
+import com.google.appengine.api.datastore.Query;
+
+import fr.mncc.gwttoolbox.appengine.shared.Clause2;
+import fr.mncc.gwttoolbox.appengine.shared.Filter2;
+import fr.mncc.gwttoolbox.appengine.shared.FilterOperator2;
+import fr.mncc.gwttoolbox.appengine.shared.Projection2;
+import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.appengine.shared.Sort2;
 
 public class QueryConverter2 {
 
@@ -175,7 +181,11 @@ public class QueryConverter2 {
     List<Sort2> listOfSorters = squery.getSorters();
 
     for (Sort2 sorter : listOfSorters) {
-      sortQuery += sorter.getPropertyName() + " ";
+      String propertyName = sorter.getPropertyName();
+      if (propertyName.equals("__key__"))
+        sortQuery += "id" + " ";
+      else
+        sortQuery += propertyName + " ";
       sortQuery += sorter.isAscending() ? "ASC, " : "DESC, ";
     }
 
