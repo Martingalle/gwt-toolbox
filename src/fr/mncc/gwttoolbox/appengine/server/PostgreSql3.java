@@ -113,7 +113,11 @@ public class PostgreSql3 implements DatabaseDriver {
       List<Sort2> listOfSorters = squery.getSorters();
 
       for (Sort2 sorter : listOfSorters) {
-        sortQuery += sorter.getPropertyName() + " ";
+        String propertyName = sorter.getPropertyName();
+        if (propertyName.equals("__key__"))
+          sortQuery += "id" + " ";
+        else
+          sortQuery += propertyName + " ";
         sortQuery += sorter.isAscending() ? "ASC, " : "DESC, ";
       }
 
