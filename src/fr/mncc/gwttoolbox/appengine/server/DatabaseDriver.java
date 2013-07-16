@@ -10,29 +10,29 @@ public interface DatabaseDriver {
 
   Entity fromAppEngineEntity(com.google.appengine.api.datastore.Entity appEngineEntity);
 
-  Long putSync(Entity entity);
+  Long put(Entity entity);
 
-  Long putSync(Entity entity, String ancestorKind, long ancestorId);
+  Long put(Entity entity, String ancestorKind, long ancestorId);
 
-  List<Long> putSync(Iterable<Entity> entities);
+  List<Long> put(Iterable<Entity> entities);
 
-  List<Long> putSync(Iterable<Entity> entities, String ancestorKind, long ancestorId);
+  List<Long> put(Iterable<Entity> entities, String ancestorKind, long ancestorId);
 
-  Entity getSync(String kind, long id);
+  Entity get(String kind, long id);
 
-  Entity getSync(String kind, long id, String ancestorKind, long ancestorId);
+  Entity get(String kind, long id, String ancestorKind, long ancestorId);
 
-  Map<Long, Entity> getSync(String kind, Iterable<Long> ids);
+  Map<Long, Entity> get(String kind, Iterable<Long> ids);
 
-  Map<Long, Entity> getSync(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
+  Map<Long, Entity> get(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
 
-  boolean deleteSync(String kind, long id);
+  boolean delete(String kind, long id);
 
-  boolean deleteSync(String kind, long id, String ancestorKind, long ancestorId);
+  boolean delete(String kind, long id, String ancestorKind, long ancestorId);
 
-  boolean deleteSync(String kind, Iterable<Long> ids);
+  boolean delete(String kind, Iterable<Long> ids);
 
-  boolean deleteSync(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
+  boolean delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
 
   long listSize(SQuery2 toolboxQuery);
 

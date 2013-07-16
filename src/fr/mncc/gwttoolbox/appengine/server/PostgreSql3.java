@@ -358,12 +358,12 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    return putSync(entity, null, 0);
+  public Long put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
+    return put(entity, null, 0);
   }
 
   @Override
-  public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
+  public Long put(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
       long ancestorId) {
     try {
       String query = "";
@@ -401,17 +401,17 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return putSync(entities, null, 0);
+  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
+    return put(entities, null, 0);
   }
 
   @Override
-  public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
+  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
     List<Long> keys = new ArrayList<Long>();
 
     for (Entity entity : entities) {
-      Long id = putSync(entity, ancestorKind, ancestorId);
+      Long id = put(entity, ancestorKind, ancestorId);
       keys.add(id);
     }
 
@@ -419,13 +419,13 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id) {
-    return getSync(kind, id, null, 0);
+  public fr.mncc.gwttoolbox.primitives.shared.Entity get(String kind, long id) {
+    return get(kind, id, null, 0);
   }
 
   @Override
-  public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id,
-      String ancestorKind, long ancestorId) {
+  public fr.mncc.gwttoolbox.primitives.shared.Entity get(String kind, long id, String ancestorKind,
+      long ancestorId) {
 
     try {
       fr.mncc.gwttoolbox.primitives.shared.Entity entity = new Entity(kind, id);
@@ -457,18 +457,17 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
-      Iterable<Long> ids) {
-    return getSync(kind, ids, null, 0);
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, Iterable<Long> ids) {
+    return get(kind, ids, null, 0);
   }
 
   @Override
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
     Map<Long, Entity> map = new HashMap<Long, Entity>();
 
     for (Long id : ids) {
-      Entity entity = getSync(kind, id, ancestorKind, ancestorId);
+      Entity entity = get(kind, id, ancestorKind, ancestorId);
       map.put(id, entity);
     }
 
@@ -476,22 +475,22 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public boolean deleteSync(String kind, long id) {
-    return deleteSync(kind, id, null, 0);
+  public boolean delete(String kind, long id) {
+    return delete(kind, id, null, 0);
   }
 
   @Override
-  public boolean deleteSync(String kind, long id, String ancestorKind, long ancestorId) {
+  public boolean delete(String kind, long id, String ancestorKind, long ancestorId) {
     return deletePostgreSQL(kind, id, ancestorKind, ancestorId);
   }
 
   @Override
-  public boolean deleteSync(String kind, Iterable<Long> ids) {
-    return deleteSync(kind, ids, null, 0);
+  public boolean delete(String kind, Iterable<Long> ids) {
+    return delete(kind, ids, null, 0);
   }
 
   @Override
-  public boolean deleteSync(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
+  public boolean delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
     boolean status = false;
     try {
       for (Long id : ids) {

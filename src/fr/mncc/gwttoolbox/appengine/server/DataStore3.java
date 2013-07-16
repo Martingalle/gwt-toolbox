@@ -429,14 +429,14 @@ public class DataStore3 implements DatabaseDriver {
   @Override
   @Requires("entity != null")
   @Ensures("result != null")
-  public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    return putSync(entity, null, 0);
+  public Long put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
+    return put(entity, null, 0);
   }
 
   @Override
   @Requires("entity != null")
   @Ensures("result != null")
-  public Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
+  public Long put(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
       long ancestorId) {
     return LowLevelDataStore2.put(convertToAppEngineEntity(entity, ancestorKind, ancestorId))
         .getId();
@@ -444,14 +444,14 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires("entity != null")
   @Ensures("result != null")
-  public Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    return put(entity, null, 0);
+  public Future<Long> putAsync(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
+    return putAsync(entity, null, 0);
   }
 
   @Requires("entity != null")
   @Ensures("result != null")
-  public Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity, String ancestorKind,
-      long ancestorId) {
+  public Future<Long> putAsync(fr.mncc.gwttoolbox.primitives.shared.Entity entity,
+      String ancestorKind, long ancestorId) {
     final Future<Key> key =
         LowLevelDataStore2Async.put(convertToAppEngineEntity(entity, ancestorKind, ancestorId));
     final Future<Long> id = new Future<Long>() {
@@ -487,14 +487,14 @@ public class DataStore3 implements DatabaseDriver {
   @Override
   @Requires("entities != null")
   @Ensures("result != null")
-  public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return putSync(entities, null, 0);
+  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
+    return put(entities, null, 0);
   }
 
   @Override
   @Requires("entities != null")
   @Ensures("result != null")
-  public List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
+  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
     List<Long> idsTmp = new ArrayList<Long>();
     for (Key key : LowLevelDataStore2.put(convertToAppEngineEntities(entities, ancestorKind,
@@ -505,14 +505,15 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires("entities != null")
   @Ensures("result != null")
-  public Future<List<Long>> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return put(entities, null, 0);
+  public Future<List<Long>> putAsync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
+    return putAsync(entities, null, 0);
   }
 
   @Requires("entities != null")
   @Ensures("result != null")
-  public Future<List<Long>> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
-      String ancestorKind, long ancestorId) {
+  public Future<List<Long>> putAsync(
+      Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities, String ancestorKind,
+      long ancestorId) {
     final Future<List<Key>> keys =
         LowLevelDataStore2Async.put(convertToAppEngineEntities(entities, ancestorKind, ancestorId));
     final Future<List<Long>> ids = new Future<List<Long>>() {
@@ -556,15 +557,15 @@ public class DataStore3 implements DatabaseDriver {
   @Override
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id) {
-    return getSync(kind, id, null, 0);
+  public fr.mncc.gwttoolbox.primitives.shared.Entity get(String kind, long id) {
+    return get(kind, id, null, 0);
   }
 
   @Override
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id,
-      String ancestorKind, long ancestorId) {
+  public fr.mncc.gwttoolbox.primitives.shared.Entity get(String kind, long id, String ancestorKind,
+      long ancestorId) {
     final Key key =
         ancestorKind == null ? createKey(kind, id) : createKey(kind, id, ancestorKind, ancestorId);
     return convertToToolboxEntity(LowLevelDataStore2.get(key));
@@ -572,13 +573,13 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id) {
-    return get(kind, id, null, 0);
+  public Future<fr.mncc.gwttoolbox.primitives.shared.Entity> getAsync(String kind, long id) {
+    return getAsync(kind, id, null, 0);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id,
+  public Future<fr.mncc.gwttoolbox.primitives.shared.Entity> getAsync(String kind, long id,
       String ancestorKind, long ancestorId) {
     final Key key =
         ancestorKind == null ? createKey(kind, id) : createKey(kind, id, ancestorKind, ancestorId);
@@ -619,15 +620,14 @@ public class DataStore3 implements DatabaseDriver {
   @Override
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
-      Iterable<Long> ids) {
-    return getSync(kind, ids, null, 0);
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, Iterable<Long> ids) {
+    return get(kind, ids, null, 0);
   }
 
   @Override
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
 
     final Iterable<Key> keys =
@@ -644,14 +644,14 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
+  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAsync(String kind,
       Iterable<Long> ids) {
-    return get(kind, ids, null, 0);
+    return getAsync(kind, ids, null, 0);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
+  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAsync(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
     final Iterable<Key> keys =
         ancestorKind == null ? createKeys(kind, ids) : createKeys(kind, ids, ancestorKind,
@@ -704,13 +704,13 @@ public class DataStore3 implements DatabaseDriver {
 
   @Override
   @Requires({"kind != null", "id > 0"})
-  public boolean deleteSync(String kind, long id) {
-    return deleteSync(kind, id, null, 0);
+  public boolean delete(String kind, long id) {
+    return delete(kind, id, null, 0);
   }
 
   @Override
   @Requires({"kind != null", "id > 0"})
-  public boolean deleteSync(String kind, long id, String ancestorKind, long ancestorId) {
+  public boolean delete(String kind, long id, String ancestorKind, long ancestorId) {
     if (ancestorKind == null)
       LowLevelDataStore2.delete(createKey(kind, id));
     else
@@ -720,13 +720,13 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public Future<Void> delete(String kind, long id) {
-    return delete(kind, id, null, 0);
+  public Future<Void> deleteAsync(String kind, long id) {
+    return deleteAsync(kind, id, null, 0);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public Future<Void> delete(String kind, long id, String ancestorKind, long ancestorId) {
+  public Future<Void> deleteAsync(String kind, long id, String ancestorKind, long ancestorId) {
     if (ancestorKind == null)
       return LowLevelDataStore2Async.delete(createKey(kind, id));
     return LowLevelDataStore2Async.delete(createKey(kind, id, ancestorKind, ancestorId));
@@ -734,13 +734,13 @@ public class DataStore3 implements DatabaseDriver {
 
   @Override
   @Requires({"kind != null", "ids != null"})
-  public boolean deleteSync(String kind, Iterable<Long> ids) {
-    return deleteSync(kind, ids, null, 0);
+  public boolean delete(String kind, Iterable<Long> ids) {
+    return delete(kind, ids, null, 0);
   }
 
   @Override
   @Requires({"kind != null", "ids != null"})
-  public boolean deleteSync(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
+  public boolean delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
     if (ancestorKind.isEmpty())
       LowLevelDataStore2.delete(createKeys(kind, ids));
     else
@@ -750,13 +750,14 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Void> delete(String kind, Iterable<Long> ids) {
-    return delete(kind, ids, null, 0);
+  public Future<Void> deleteAsync(String kind, Iterable<Long> ids) {
+    return deleteAsync(kind, ids, null, 0);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Void> delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
+  public Future<Void> deleteAsync(String kind, Iterable<Long> ids, String ancestorKind,
+      long ancestorId) {
     if (ancestorKind.isEmpty())
       return LowLevelDataStore2Async.delete(createKeys(kind, ids));
     return LowLevelDataStore2Async.delete(createKeys(kind, ids, ancestorKind, ancestorId));

@@ -44,81 +44,81 @@ public class DataStore2 extends DatabaseConnector {
 
   @Requires("entity != null")
   @Ensures("result != null")
-  public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
-    return dsThreadLocal.get().put(entity);
+  public static Future<Long> putAsync(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
+    return dsThreadLocal.get().putAsync(entity);
   }
 
   @Requires("entity != null")
   @Ensures("result != null")
-  public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity,
+  public static Future<Long> putAsync(fr.mncc.gwttoolbox.primitives.shared.Entity entity,
       String ancestorKind, long ancestorId) {
-    return dsThreadLocal.get().put(entity, ancestorKind, ancestorId);
+    return dsThreadLocal.get().putAsync(entity, ancestorKind, ancestorId);
   }
 
   @Requires("entities != null")
   @Ensures("result != null")
-  public static Future<List<Long>> put(
+  public static Future<List<Long>> putAsync(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return dsThreadLocal.get().put(entities);
+    return dsThreadLocal.get().putAsync(entities);
   }
 
   @Requires("entities != null")
   @Ensures("result != null")
-  public static Future<List<Long>> put(
+  public static Future<List<Long>> putAsync(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities, String ancestorKind,
       long ancestorId) {
-    return dsThreadLocal.get().put(entities, ancestorKind, ancestorId);
+    return dsThreadLocal.get().putAsync(entities, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id) {
-    return dsThreadLocal.get().get(kind, id);
+  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> getAsync(String kind, long id) {
+    return dsThreadLocal.get().getAsync(kind, id);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id,
+  public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> getAsync(String kind, long id,
       String ancestorKind, long ancestorId) {
-    return dsThreadLocal.get().get(kind, id, ancestorKind, ancestorId);
+    return dsThreadLocal.get().getAsync(kind, id, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
-      Iterable<Long> ids) {
-    return dsThreadLocal.get().get(kind, ids);
+  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAsync(
+      String kind, Iterable<Long> ids) {
+    return dsThreadLocal.get().getAsync(kind, ids);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
-      Iterable<Long> ids, String ancestorKind, long ancestorId) {
-    return dsThreadLocal.get().get(kind, ids, ancestorKind, ancestorId);
+  public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAsync(
+      String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
+    return dsThreadLocal.get().getAsync(kind, ids, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public static Future<Void> delete(String kind, long id) {
-    return dsThreadLocal.get().delete(kind, id);
+  public static Future<Void> deleteAsync(String kind, long id) {
+    return dsThreadLocal.get().deleteAsync(kind, id);
   }
 
   @Requires({"kind != null", "id > 0"})
   @Ensures("result != null")
-  public static Future<Void> delete(String kind, long id, String ancestorKind, long ancestorId) {
-    return dsThreadLocal.get().delete(kind, id, ancestorKind, ancestorId);
+  public static Future<Void> deleteAsync(String kind, long id, String ancestorKind, long ancestorId) {
+    return dsThreadLocal.get().deleteAsync(kind, id, ancestorKind, ancestorId);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public static Future<Void> delete(String kind, Iterable<Long> ids) {
-    return dsThreadLocal.get().delete(kind, ids);
+  public static Future<Void> deleteAsync(String kind, Iterable<Long> ids) {
+    return dsThreadLocal.get().deleteAsync(kind, ids);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public static Future<Void> delete(String kind, Iterable<Long> ids, String ancestorKind,
+  public static Future<Void> deleteAsync(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
-    return dsThreadLocal.get().delete(kind, ids, ancestorKind, ancestorId);
+    return dsThreadLocal.get().deleteAsync(kind, ids, ancestorKind, ancestorId);
   }
 }
