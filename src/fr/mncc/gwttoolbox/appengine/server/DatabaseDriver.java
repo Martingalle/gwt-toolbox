@@ -14,25 +14,25 @@ public interface DatabaseDriver {
 
   Long put(Entity entity, String ancestorKind, long ancestorId);
 
-  List<Long> put(Iterable<Entity> entities);
+  List<Long> putAll(Iterable<Entity> entities);
 
-  List<Long> put(Iterable<Entity> entities, String ancestorKind, long ancestorId);
+  List<Long> putAll(Iterable<Entity> entities, String ancestorKind, long ancestorId);
 
   Entity get(String kind, long id);
 
   Entity get(String kind, long id, String ancestorKind, long ancestorId);
 
-  Map<Long, Entity> get(String kind, Iterable<Long> ids);
+  Map<Long, Entity> getAll(String kind, Iterable<Long> ids);
 
-  Map<Long, Entity> get(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
+  Map<Long, Entity> getAll(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
 
   boolean delete(String kind, long id);
 
   boolean delete(String kind, long id, String ancestorKind, long ancestorId);
 
-  boolean delete(String kind, Iterable<Long> ids);
+  boolean deleteAll(String kind, Iterable<Long> ids);
 
-  boolean delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
+  boolean deleteAll(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId);
 
   long listSize(SQuery2 toolboxQuery);
 

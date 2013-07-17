@@ -29,11 +29,11 @@ public class DatabaseConnector {
   }
 
   public List<Long> put(Iterable<Entity> entities) {
-    return driver.put(entities);
+    return driver.putAll(entities);
   }
 
   public List<Long> put(Iterable<Entity> entities, String ancestorKind, long ancestorId) {
-    return driver.put(entities, ancestorKind, ancestorId);
+    return driver.putAll(entities, ancestorKind, ancestorId);
   }
 
   public Entity get(String kind, long id) {
@@ -45,11 +45,11 @@ public class DatabaseConnector {
   }
 
   public Map<Long, Entity> get(String kind, Iterable<Long> ids) {
-    return driver.get(kind, ids);
+    return driver.getAll(kind, ids);
   }
 
   public Map<Long, Entity> get(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
-    return driver.get(kind, ids, ancestorKind, ancestorId);
+    return driver.getAll(kind, ids, ancestorKind, ancestorId);
   }
 
   public boolean delete(String kind, long id) {
@@ -61,11 +61,11 @@ public class DatabaseConnector {
   }
 
   public boolean delete(String kind, Iterable<Long> ids) {
-    return driver.delete(kind, ids);
+    return driver.deleteAll(kind, ids);
   }
 
   public boolean delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
-    return driver.delete(kind, ids, ancestorKind, ancestorId);
+    return driver.deleteAll(kind, ids, ancestorKind, ancestorId);
   }
 
   public long listSize(SQuery2 toolboxQuery) {

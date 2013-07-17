@@ -401,12 +401,12 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return put(entities, null, 0);
+  public List<Long> putAll(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
+    return putAll(entities, null, 0);
   }
 
   @Override
-  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
+  public List<Long> putAll(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
     List<Long> keys = new ArrayList<Long>();
 
@@ -457,12 +457,13 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, Iterable<Long> ids) {
-    return get(kind, ids, null, 0);
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getAll(String kind,
+      Iterable<Long> ids) {
+    return getAll(kind, ids, null, 0);
   }
 
   @Override
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind,
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getAll(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
     Map<Long, Entity> map = new HashMap<Long, Entity>();
 
@@ -485,12 +486,12 @@ public class PostgreSql3 implements DatabaseDriver {
   }
 
   @Override
-  public boolean delete(String kind, Iterable<Long> ids) {
-    return delete(kind, ids, null, 0);
+  public boolean deleteAll(String kind, Iterable<Long> ids) {
+    return deleteAll(kind, ids, null, 0);
   }
 
   @Override
-  public boolean delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
+  public boolean deleteAll(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
     boolean status = false;
     try {
       for (Long id : ids) {

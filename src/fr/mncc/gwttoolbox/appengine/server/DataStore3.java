@@ -487,14 +487,14 @@ public class DataStore3 implements DatabaseDriver {
   @Override
   @Requires("entities != null")
   @Ensures("result != null")
-  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return put(entities, null, 0);
+  public List<Long> putAll(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
+    return putAll(entities, null, 0);
   }
 
   @Override
   @Requires("entities != null")
   @Ensures("result != null")
-  public List<Long> put(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
+  public List<Long> putAll(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
     List<Long> idsTmp = new ArrayList<Long>();
     for (Key key : LowLevelDataStore2.put(convertToAppEngineEntities(entities, ancestorKind,
@@ -620,14 +620,15 @@ public class DataStore3 implements DatabaseDriver {
   @Override
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, Iterable<Long> ids) {
-    return get(kind, ids, null, 0);
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getAll(String kind,
+      Iterable<Long> ids) {
+    return getAll(kind, ids, null, 0);
   }
 
   @Override
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind,
+  public Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getAll(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
 
     final Iterable<Key> keys =
@@ -734,13 +735,13 @@ public class DataStore3 implements DatabaseDriver {
 
   @Override
   @Requires({"kind != null", "ids != null"})
-  public boolean delete(String kind, Iterable<Long> ids) {
-    return delete(kind, ids, null, 0);
+  public boolean deleteAll(String kind, Iterable<Long> ids) {
+    return deleteAll(kind, ids, null, 0);
   }
 
   @Override
   @Requires({"kind != null", "ids != null"})
-  public boolean delete(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
+  public boolean deleteAll(String kind, Iterable<Long> ids, String ancestorKind, long ancestorId) {
     if (ancestorKind.isEmpty())
       LowLevelDataStore2.delete(createKeys(kind, ids));
     else
