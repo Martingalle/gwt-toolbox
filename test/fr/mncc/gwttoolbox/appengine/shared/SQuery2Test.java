@@ -30,6 +30,7 @@ public class SQuery2Test {
             + "sorters_=[], isKeysOnly_=false}";
 
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
 
   @Test
@@ -44,6 +45,7 @@ public class SQuery2Test {
     squery.addStringProjection("act");
     squery.addAscendingSorter("age");
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
 
   @Test
@@ -64,6 +66,7 @@ public class SQuery2Test {
     squery.addDescendingSorter("id");
 
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
 
   @Test
@@ -101,6 +104,7 @@ public class SQuery2Test {
     // remove sorters
     squery.removeSorters();
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
 
   @Test
@@ -132,6 +136,7 @@ public class SQuery2Test {
     // remove clause
     squery.removeClause();
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
 
   @Test
@@ -178,5 +183,6 @@ public class SQuery2Test {
     squery.addClause(clause);
 
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
 }
