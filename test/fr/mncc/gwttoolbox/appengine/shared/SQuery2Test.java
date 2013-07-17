@@ -1,5 +1,4 @@
 package fr.mncc.gwttoolbox.appengine.shared;
-
 import static junit.framework.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ public class SQuery2Test {
     squery.setKeysOnly();
 
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
 
     squery = new SQuery2("friend", "person", 3);
     squery.removeKeysOnly();
@@ -44,6 +44,7 @@ public class SQuery2Test {
 
     squery.addStringProjection("act");
     squery.addAscendingSorter("age");
+
     assertEquals(queryString, squery.toString());
     assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
@@ -87,6 +88,7 @@ public class SQuery2Test {
     squery.addIdAscendingSorter();
 
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
 
     queryString =
         "SQuery2{kind_=person, ancestorKind_=, ancestorId_=0, " + "projections_=[], "
@@ -95,7 +97,9 @@ public class SQuery2Test {
 
     // remove projections
     squery.removeProjections();
+
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
 
     queryString =
         "SQuery2{kind_=person, ancestorKind_=, ancestorId_=0, "
@@ -103,6 +107,7 @@ public class SQuery2Test {
 
     // remove sorters
     squery.removeSorters();
+
     assertEquals(queryString, squery.toString());
     assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
@@ -127,7 +132,9 @@ public class SQuery2Test {
     Clause2 clause = Clause2.or(clauseLeft, clauseRight);
     SQuery2 squery = new SQuery2("person");
     squery.addClause(clause);
+
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
 
     queryString =
         "SQuery2{kind_=person, ancestorKind_=, ancestorId_=0, "
@@ -135,6 +142,7 @@ public class SQuery2Test {
 
     // remove clause
     squery.removeClause();
+
     assertEquals(queryString, squery.toString());
     assertEquals(queryString.hashCode(), squery.toString().hashCode());
   }
@@ -158,7 +166,9 @@ public class SQuery2Test {
     Clause2 clause = Clause2.or(clauseLeft, clauseRight);
     SQuery2 squery = new SQuery2("person");
     squery.addClause(clause);
+
     assertEquals(queryString, squery.toString());
+    assertEquals(queryString.hashCode(), squery.toString().hashCode());
 
     ArrayList<Long> ar = new ArrayList<Long>();
 
