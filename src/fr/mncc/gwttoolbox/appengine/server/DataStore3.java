@@ -505,13 +505,14 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires("entities != null")
   @Ensures("result != null")
-  public Future<List<Long>> putAsync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
-    return putAsync(entities, null, 0);
+  public Future<List<Long>> putAllAsync(
+      Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
+    return putAllAsync(entities, null, 0);
   }
 
   @Requires("entities != null")
   @Ensures("result != null")
-  public Future<List<Long>> putAsync(
+  public Future<List<Long>> putAllAsync(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities, String ancestorKind,
       long ancestorId) {
     final Future<List<Key>> keys =
@@ -645,14 +646,14 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAsync(String kind,
+  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAllAsync(String kind,
       Iterable<Long> ids) {
-    return getAsync(kind, ids, null, 0);
+    return getAllAsync(kind, ids, null, 0);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAsync(String kind,
+  public Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> getAllAsync(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
     final Iterable<Key> keys =
         ancestorKind == null ? createKeys(kind, ids) : createKeys(kind, ids, ancestorKind,
@@ -751,13 +752,13 @@ public class DataStore3 implements DatabaseDriver {
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Void> deleteAsync(String kind, Iterable<Long> ids) {
-    return deleteAsync(kind, ids, null, 0);
+  public Future<Void> deleteAllAsync(String kind, Iterable<Long> ids) {
+    return deleteAllAsync(kind, ids, null, 0);
   }
 
   @Requires({"kind != null", "ids != null"})
   @Ensures("result != null")
-  public Future<Void> deleteAsync(String kind, Iterable<Long> ids, String ancestorKind,
+  public Future<Void> deleteAllAsync(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
     if (ancestorKind.isEmpty())
       return LowLevelDataStore2Async.delete(createKeys(kind, ids));
