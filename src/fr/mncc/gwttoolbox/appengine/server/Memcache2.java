@@ -20,136 +20,55 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import com.google.appengine.api.NamespaceManager;
-import com.google.appengine.api.memcache.Expiration;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class Memcache2 {
+public class Memcache2 extends MemcacheConnector {
 
-  private final static Logger logger_ = Logger.getLogger(Memcache2.class.getCanonicalName());
+  private static ThreadLocal<Memcache3> memcacheThreadLocal;
 
-  public static void putSync(String namespace, Object key, Object value) {
-    putSync(namespace, key, value, -1);
+  public static void init() {
+    memcacheThreadLocal = new ThreadLocal<Memcache3>();
+
+    MemcacheConnector.init(new ThreadLocal<MemcacheImpl>() {
+      @Override
+      protected Memcache3 initialValue() {
+        return new Memcache3();
+      }
+    });
   }
 
-  public static void put(String namespace, Object key, Object value) {
-    put(namespace, key, value, -1);
+  public void putAsync(String namespace, Object key, Object value) {
+    memcacheThreadLocal.get().putAsync(namespace, key, value, 1);
   }
 
-  public static void putAllSync(String namespace, Map<Object, Object> values) {
-    putAllSync(namespace, values, -1);
+  public void putAllAsync(String namespace, Map<Object, Object> values) {
+    memcacheThreadLocal.get().putAllAsync(namespace, values, -1);
   }
 
-  public static void putAll(String namespace, Map<Object, Object> values) {
-    putAll(namespace, values, -1);
+  public void putAsync(String namespace, Object key, Object value, int expirationInSeconds) {
+    memcacheThreadLocal.get().putAsync(namespace, key, value, expirationInSeconds);
   }
 
-  public static void putSync(String namespace, Object key, Object value, int expirationInSeconds) {
-    String oldNamespace = NamespaceManager.get();
-    NamespaceManager.set(namespace);
-    try {
-      if (expirationInSeconds < 0)
-        LowLevelMemcache.getInstance().put(key, value);
-      else
-        LowLevelMemcache.getInstance().put(key, value,
-            Expiration.byDeltaSeconds(expirationInSeconds));
-    } catch (Exception e) {
-      logger_.log(Level.SEVERE, e.toString() + "\nnamespace = " + namespace + "\nkey = "
-          + key.toString() + "\nvalue = " + value.toString() + "\nexpirationInSeconds = "
-          + expirationInSeconds);
-    } finally {
-      NamespaceManager.set(oldNamespace);
-    }
+  public void putAllAsync(String namespace, Map<Object, Object> values, int expirationInSeconds) {
+    memcacheThreadLocal.get().putAllAsync(namespace, values, expirationInSeconds);
   }
 
-  public static void put(String namespace, Object key, Object value, int expirationInSeconds) {
-    String oldNamespace = NamespaceManager.get();
-    NamespaceManager.set(namespace);
-    try {
-      if (expirationInSeconds < 0)
-        LowLevelMemcacheAsync.getInstance().put(key, value);
-      else
-        LowLevelMemcacheAsync.getInstance().put(key, value,
-            Expiration.byDeltaSeconds(expirationInSeconds));
-    } catch (Exception e) {
-      logger_.log(Level.SEVERE, e.toString() + "\nnamespace = " + namespace + "\nkey = "
-          + key.toString() + "\nvalue = " + value.toString() + "\nexpirationInSeconds = "
-          + expirationInSeconds);
-    } finally {
-      NamespaceManager.set(oldNamespace);
-    }
+  public Future<Object> getAsync(String namespace, Object key) {
+    return memcacheThreadLocal.get().getAsync(namespace, key);
   }
 
-  public static void putAllSync(String namespace, Map<Object, Object> values,
-      int expirationInSeconds) {
-    String oldNamespace = NamespaceManager.get();
-    NamespaceManager.set(namespace);
-    try {
-      if (expirationInSeconds < 0)
-        LowLevelMemcache.getInstance().putAll(values);
-      else
-        LowLevelMemcache.getInstance().putAll(values,
-            Expiration.byDeltaSeconds(expirationInSeconds));
-    } catch (Exception e) {
-      logger_.log(Level.SEVERE, e.toString() + "\nnamespace = " + namespace + "\nvalues = "
-          + values.toString() + "\nexpirationInSeconds = " + expirationInSeconds);
-    } finally {
-      NamespaceManager.set(oldNamespace);
-    }
+  public Future<Map<Object, Object>> getAllAsync(String namespace, List<Object> keys) {
+    return memcacheThreadLocal.get().getAllAsync(namespace, keys);
   }
 
-  public static void putAll(String namespace, Map<Object, Object> values, int expirationInSeconds) {
-    String oldNamespace = NamespaceManager.get();
-    NamespaceManager.set(namespace);
-    try {
-      if (expirationInSeconds < 0)
-        LowLevelMemcacheAsync.getInstance().putAll(values);
-      else
-        LowLevelMemcacheAsync.getInstance().putAll(values,
-            Expiration.byDeltaSeconds(expirationInSeconds));
-    } catch (Exception e) {
-      logger_.log(Level.SEVERE, e.toString() + "\nnamespace = " + namespace + "\nvalues = "
-          + values.toString() + "\nexpirationInSeconds = " + expirationInSeconds);
-    } finally {
-      NamespaceManager.set(oldNamespace);
-    }
+  public Future<Boolean> deleteAsync(String namespace, Object key) {
+    return memcacheThreadLocal.get().deleteAsync(namespace, key);
   }
 
-  public static Object getSync(String namespace, Object key) {
-    return LowLevelMemcache.get(namespace, key);
-  }
-
-  public static Future<Object> get(String namespace, Object key) {
-    return LowLevelMemcacheAsync.get(namespace, key);
-  }
-
-  public static Map<Object, Object> getAllSync(String namespace, List<Object> keys) {
-    return LowLevelMemcache.getAll(namespace, keys);
-  }
-
-  public static Future<Map<Object, Object>> getAll(String namespace, List<Object> keys) {
-    return LowLevelMemcacheAsync.getAll(namespace, keys);
-  }
-
-  public static boolean deleteSync(String namespace, Object key) {
-    return LowLevelMemcache.delete(namespace, key);
-  }
-
-  public static Future<Boolean> delete(String namespace, Object key) {
-    return LowLevelMemcacheAsync.delete(namespace, key);
-  }
-
-  public static Set<Object> deleteAllSync(String namespace, List<Object> keys) {
-    return LowLevelMemcache.deleteAll(namespace, keys);
-  }
-
-  public static Future<Set<Object>> deleteAll(String namespace, List<Object> keys) {
-    return LowLevelMemcacheAsync.deleteAll(namespace, keys);
+  public Future<Set<Object>> deleteAllAsync(String namespace, List<Object> keys) {
+    return memcacheThreadLocal.get().deleteAllAsync(namespace, keys);
   }
 }
