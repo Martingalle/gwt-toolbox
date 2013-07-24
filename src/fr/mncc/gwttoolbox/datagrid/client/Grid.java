@@ -42,50 +42,10 @@ import java.util.Map;
 public class Grid<T extends HasId> extends DataGrid<T> {
 
   public static final int MAX_PAGE_SIZE = 100;
-
-  private static <T extends HasId> ProvidesKey<T> createKeyProvider() {
-    return new ProvidesKey<T>() {
-      @Override
-      public Object getKey(T row) {
-        return row == null ? null : row.getId();
-      }
-    };
-  }
-
-  class SelectionColumn extends BooleanColumn<T> {
-
-    public SelectionColumn() {
-
-    }
-
-    @Override
-    public String getColumnWidth() {
-      return "40px";
-    }
-
-    @Override
-    public String getColumnHeader() {
-      return "";
-    }
-
-    @Override
-    public void setValue(int index, T row, Boolean value) {
-      if (value)
-        selectedRows_.put(row.getId(), row);
-      else
-        selectedRows_.remove(row.getId());
-    }
-
-    @Override
-    public Boolean getValue(T object) {
-      return selectedRows_.containsKey(object.getId());
-    }
-  }
-
+  private final Map<Long, T> selectedRows_ = new HashMap<Long, T>();
   private SimplePager pager_ = null;
   private AsyncDataProvider<T> asyncDataProvider_ = null;
   private ColumnSortEvent.AsyncHandler columnSortHandler_ = null;
-  private final Map<Long, T> selectedRows_ = new HashMap<Long, T>();
 
   public Grid() {
     this(MAX_PAGE_SIZE);
@@ -103,6 +63,15 @@ public class Grid<T extends HasId> extends DataGrid<T> {
   public Grid(int pageSize, Resources resources) {
     super(pageSize > 0 && pageSize <= MAX_PAGE_SIZE ? pageSize : MAX_PAGE_SIZE, resources, Grid
         .<T> createKeyProvider());
+  }
+
+  private static <T extends HasId> ProvidesKey<T> createKeyProvider() {
+    return new ProvidesKey<T>() {
+      @Override
+      public Object getKey(T row) {
+        return row == null ? null : row.getId();
+      }
+    };
   }
 
   public SimplePager createPager() {
@@ -252,6 +221,18 @@ public class Grid<T extends HasId> extends DataGrid<T> {
   }
 
   /**
+   * Apply selection
+   */
+  public void select(Function<T> function) {
+    for (T item : getVisibleItems()) {
+      if (function.select(item))
+        selectedRows_.put(item.getId(), item);
+      else
+        selectedRows_.remove(item.getId());
+    }
+  }
+
+  /**
    * Select all the visible rows.
    */
   public void selectAll() {
@@ -374,5 +355,39 @@ public class Grid<T extends HasId> extends DataGrid<T> {
    */
   protected void onRangeChanged(int start, int length) {
 
+  }
+
+  static interface Function<T> {
+    boolean select(T row);
+  }
+
+  class SelectionColumn extends BooleanColumn<T> {
+
+    public SelectionColumn() {
+
+    }
+
+    @Override
+    public String getColumnWidth() {
+      return "40px";
+    }
+
+    @Override
+    public String getColumnHeader() {
+      return "";
+    }
+
+    @Override
+    public void setValue(int index, T row, Boolean value) {
+      if (value)
+        selectedRows_.put(row.getId(), row);
+      else
+        selectedRows_.remove(row.getId());
+    }
+
+    @Override
+    public Boolean getValue(T object) {
+      return selectedRows_.containsKey(object.getId());
+    }
   }
 }
