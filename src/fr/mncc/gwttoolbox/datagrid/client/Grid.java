@@ -357,7 +357,7 @@ public class Grid<T extends HasId> extends DataGrid<T> {
 
   }
 
-  static interface Function<T> {
+  public interface Function<T> {
     boolean select(T row);
   }
 
