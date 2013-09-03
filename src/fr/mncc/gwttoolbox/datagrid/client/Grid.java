@@ -41,7 +41,7 @@ import java.util.Map;
  */
 public class Grid<T extends HasId> extends DataGrid<T> {
 
-  public static final int MAX_PAGE_SIZE = 100;
+  public static final int MAX_PAGE_SIZE = 65000;
   private final Map<Long, T> selectedRows_ = new HashMap<Long, T>();
   private SimplePager pager_ = null;
   private AsyncDataProvider<T> asyncDataProvider_ = null;
