@@ -230,6 +230,7 @@ public class Grid<T extends HasId> extends DataGrid<T> {
       else
         selectedRows_.remove(item.getId());
     }
+    redraw();
   }
 
   /**
