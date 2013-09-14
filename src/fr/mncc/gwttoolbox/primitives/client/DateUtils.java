@@ -20,12 +20,11 @@
  */
 package fr.mncc.gwttoolbox.primitives.client;
 
-import java.sql.Time;
-import java.util.Date;
-
+import com.google.gwt.i18n.client.DateTimeFormat;
 import fr.mncc.gwttoolbox.primitives.shared.DefaultValues;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+import java.sql.Time;
+import java.util.Date;
 
 public class DateUtils {
 

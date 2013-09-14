@@ -20,9 +20,9 @@
  */
 package fr.mncc.gwttoolbox.crypto.shared;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.util.Stack;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Cryptographic Hash Function : http://en.wikipedia.org/wiki/CubeHash

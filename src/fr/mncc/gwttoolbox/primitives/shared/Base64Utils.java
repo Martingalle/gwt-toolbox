@@ -23,7 +23,7 @@ package fr.mncc.gwttoolbox.primitives.shared;
 /**
  * Extracted from http://code.google.com/p/gwt-examples/wiki/gwt_hmtl5
  */
-//@Invariant({"ALPHABET != null", "toInt != null"})
+// @Invariant({"ALPHABET != null", "toInt != null"})
 public class Base64Utils {
 
   private final static char[] ALPHABET =
@@ -41,8 +41,8 @@ public class Base64Utils {
    * @param buf the byte array (not null)
    * @return the translated Base64 string (not null)
    */
-  ////@Requires("buf != null")
-  //@Ensures("result != null")
+  // //@Requires("buf != null")
+  // @Ensures("result != null")
   public static String encode(byte[] buf) {
     int size = buf.length;
     char[] ar = new char[((size + 2) / 3) * 4];
@@ -73,8 +73,8 @@ public class Base64Utils {
    * @param s the Base64 string (not null)
    * @return the byte array (not null)
    */
-  ////@Requires("s != null")
-  //@Ensures("result != null")
+  // //@Requires("s != null")
+  // @Ensures("result != null")
   public static byte[] decode(String s) {
     int delta = s.endsWith("==") ? 2 : s.endsWith("=") ? 1 : 0;
     byte[] buffer = new byte[s.length() * 3 / 4 - delta];

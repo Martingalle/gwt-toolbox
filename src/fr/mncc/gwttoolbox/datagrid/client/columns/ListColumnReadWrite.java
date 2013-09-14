@@ -20,9 +20,9 @@
  */
 package fr.mncc.gwttoolbox.datagrid.client.columns;
 
-import java.util.List;
-
 import com.google.gwt.cell.client.SelectionCell;
+
+import java.util.List;
 
 /**
  * Column filled with selectable lists.

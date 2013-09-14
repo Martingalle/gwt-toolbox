@@ -20,9 +20,9 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import java.io.Serializable;
-
 import com.google.gwt.user.client.rpc.IsSerializable;
+
+import java.io.Serializable;
 
 public class SerializableObject<T extends Serializable> implements Serializable, IsSerializable,
     HasId {

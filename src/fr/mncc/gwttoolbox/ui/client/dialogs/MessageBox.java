@@ -20,14 +20,13 @@
  */
 package fr.mncc.gwttoolbox.ui.client.dialogs;
 
-import fr.mncc.gwttoolbox.ui.client.dialogs.resources.DialogConstants;
-import fr.mncc.gwttoolbox.ui.client.dialogs.resources.DialogResourceBundle;
-
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.*;
+import fr.mncc.gwttoolbox.ui.client.dialogs.resources.DialogConstants;
+import fr.mncc.gwttoolbox.ui.client.dialogs.resources.DialogResourceBundle;
 
 @Deprecated
 public class MessageBox extends PopupPanel {

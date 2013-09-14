@@ -20,9 +20,9 @@
  */
 package fr.mncc.gwttoolbox.rpc.client.callbacks;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class TreeLeafCallback<T> implements AsyncCallback<T> {
 

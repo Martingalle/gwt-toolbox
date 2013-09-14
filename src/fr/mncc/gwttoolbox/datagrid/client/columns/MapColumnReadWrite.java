@@ -20,11 +20,11 @@
  */
 package fr.mncc.gwttoolbox.datagrid.client.columns;
 
+import com.google.gwt.cell.client.SelectionCell;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gwt.cell.client.SelectionCell;
 
 /**
  * In order to be able to easily map strings to ids and vice versa.

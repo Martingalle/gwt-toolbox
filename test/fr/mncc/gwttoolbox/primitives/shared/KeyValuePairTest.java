@@ -20,9 +20,9 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class KeyValuePairTest {
 

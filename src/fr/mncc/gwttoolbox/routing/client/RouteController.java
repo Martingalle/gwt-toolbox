@@ -20,13 +20,13 @@
  */
 package fr.mncc.gwttoolbox.routing.client;
 
-import java.util.HashMap;
-
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
+
+import java.util.HashMap;
 
 public class RouteController implements ValueChangeHandler<String> {
 

@@ -20,11 +20,11 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
+import org.junit.Test;
+
 import java.util.List;
 
 import static org.junit.Assert.*;
-
-import org.junit.Test;
 
 public class KeyValueMapTest {
 

@@ -20,8 +20,6 @@
  */
 package fr.mncc.gwttoolbox.datagrid.client.cells;
 
-import static com.google.gwt.dom.client.BrowserEvents.CLICK;
-
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
@@ -32,6 +30,8 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
+
+import static com.google.gwt.dom.client.BrowserEvents.CLICK;
 
 /**
  * An image cell you can click on.

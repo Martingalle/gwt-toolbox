@@ -20,9 +20,8 @@
  */
 package fr.mncc.gwttoolbox.mvp.client.view;
 
-import fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter;
-
 import com.google.gwt.user.client.ui.Widget;
+import fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter;
 
 /**
  * Implemented by View.

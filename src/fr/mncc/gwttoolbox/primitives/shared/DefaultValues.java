@@ -26,37 +26,37 @@ import java.util.Date;
 
 public class DefaultValues {
 
-  //@Ensures("result == null")
+  // @Ensures("result == null")
   public static Object objectDefaultValue() {
     return null;
   }
 
-  //@Ensures("result.equals(\"\")")
+  // @Ensures("result.equals(\"\")")
   public static String stringDefaultValue() {
     return "";
   }
 
-  //@Ensures("result == 0")
+  // @Ensures("result == 0")
   public static Integer intDefaultValue() {
     return 0;
   }
 
-  //@Ensures("result == 0L")
+  // @Ensures("result == 0L")
   public static Long longDefaultValue() {
     return new Long(0);
   }
 
-  //@Ensures("result == false")
+  // @Ensures("result == false")
   public static Boolean boolDefaultValue() {
     return false;
   }
 
-  //@Ensures("result == 0.0d")
+  // @Ensures("result == 0.0d")
   public static Double doubleDefaultValue() {
     return 0.0d;
   }
 
-  //@Ensures("result == 0.0f")
+  // @Ensures("result == 0.0f")
   public static Float floatDefaultValue() {
     return 0.0f;
   }

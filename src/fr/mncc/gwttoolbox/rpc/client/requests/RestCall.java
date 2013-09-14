@@ -20,8 +20,6 @@
  */
 package fr.mncc.gwttoolbox.rpc.client.requests;
 
-import fr.mncc.gwttoolbox.primitives.client.JsonParser;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -29,6 +27,7 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.jsonp.client.JsonpRequestBuilder;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import fr.mncc.gwttoolbox.primitives.client.JsonParser;
 
 public class RestCall {
 

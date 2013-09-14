@@ -20,12 +20,11 @@
  */
 package fr.mncc.gwttoolbox.rpc.server.filters;
 
-import java.io.IOException;
-import java.util.Date;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
 
 /**
  * {@link javax.servlet.Filter} to add cache control headers for GWT generated files to ensure that

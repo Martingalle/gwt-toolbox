@@ -20,12 +20,12 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import com.google.common.base.Objects;
-
 import java.util.ArrayList;
 import java.util.List;
 
-//@Invariant("totalNumberOfEntities_ >= 0")
+import com.google.common.base.Objects;
+
+// @Invariant("totalNumberOfEntities_ >= 0")
 public class Page<E extends Entity> extends SerializableObject<ArrayList<E>> {
 
   // Total number of entities (if they were not filtered)

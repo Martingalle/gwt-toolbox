@@ -64,7 +64,7 @@ public class KeyValueMap extends LinkedHashMap<String, String> {
    * 
    * @return a list of KeyValuePair objects
    */
-  //@Ensures("result != null")
+  // @Ensures("result != null")
   public List<KeyValuePair<String, String>> toPairs() {
     List<KeyValuePair<String, String>> list = new ArrayList<KeyValuePair<String, String>>();
     for (String key : keySet())
@@ -77,7 +77,7 @@ public class KeyValueMap extends LinkedHashMap<String, String> {
    * 
    * @return map as JSON string
    */
-  //@Ensures("result != null")
+  // @Ensures("result != null")
   public String toJson() {
     String result = "{";
     String separator = "";

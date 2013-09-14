@@ -20,9 +20,8 @@
  */
 package fr.mncc.gwttoolbox.datagrid.client.columns;
 
-import fr.mncc.gwttoolbox.datagrid.client.cells.ClickableImageCell;
-
 import com.google.gwt.cell.client.Cell;
+import fr.mncc.gwttoolbox.datagrid.client.cells.ClickableImageCell;
 
 /**
  * Image column.

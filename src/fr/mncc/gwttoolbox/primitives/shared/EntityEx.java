@@ -20,13 +20,13 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
+import com.google.gwt.user.client.rpc.GwtTransient;
+
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import com.google.gwt.user.client.rpc.GwtTransient;
 
 public class EntityEx extends Entity {
 

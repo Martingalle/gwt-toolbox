@@ -20,9 +20,9 @@
  */
 package fr.mncc.gwttoolbox.datagrid.client.columns;
 
-import java.util.Map;
-
 import com.google.gwt.cell.client.TextCell;
+
+import java.util.Map;
 
 /**
  * In order to easily replace ids by string.
