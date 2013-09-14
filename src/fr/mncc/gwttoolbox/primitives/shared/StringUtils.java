@@ -20,8 +20,6 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import com.google.java.contract.Ensures;
-
 /**
  * String parsing with default value on error
  */
@@ -128,7 +126,7 @@ public class StringUtils {
    * @param str string to escape
    * @return escaped string
    */
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public static String escapeToLaTex(String str) {
     return str == null ? "" : str.replaceAll("\\Q\\\\E", "\\\\textbackslash").replaceAll("\\Q{\\E",
         "\\\\{").replaceAll("\\Q_\\E", "\\\\_").replaceAll("\\Q^\\E", "\\\\textasciicircum")
@@ -144,7 +142,7 @@ public class StringUtils {
    * @param str
    * @return
    */
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public static String capitalize(String str) {
     return str == null || str.isEmpty() ? "" : str.substring(0, 1).toUpperCase() + str.substring(1);
   }
@@ -155,7 +153,7 @@ public class StringUtils {
    * @param str
    * @return
    */
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public static String uncapitalize(String str) {
     return str == null || str.isEmpty() ? "" : str.substring(0, 1).toLowerCase() + str.substring(1);
   }
@@ -166,7 +164,7 @@ public class StringUtils {
    * @param str
    * @return
    */
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public static String capitalizeWords(String str) {
     if (str == null || str.isEmpty())
       return "";
@@ -184,7 +182,7 @@ public class StringUtils {
    * @param str
    * @return
    */
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public static String uncapitalizeWords(String str) {
     if (str == null || str.isEmpty())
       return "";

@@ -20,15 +20,15 @@
  */
 package fr.mncc.gwttoolbox.routing.client;
 
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.SimpleEventBus;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gwt.event.shared.EventHandler;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.event.shared.SimpleEventBus;
 
 public class Environment {
 
@@ -56,8 +56,8 @@ public class Environment {
     if (!eventHandlers_.containsKey(uuid)) {
       eventHandlers_.put(uuid, new ArrayList<HandlerRegistration>());
     }
-  eventHandlers_.get(uuid).add(eventBus_.addHandler(type, handler));
-}
+    eventHandlers_.get(uuid).add(eventBus_.addHandler(type, handler));
+  }
 
   public static void unregisterEventHandlers(String uuid) {
     if (eventHandlers_.containsKey(uuid)) {

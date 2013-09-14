@@ -1,9 +1,9 @@
 package fr.mncc.gwttoolbox.primitives.client;
 
-import com.google.gwt.junit.client.GWTTestCase;
-
 import java.sql.Time;
 import java.util.Date;
+
+import com.google.gwt.junit.client.GWTTestCase;
 
 public class DateUtilsTest extends GWTTestCase {
 
@@ -21,8 +21,7 @@ public class DateUtilsTest extends GWTTestCase {
 
       str = fr.mncc.gwttoolbox.primitives.client.DateUtils.toDateIso(new Date(12, 12, 12));
       assertEquals(str, "1913-01-12");
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -41,8 +40,7 @@ public class DateUtilsTest extends GWTTestCase {
       assertEquals(date.getYear(), 13);
       assertEquals(date.getMonth(), 0);
       assertEquals(date.getDate(), 12);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -55,10 +53,11 @@ public class DateUtilsTest extends GWTTestCase {
       String str = fr.mncc.gwttoolbox.primitives.client.DateUtils.toTimeIso(null);
       assertEquals(str, "01:00:00");
 
-      str = fr.mncc.gwttoolbox.primitives.client.DateUtils.toTimeIso(new Time((new Date(12, 12, 12, 12, 12, 12)).getTime()));
+      str =
+          fr.mncc.gwttoolbox.primitives.client.DateUtils.toTimeIso(new Time((new Date(12, 12, 12,
+              12, 12, 12)).getTime()));
       assertEquals(str, "12:12:12");
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -77,8 +76,7 @@ public class DateUtilsTest extends GWTTestCase {
       assertEquals(date.getHours(), 12);
       assertEquals(date.getMinutes(), 12);
       assertEquals(date.getSeconds(), 12);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -91,10 +89,11 @@ public class DateUtilsTest extends GWTTestCase {
       String str = fr.mncc.gwttoolbox.primitives.client.DateUtils.toTimestampIso(null);
       assertEquals(str, "1970-01-01 01:00:00");
 
-      str = fr.mncc.gwttoolbox.primitives.client.DateUtils.toTimestampIso(new Date(12, 12, 12, 12, 12, 12));
+      str =
+          fr.mncc.gwttoolbox.primitives.client.DateUtils.toTimestampIso(new Date(12, 12, 12, 12,
+              12, 12));
       assertEquals(str, "1913-01-12 12:12:12");
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -104,7 +103,8 @@ public class DateUtilsTest extends GWTTestCase {
   public void testFromTimestampIso() {
     boolean thrown = false;
     try {
-      Date date = fr.mncc.gwttoolbox.primitives.client.DateUtils.fromTimestampIso("1970-01-01 01:00:00");
+      Date date =
+          fr.mncc.gwttoolbox.primitives.client.DateUtils.fromTimestampIso("1970-01-01 01:00:00");
       assertEquals(date.getYear(), 70);
       assertEquals(date.getMonth(), 0);
       assertEquals(date.getDate(), 1);
@@ -119,8 +119,7 @@ public class DateUtilsTest extends GWTTestCase {
       assertEquals(date.getHours(), 12);
       assertEquals(date.getMinutes(), 12);
       assertEquals(date.getSeconds(), 12);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);

@@ -20,8 +20,6 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import com.google.java.contract.Ensures;
-
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -62,7 +60,7 @@ public class ObjectUtils {
    * @param obj object
    * @return String representation of obj, empty string if obj cannot be serialized
    */
-  @Ensures("result != null")
+  //@Ensures("result != null")
   public static String toString(Object obj) {
     return isValid(obj) ? getType(obj) + ":" + getString(obj) : "";
   }
@@ -74,7 +72,7 @@ public class ObjectUtils {
    * @return the object part of the serialized string, empty string if str is not a valid serialized
    *         string
    */
-  @Ensures("result != null")
+  //@Ensures("result != null")
   public static String asString(String str) {
     int index = str == null ? -1 : str.indexOf(':');
     return index < 0 ? "" : str.substring(index + 1);

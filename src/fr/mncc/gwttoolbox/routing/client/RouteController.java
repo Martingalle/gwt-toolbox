@@ -268,14 +268,13 @@ public class RouteController implements ValueChangeHandler<String> {
   }
 
   private native void recordAnalyticsHit(String UA, String domainName, String pageName) /*-{
-                                                                                        try {
-                                                                                        $wnd._gaq.push(['_setAccount', UA]);
-                                                                                        $wnd._gaq.push(['_setDomainName', domainName]);
-                                                                                        $wnd._gaq.push(['_setSiteSpeedSampleRate', 50]);
-                                                                                        $wnd._gaq.push(['_trackPageview', pageName]);
-                                                                                        }
-                                                                                        catch(err) {
+    try {
+      $wnd._gaq.push(['_setAccount', UA]);
+      $wnd._gaq.push(['_setDomainName', domainName]);
+      $wnd._gaq.push(['_setSiteSpeedSampleRate', 50]);
+      $wnd._gaq.push(['_trackPageview', pageName]);
+    } catch (err) {
 
-                                                                                        }
-                                                                                        }-*/;
+    }
+  }-*/;
 }

@@ -20,53 +20,51 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Future;
+
 import com.google.appengine.api.datastore.AsyncDatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
-
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
 
 public class LowLevelDataStore2Async {
 
   private final static AsyncDatastoreService dataStore_ = DatastoreServiceFactory
       .getAsyncDatastoreService();
 
-  @Ensures("dataStore_ != null")
+  // @Ensures("dataStore_ != null")
   public static AsyncDatastoreService getInstance() {
     return dataStore_;
   }
 
-  @Requires("entity != null")
+  // //@Requires("entity != null")
   public static Future<Key> put(Entity entity) {
     return dataStore_.put(entity);
   }
 
-  @Requires("entities != null")
+  // //@Requires("entities != null")
   public static Future<List<Key>> put(Iterable<Entity> entities) {
     return dataStore_.put(entities);
   }
 
-  @Requires("key != null")
+  // //@Requires("key != null")
   public static Future<Entity> get(Key key) {
     return dataStore_.get(key);
   }
 
-  @Requires("keys != null")
+  // //@Requires("keys != null")
   public static Future<Map<Key, Entity>> get(Iterable<Key> keys) {
     return dataStore_.get(keys);
   }
 
-  @Requires("key != null")
+  // //@Requires("key != null")
   public static Future<Void> delete(Key key) {
     return dataStore_.delete(key);
   }
 
-  @Requires("keys != null")
+  // //@Requires("keys != null")
   public static Future<Void> delete(Iterable<Key> keys) {
     return dataStore_.delete(keys);
   }

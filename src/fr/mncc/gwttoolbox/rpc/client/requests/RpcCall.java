@@ -20,6 +20,8 @@
  */
 package fr.mncc.gwttoolbox.rpc.client.requests;
 
+import fr.mncc.gwttoolbox.ui.client.popups.Indicator;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.RequestTimeoutException;
 import com.google.gwt.user.client.Timer;
@@ -27,7 +29,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
 import com.google.gwt.user.client.rpc.InvocationException;
 import com.google.gwt.user.client.rpc.SerializationException;
-import fr.mncc.gwttoolbox.ui.client.popups.Indicator;
 
 /**
  * Based on a code by Daniel Guermeur and Amy Unruh

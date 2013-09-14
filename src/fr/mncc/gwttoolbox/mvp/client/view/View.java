@@ -20,12 +20,12 @@
  */
 package fr.mncc.gwttoolbox.mvp.client.view;
 
+import fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
-
-import fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter;
 
 /**
  * Implements AbstractView interface. Unlike ResizeComposite, do not force the internal widget to

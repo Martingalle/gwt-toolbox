@@ -20,10 +20,10 @@
  */
 package fr.mncc.gwttoolbox.appengine.shared;
 
+import java.io.Serializable;
+
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
-
-import java.io.Serializable;
 
 public class Projection2 implements IsSerializable, Serializable {
 

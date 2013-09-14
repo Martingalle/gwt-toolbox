@@ -23,7 +23,6 @@ package fr.mncc.gwttoolbox.datagrid.client.entitycolumns;
 import java.util.List;
 
 import fr.mncc.gwttoolbox.datagrid.client.columns.ListColumnReadWrite;
-
 import fr.mncc.gwttoolbox.primitives.shared.Entity;
 
 public class EntityListColumnReadWrite<T extends Entity> extends ListColumnReadWrite<T> {

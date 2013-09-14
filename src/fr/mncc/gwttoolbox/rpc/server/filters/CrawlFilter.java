@@ -20,12 +20,6 @@
  */
 package fr.mncc.gwttoolbox.rpc.server.filters;
 
-import com.gargoylesoftware.htmlunit.*;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.google.common.base.Stopwatch;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -34,6 +28,14 @@ import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+
+import com.google.common.base.Stopwatch;
+
+import com.gargoylesoftware.htmlunit.*;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * For AJAX crawlable websites

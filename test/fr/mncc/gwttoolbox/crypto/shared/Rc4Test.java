@@ -1,28 +1,28 @@
 /**
  * Copyright (c) 2012 MNCC
- *
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge, publish, distribute,
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * 
  * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
  * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
+ * 
  * @author http://www.mncc.fr
  */
 package fr.mncc.gwttoolbox.crypto.shared;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class Rc4Test {
 
@@ -33,32 +33,28 @@ public class Rc4Test {
     try {
       Rc4 rc4 = new Rc4(null);
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
 
     try {
       Rc4 rc4 = new Rc4("");
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
 
     try {
       Rc4 rc4 = new Rc4("key");
       assertEquals(0, 0);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 1);
     }
 
     try {
       Rc4 rc4 = new Rc4();
       assertEquals(0, 0);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 1);
     }
   }
@@ -68,8 +64,7 @@ public class Rc4Test {
     try {
       rc4_.code(null, null);
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
   }
@@ -79,24 +74,21 @@ public class Rc4Test {
     try {
       rc4_.code(null, "key");
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
 
     try {
       rc4_.code(null);
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
 
     try {
       rc4_.code("text", null);
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
   }
@@ -106,8 +98,7 @@ public class Rc4Test {
     try {
       rc4_.decode(null, null);
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
   }
@@ -117,24 +108,21 @@ public class Rc4Test {
     try {
       rc4_.decode(null, "key");
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
 
     try {
       rc4_.decode(null);
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
 
     try {
       rc4_.decode("text", null);
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
   }
@@ -162,8 +150,7 @@ public class Rc4Test {
     try {
       rc4_.code("Hello", "");
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
   }
@@ -173,8 +160,7 @@ public class Rc4Test {
     try {
       rc4_.decode("Hello", "");
       assertEquals(0, 1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       assertEquals(0, 0);
     }
   }
@@ -212,7 +198,8 @@ public class Rc4Test {
     assertEquals(coded2, "46c1948e8f45d3c7cb5c9e5bea7c5896e2c8f5c39c57b898");
 
     String coded = rc4_.code("The quick brown fox jumps over the lazy dog", "key");
-    assertEquals(coded, "5f0451cd55fa1229236b6a09792a7cdde91b9546c1948e8f45d3c7cb5c9e5bea7c5896e2c8f5c39c57b898");
+    assertEquals(coded,
+        "5f0451cd55fa1229236b6a09792a7cdde91b9546c1948e8f45d3c7cb5c9e5bea7c5896e2c8f5c39c57b898");
   }
 
   @Test
@@ -223,7 +210,10 @@ public class Rc4Test {
     String coded2 = rc4_.decode("46c1948e8f45d3c7cb5c9e5bea7c5896e2c8f5c39c57b898");
     assertEquals(coded2, " jumps over the lazy dog");
 
-    String coded = rc4_.decode("5f0451cd55fa1229236b6a09792a7cdde91b9546c1948e8f45d3c7cb5c9e5bea7c5896e2c8f5c39c57b898", "key");
+    String coded =
+        rc4_.decode(
+            "5f0451cd55fa1229236b6a09792a7cdde91b9546c1948e8f45d3c7cb5c9e5bea7c5896e2c8f5c39c57b898",
+            "key");
     assertEquals(coded, "The quick brown fox jumps over the lazy dog");
   }
 }

@@ -20,13 +20,14 @@
  */
 package fr.mncc.gwttoolbox.mvp.client.place;
 
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import fr.mncc.gwttoolbox.mvp.client.WidgetEx;
 import fr.mncc.gwttoolbox.mvp.client.presenter.AbstractPresenter;
 import fr.mncc.gwttoolbox.mvp.client.view.AbstractView;
 import fr.mncc.gwttoolbox.primitives.shared.KeyValueMap;
+
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Bind a Presenter with a View.

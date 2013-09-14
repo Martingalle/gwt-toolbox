@@ -20,11 +20,7 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +28,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.postgresql.PGResultSetMetaData;
-
 import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
 import fr.mncc.gwttoolbox.primitives.shared.Entity;
 import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
+
+import org.postgresql.PGResultSetMetaData;
 
 public class PostgreSql2 {
 

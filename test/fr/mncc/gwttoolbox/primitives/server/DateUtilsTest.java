@@ -1,11 +1,11 @@
 package fr.mncc.gwttoolbox.primitives.server;
 
-import org.junit.Test;
-
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+
+import org.junit.Test;
 
 public class DateUtilsTest {
 
@@ -19,8 +19,7 @@ public class DateUtilsTest {
 
       str = DateUtils.toDateIso(new Date(12, 12, 12));
       assertEquals(str, "1913-01-12");
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -40,8 +39,7 @@ public class DateUtilsTest {
       assertEquals(date.getYear(), 13);
       assertEquals(date.getMonth(), 0);
       assertEquals(date.getDate(), 12);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -57,8 +55,7 @@ public class DateUtilsTest {
 
       str = DateUtils.toTimeIso(new Date(12, 12, 12, 12, 12, 12));
       assertEquals(str, "12:12:12");
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -78,8 +75,7 @@ public class DateUtilsTest {
       assertEquals(date.getHours(), 12);
       assertEquals(date.getMinutes(), 12);
       assertEquals(date.getSeconds(), 12);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -95,8 +91,7 @@ public class DateUtilsTest {
 
       str = DateUtils.toTimestampIso(new Date(12, 12, 12, 12, 12, 12));
       assertEquals(str, "1913-01-12 12:12:12");
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);
@@ -122,8 +117,7 @@ public class DateUtilsTest {
       assertEquals(date.getHours(), 12);
       assertEquals(date.getMinutes(), 12);
       assertEquals(date.getSeconds(), 12);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       thrown = true;
     }
     assertFalse(thrown);

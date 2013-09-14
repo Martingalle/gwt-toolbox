@@ -20,11 +20,10 @@
  */
 package fr.mncc.gwttoolbox.primitives.shared;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.java.contract.Ensures;
+
+import java.io.Serializable;
 
 /**
  * Key-value pair
@@ -34,7 +33,7 @@ import com.google.java.contract.Ensures;
  */
 public class KeyValuePair<K, V> implements Serializable, IsSerializable {
 
-  @Ensures({"result != null", "result.getKey() == k", "result.getValue() == v"})
+  //@Ensures({"result != null", "result.getKey() == k", "result.getValue() == v"})
   public static <K, V> KeyValuePair<K, V> of(K k, V v) {
     return new KeyValuePair<K, V>(k, v);
   }
@@ -47,7 +46,7 @@ public class KeyValuePair<K, V> implements Serializable, IsSerializable {
     this.value_ = null;
   }
 
-  @Ensures({"getKey() == key", "getValue() == value"})
+  //@Ensures({"getKey() == key", "getValue() == value"})
   public KeyValuePair(K key, V value) {
     this.key_ = key;
     this.value_ = value;

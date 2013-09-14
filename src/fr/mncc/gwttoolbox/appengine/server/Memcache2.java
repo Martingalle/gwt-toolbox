@@ -20,15 +20,15 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import com.google.appengine.api.NamespaceManager;
-import com.google.appengine.api.memcache.Expiration;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.appengine.api.NamespaceManager;
+import com.google.appengine.api.memcache.Expiration;
 
 public class Memcache2 {
 

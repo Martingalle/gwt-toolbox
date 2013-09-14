@@ -20,12 +20,12 @@
  */
 package fr.mncc.gwttoolbox.appengine.shared;
 
-import com.google.common.base.Objects;
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.google.common.base.Objects;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class SQuery2 implements IsSerializable, Serializable {
 

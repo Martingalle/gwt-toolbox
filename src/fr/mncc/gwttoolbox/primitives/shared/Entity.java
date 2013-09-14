@@ -23,22 +23,13 @@ package fr.mncc.gwttoolbox.primitives.shared;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.ComparisonChain;
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Invariant;
-import com.google.java.contract.Requires;
 
-@Invariant({"properties_ != null"})
+// @Invariant({"properties_ != null"})
 public class Entity implements Comparable<Entity>, Serializable, IsSerializable, HasId,
     HasTimestamp {
 
@@ -54,27 +45,27 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
   }
 
-  @Requires("entity != null")
-  @Ensures({"getKind().equals(entity.getKind())", "getId() == entity.getId()"})
+  // //@Requires("entity != null")
+  // @Ensures({"getKind().equals(entity.getKind())", "getId() == entity.getId()"})
   public Entity(Entity entity) {
     this(entity.getKind(), entity.getId(), entity.getProperties());
   }
 
-  @Requires("kind != null")
-  @Ensures("getKind().equals(kind)")
+  // //@Requires("kind != null")
+  // @Ensures("getKind().equals(kind)")
   public Entity(String kind) {
     setKind(kind);
   }
 
-  @Requires({"kind != null", "id >= 0"})
-  @Ensures({"getKind().equals(kind)", "getId() == id"})
+  // //@Requires({"kind != null", "id >= 0"})
+  // @Ensures({"getKind().equals(kind)", "getId() == id"})
   public Entity(String kind, long id) {
     setKind(kind);
     setId(id);
   }
 
-  @Requires({"kind != null", "id >= 0", "properties != null"})
-  @Ensures({"getKind().equals(kind)", "getId() == id"})
+  // //@Requires({"kind != null", "id >= 0", "properties != null"})
+  // @Ensures({"getKind().equals(kind)", "getId() == id"})
   public Entity(String kind, long id, List<String> properties) {
     setId(id);
     setKind(kind);
@@ -196,14 +187,14 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return gcdMap;
   }
 
-  @Ensures("result >= 0")
+  // @Ensures("result >= 0")
   @Override
   public long getId() {
     return getAsLong("__id__");
   }
 
-  @Requires("id >= 0")
-  @Ensures("getId() == id")
+  // //@Requires("id >= 0")
+  // @Ensures("getId() == id")
   public void setId(long id) {
     put("__id__", id);
   }
@@ -217,18 +208,18 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     put("__timestamp__", new Date());
   }
 
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public List<String> getProperties() {
     return new ArrayList<String>(properties_);
   }
 
-  @Requires("properties != null")
-  @Ensures("getProperties() == properties")
+  // //@Requires("properties != null")
+  // @Ensures("getProperties() == properties")
   private void setProperties(List<String> properties) {
     properties_ = properties;
   }
 
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public Set<String> keySet() {
     Set<String> set = new HashSet<String>();
     for (String property : properties_)
@@ -236,19 +227,19 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return set;
   }
 
-  @Requires({
-      "propertyName != null", "propertyValue != null",
-      "!ObjectUtils.toString(propertyValue).equals(ObjectUtils.toString(null))"})
-  @Ensures({
-      "properties_.containsKey(propertyName)",
-      "ObjectUtils.toString(getAsObject(propertyName)).equals(ObjectUtils.toString(propertyValue))"})
+  // //@Requires({
+  // "propertyName != null", "propertyValue != null",
+  // "!ObjectUtils.toString(propertyValue).equals(ObjectUtils.toString(null))"})
+  // @Ensures({
+  // "properties_.contains(propertyName)",
+  // "ObjectUtils.toString(getAsObject(propertyName)).equals(ObjectUtils.toString(propertyValue))"})
   public void put(String propertyName, Object propertyValue) {
     remove(propertyName);
     properties_.add(createProperty(propertyName, propertyValue));
   }
 
-  @Requires("propertyName != null")
-  @Ensures({"!properties_.containsKey(propertyName)", "getAsObject(propertyName) == null"})
+  // //@Requires("propertyName != null")
+  // @Ensures({"!properties_.contains(propertyName)", "getAsObject(propertyName) == null"})
   public void remove(String propertyName) {
     String property = get(propertyName);
     if (property != null)
@@ -264,8 +255,8 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return getValueAsObject(property);
   }
 
-  @Requires("propertyName != null")
-  @Ensures("result != null")
+  // //@Requires("propertyName != null")
+  // @Ensures("result != null")
   public String getAsString(String propertyName) {
     if (propertyName == null)
       return "";
@@ -275,7 +266,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
     return ObjectUtils.asString(getValueAsString(property));
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public int getAsInt(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Integer ? (Integer) object : object instanceof Long ? ((Long) object)
@@ -284,7 +275,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
             ? StringUtils.parseInt((String) object) : DefaultValues.intDefaultValue();
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public long getAsLong(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Long ? (Long) object : object instanceof Integer ? ((Integer) object)
@@ -293,7 +284,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
             ? StringUtils.parseLong((String) object) : DefaultValues.longDefaultValue();
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public double getAsDouble(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Double ? (Double) object : object instanceof Float ? ((Float) object)
@@ -302,7 +293,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
             ? StringUtils.parseDouble((String) object) : DefaultValues.doubleDefaultValue();
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public float getAsFloat(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Float ? (Float) object : object instanceof Double ? ((Double) object)
@@ -311,14 +302,14 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
             ? StringUtils.parseFloat((String) object) : DefaultValues.floatDefaultValue();
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public boolean getAsBoolean(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Boolean ? (Boolean) object : object instanceof String ? StringUtils
         .parseBoolean((String) object) : DefaultValues.boolDefaultValue();
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public Date getAsDate(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Timestamp ? new Date(((Timestamp) object).getTime())
@@ -327,7 +318,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
 
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public Time getAsTime(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Timestamp ? new Time(((Timestamp) object).getTime())
@@ -335,7 +326,7 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
             ((Date) object).getTime()) : DefaultValues.timeDefaultValue();
   }
 
-  @Requires("propertyName != null")
+  // //@Requires("propertyName != null")
   public Timestamp getAsTimestamp(String propertyName) {
     Object object = getAsObject(propertyName);
     return object instanceof Timestamp ? (Timestamp) object : object instanceof Time
@@ -343,13 +334,13 @@ public class Entity implements Comparable<Entity>, Serializable, IsSerializable,
             ((Date) object).getTime()) : DefaultValues.timestampDefaultValue();
   }
 
-  @Ensures("result != null")
+  // @Ensures("result != null")
   public String getKind() {
     return getAsString("__kind__");
   }
 
-  @Requires("kind != null")
-  @Ensures("getKind().equals(kind)")
+  // //@Requires("kind != null")
+  // @Ensures("getKind().equals(kind)")
   private void setKind(String kind) {
     put("__kind__", kind);
   }

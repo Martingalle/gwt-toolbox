@@ -20,19 +20,6 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import fr.mncc.gwttoolbox.appengine.shared.Clause2;
-import fr.mncc.gwttoolbox.appengine.shared.Filter2;
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
-import fr.mncc.gwttoolbox.primitives.server.DateUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -41,7 +28,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import fr.mncc.gwttoolbox.appengine.shared.Clause2;
+import fr.mncc.gwttoolbox.appengine.shared.Filter2;
+import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.primitives.server.DateUtils;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
+import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
+
 import static junit.framework.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class AppEngineVsPostgreSqlTest {
 

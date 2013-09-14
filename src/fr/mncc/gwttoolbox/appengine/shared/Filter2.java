@@ -20,12 +20,13 @@
  */
 package fr.mncc.gwttoolbox.appengine.shared;
 
-import com.google.common.base.Objects;
-import com.google.gwt.user.client.rpc.IsSerializable;
-import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import fr.mncc.gwttoolbox.primitives.shared.ObjectUtils;
+
+import com.google.common.base.Objects;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 public class Filter2 extends Clause2 implements IsSerializable, Serializable {
 

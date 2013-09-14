@@ -20,15 +20,13 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
-import com.google.appengine.api.datastore.*;
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.appengine.api.datastore.*;
 
 public class LowLevelDataStore2 {
 
@@ -37,22 +35,22 @@ public class LowLevelDataStore2 {
       .getCanonicalName());
   private final static DatastoreService dataStore_ = DatastoreServiceFactory.getDatastoreService();
 
-  @Ensures("dataStore_ != null")
+  // @Ensures("dataStore_ != null")
   public static DatastoreService getInstance() {
     return dataStore_;
   }
 
-  @Requires("entity != null")
+  // //@Requires("entity != null")
   public static Key put(com.google.appengine.api.datastore.Entity entity) {
     return dataStore_.put(entity);
   }
 
-  @Requires("entities != null")
+  // //@Requires("entities != null")
   public static List<Key> put(Iterable<com.google.appengine.api.datastore.Entity> entities) {
     return dataStore_.put(entities);
   }
 
-  @Requires("key != null")
+  // //@Requires("key != null")
   public static com.google.appengine.api.datastore.Entity get(Key key) {
     Entity entity = null;
     try {
@@ -63,22 +61,22 @@ public class LowLevelDataStore2 {
     return entity;
   }
 
-  @Requires("keys != null")
+  // //@Requires("keys != null")
   public static Map<Key, com.google.appengine.api.datastore.Entity> get(Iterable<Key> keys) {
     return dataStore_.get(keys);
   }
 
-  @Requires("key != null")
+  // //@Requires("key != null")
   public static void delete(Key key) {
     dataStore_.delete(key);
   }
 
-  @Requires("keys != null")
+  // //@Requires("keys != null")
   public static void delete(Iterable<Key> keys) {
     dataStore_.delete(keys);
   }
 
-  @Requires("query != null")
+  // //@Requires("query != null")
   public static long listSize(Query query) {
     List<Query.SortPredicate> sortPredicates =
         new ArrayList<Query.SortPredicate>(query.getSortPredicates());
@@ -105,12 +103,12 @@ public class LowLevelDataStore2 {
     return size;
   }
 
-  @Requires("query != null")
+  // //@Requires("query != null")
   public static Iterable<com.google.appengine.api.datastore.Entity> list(Query query) {
     return list(query, 0, OFFSET_LIMIT);
   }
 
-  @Requires({"query != null", "startIndex >= 0", "amount > 0"})
+  // //@Requires({"query != null", "startIndex >= 0", "amount > 0"})
   @SuppressWarnings("deprecation")
   public static Iterable<com.google.appengine.api.datastore.Entity> list(Query query,
       int startIndex, int amount) {
@@ -135,14 +133,14 @@ public class LowLevelDataStore2 {
     return null;
   }
 
-  @Requires("query != null")
-  @Ensures("result != null")
+  // //@Requires("query != null")
+  // @Ensures("result != null")
   public static Iterable<Key> listKeys(Query query) {
     return listKeys(query, 0, OFFSET_LIMIT);
   }
 
-  @Requires({"query != null", "startIndex >= 0", "amount > 0"})
-  @Ensures("result != null")
+  // //@Requires({"query != null", "startIndex >= 0", "amount > 0"})
+  // @Ensures("result != null")
   public static Iterable<Key> listKeys(Query query, int startIndex, int amount) {
     boolean isKeysOnly = query.isKeysOnly();
     query.setKeysOnly();

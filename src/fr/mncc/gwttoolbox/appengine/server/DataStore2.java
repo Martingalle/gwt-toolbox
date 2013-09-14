@@ -29,36 +29,34 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
+import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
+import fr.mncc.gwttoolbox.primitives.shared.Entity;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Text;
-import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
-
-import fr.mncc.gwttoolbox.appengine.shared.SQuery2;
-import fr.mncc.gwttoolbox.primitives.shared.Entity;
 
 @SuppressWarnings("serial")
 public class DataStore2 {
 
   private final static Logger logger_ = Logger.getLogger(DataStore2.class.getCanonicalName());
 
-  @Requires({"kind != null", "id >= 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id >= 0"})
+  // @Ensures("result != null")
   private static Key createKey(String kind, long id) {
     return KeyFactory.createKey(kind, id);
   }
 
-  @Requires({"kind != null", "id >= 0", "ancestorKind != null", "ancestorId >= 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id >= 0", "ancestorKind != null", "ancestorId >= 0"})
+  // @Ensures("result != null")
   private static Key createKey(String kind, long id, String ancestorKind, long ancestorId) {
     return ancestorKind == null ? createKey(kind, id) : KeyFactory.createKey(createKey(
         ancestorKind, ancestorId), kind, id);
   }
 
-  @Requires({"kind != null", "ids != null"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null"})
+  // @Ensures("result != null")
   private static Iterable<Key> createKeys(String kind, Iterable<Long> ids) {
     List<Key> keys = new ArrayList<Key>();
     for (Long id : ids)
@@ -66,8 +64,8 @@ public class DataStore2 {
     return keys;
   }
 
-  @Requires({"kind != null", "ids != null", "ancestorKind != null", "ancestorId >= 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null", "ancestorKind != null", "ancestorId >= 0"})
+  // @Ensures("result != null")
   private static Iterable<Key> createKeys(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
     if (ancestorKind == null)
@@ -92,8 +90,8 @@ public class DataStore2 {
     return convertToAppEngineEntity(toolboxEntity, ancestorKind, ancestorId);
   }
 
-  @Requires({"toolboxEntity != null", "ancestorKind != null", "ancestorId >= 0"})
-  @Ensures("result != null")
+  // //@Requires({"toolboxEntity != null", "ancestorKind != null", "ancestorId >= 0"})
+  // @Ensures("result != null")
   private static com.google.appengine.api.datastore.Entity convertToAppEngineEntity(
       fr.mncc.gwttoolbox.primitives.shared.Entity toolboxEntity, String ancestorKind,
       long ancestorId) {
@@ -143,8 +141,8 @@ public class DataStore2 {
     return appEngineEntity;
   }
 
-  @Requires("appEngineEntity != null")
-  @Ensures("result != null")
+  // //@Requires("appEngineEntity != null")
+  // @Ensures("result != null")
   private static fr.mncc.gwttoolbox.primitives.shared.Entity convertToToolboxEntity(
       com.google.appengine.api.datastore.Entity appEngineEntity) {
 
@@ -167,8 +165,8 @@ public class DataStore2 {
     return toolboxEntity;
   }
 
-  @Requires({"toolboxEntities != null", "ancestorKind != null", "ancestorId >= 0"})
-  @Ensures("result != null")
+  // //@Requires({"toolboxEntities != null", "ancestorKind != null", "ancestorId >= 0"})
+  // @Ensures("result != null")
   private static Iterable<com.google.appengine.api.datastore.Entity> convertToAppEngineEntities(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntities, String ancestorKind,
       long ancestorId) {
@@ -179,8 +177,8 @@ public class DataStore2 {
     return appEngineEntities;
   }
 
-  @Requires("appEngineEntities != null")
-  @Ensures("result != null")
+  // //@Requires("appEngineEntities != null")
+  // @Ensures("result != null")
   private static Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> convertToToolboxEntities(
       Iterable<com.google.appengine.api.datastore.Entity> appEngineEntities) {
     List<fr.mncc.gwttoolbox.primitives.shared.Entity> toolboxEntities =
@@ -190,28 +188,28 @@ public class DataStore2 {
     return toolboxEntities;
   }
 
-  @Requires("entity != null")
-  @Ensures("result != null")
+  // //@Requires("entity != null")
+  // @Ensures("result != null")
   public static Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
     return putSync(entity, null, 0);
   }
 
-  @Requires("entity != null")
-  @Ensures("result != null")
+  // //@Requires("entity != null")
+  // @Ensures("result != null")
   public static Long putSync(fr.mncc.gwttoolbox.primitives.shared.Entity entity,
       String ancestorKind, long ancestorId) {
     return LowLevelDataStore2.put(convertToAppEngineEntity(entity, ancestorKind, ancestorId))
         .getId();
   }
 
-  @Requires("entity != null")
-  @Ensures("result != null")
+  // //@Requires("entity != null")
+  // @Ensures("result != null")
   public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity) {
     return put(entity, null, 0);
   }
 
-  @Requires("entity != null")
-  @Ensures("result != null")
+  // //@Requires("entity != null")
+  // @Ensures("result != null")
   public static Future<Long> put(fr.mncc.gwttoolbox.primitives.shared.Entity entity,
       String ancestorKind, long ancestorId) {
     final Future<Key> key =
@@ -246,14 +244,14 @@ public class DataStore2 {
     return id;
   }
 
-  @Requires("entities != null")
-  @Ensures("result != null")
+  // //@Requires("entities != null")
+  // @Ensures("result != null")
   public static List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
     return putSync(entities, null, 0);
   }
 
-  @Requires("entities != null")
-  @Ensures("result != null")
+  // //@Requires("entities != null")
+  // @Ensures("result != null")
   public static List<Long> putSync(Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities,
       String ancestorKind, long ancestorId) {
     List<Long> idsTmp = new ArrayList<Long>();
@@ -263,15 +261,15 @@ public class DataStore2 {
     return idsTmp;
   }
 
-  @Requires("entities != null")
-  @Ensures("result != null")
+  // //@Requires("entities != null")
+  // @Ensures("result != null")
   public static Future<List<Long>> put(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities) {
     return put(entities, null, 0);
   }
 
-  @Requires("entities != null")
-  @Ensures("result != null")
+  // //@Requires("entities != null")
+  // @Ensures("result != null")
   public static Future<List<Long>> put(
       Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> entities, String ancestorKind,
       long ancestorId) {
@@ -315,14 +313,14 @@ public class DataStore2 {
     return ids;
   }
 
-  @Requires({"kind != null", "id > 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id > 0"})
+  // @Ensures("result != null")
   public static fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id) {
     return getSync(kind, id, null, 0);
   }
 
-  @Requires({"kind != null", "id > 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id > 0"})
+  // @Ensures("result != null")
   public static fr.mncc.gwttoolbox.primitives.shared.Entity getSync(String kind, long id,
       String ancestorKind, long ancestorId) {
     final Key key =
@@ -330,14 +328,14 @@ public class DataStore2 {
     return convertToToolboxEntity(LowLevelDataStore2.get(key));
   }
 
-  @Requires({"kind != null", "id > 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id > 0"})
+  // @Ensures("result != null")
   public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id) {
     return get(kind, id, null, 0);
   }
 
-  @Requires({"kind != null", "id > 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id > 0"})
+  // @Ensures("result != null")
   public static Future<fr.mncc.gwttoolbox.primitives.shared.Entity> get(String kind, long id,
       String ancestorKind, long ancestorId) {
     final Key key =
@@ -376,15 +374,15 @@ public class DataStore2 {
     return toolboxEntity;
   }
 
-  @Requires({"kind != null", "ids != null"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null"})
+  // @Ensures("result != null")
   public static Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
       Iterable<Long> ids) {
     return getSync(kind, ids, null, 0);
   }
 
-  @Requires({"kind != null", "ids != null"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null"})
+  // @Ensures("result != null")
   public static Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity> getSync(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
 
@@ -400,15 +398,15 @@ public class DataStore2 {
     return toolboxEntitiesTmp;
   }
 
-  @Requires({"kind != null", "ids != null"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null"})
+  // @Ensures("result != null")
   public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
       Iterable<Long> ids) {
     return get(kind, ids, null, 0);
   }
 
-  @Requires({"kind != null", "ids != null"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null"})
+  // @Ensures("result != null")
   public static Future<Map<Long, fr.mncc.gwttoolbox.primitives.shared.Entity>> get(String kind,
       Iterable<Long> ids, String ancestorKind, long ancestorId) {
     final Iterable<Key> keys =
@@ -461,12 +459,12 @@ public class DataStore2 {
     return toolboxEntities;
   }
 
-  @Requires({"kind != null", "id > 0"})
+  // //@Requires({"kind != null", "id > 0"})
   public static boolean deleteSync(String kind, long id) {
     return deleteSync(kind, id, null, 0);
   }
 
-  @Requires({"kind != null", "id > 0"})
+  // //@Requires({"kind != null", "id > 0"})
   public static boolean deleteSync(String kind, long id, String ancestorKind, long ancestorId) {
     if (ancestorKind == null)
       LowLevelDataStore2.delete(createKey(kind, id));
@@ -475,26 +473,26 @@ public class DataStore2 {
     return true;
   }
 
-  @Requires({"kind != null", "id > 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id > 0"})
+  // @Ensures("result != null")
   public static Future<Void> delete(String kind, long id) {
     return delete(kind, id, null, 0);
   }
 
-  @Requires({"kind != null", "id > 0"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "id > 0"})
+  // @Ensures("result != null")
   public static Future<Void> delete(String kind, long id, String ancestorKind, long ancestorId) {
     if (ancestorKind == null)
       return LowLevelDataStore2Async.delete(createKey(kind, id));
     return LowLevelDataStore2Async.delete(createKey(kind, id, ancestorKind, ancestorId));
   }
 
-  @Requires({"kind != null", "ids != null"})
+  // //@Requires({"kind != null", "ids != null"})
   public static boolean deleteSync(String kind, Iterable<Long> ids) {
     return deleteSync(kind, ids, null, 0);
   }
 
-  @Requires({"kind != null", "ids != null"})
+  // //@Requires({"kind != null", "ids != null"})
   public static boolean deleteSync(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
     if (ancestorKind.isEmpty())
@@ -504,14 +502,14 @@ public class DataStore2 {
     return true;
   }
 
-  @Requires({"kind != null", "ids != null"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null"})
+  // @Ensures("result != null")
   public static Future<Void> delete(String kind, Iterable<Long> ids) {
     return delete(kind, ids, null, 0);
   }
 
-  @Requires({"kind != null", "ids != null"})
-  @Ensures("result != null")
+  // //@Requires({"kind != null", "ids != null"})
+  // @Ensures("result != null")
   public static Future<Void> delete(String kind, Iterable<Long> ids, String ancestorKind,
       long ancestorId) {
     if (ancestorKind.isEmpty())
@@ -519,24 +517,24 @@ public class DataStore2 {
     return LowLevelDataStore2Async.delete(createKeys(kind, ids, ancestorKind, ancestorId));
   }
 
-  @Requires("toolboxQuery != null")
-  @Ensures("result >= 0")
+  // //@Requires("toolboxQuery != null")
+  // @Ensures("result >= 0")
   public static long listSize(SQuery2 toolboxQuery) {
     // logger_.log(Level.INFO, toolboxQuery.toString());
     Query appEngineQuery = QueryConverter2.getAsAppEngineQuery(toolboxQuery);
     return LowLevelDataStore2.listSize(appEngineQuery);
   }
 
-  @Requires("toolboxQuery != null")
-  @Ensures("result != null")
+  // //@Requires("toolboxQuery != null")
+  // @Ensures("result != null")
   public static Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list(SQuery2 toolboxQuery) {
     // logger_.log(Level.INFO, toolboxQuery.toString());
     Query appEngineQuery = QueryConverter2.getAsAppEngineQuery(toolboxQuery);
     return convertToToolboxEntities(LowLevelDataStore2.list(appEngineQuery));
   }
 
-  @Requires({"toolboxQuery != null", "startIndex >= 0", "amount > 0"})
-  @Ensures("result != null")
+  // //@Requires({"toolboxQuery != null", "startIndex >= 0", "amount > 0"})
+  // @Ensures("result != null")
   public static Iterable<fr.mncc.gwttoolbox.primitives.shared.Entity> list(SQuery2 toolboxQuery,
       int startIndex, int amount) {
     // logger_.log(Level.INFO, toolboxQuery.toString());
@@ -544,8 +542,8 @@ public class DataStore2 {
     return convertToToolboxEntities(LowLevelDataStore2.list(appEngineQuery, startIndex, amount));
   }
 
-  @Requires("toolboxQuery != null")
-  @Ensures("result != null")
+  // //@Requires("toolboxQuery != null")
+  // @Ensures("result != null")
   public static Iterable<Long> listIds(SQuery2 toolboxQuery) {
     // logger_.log(Level.INFO, toolboxQuery.toString());
     Query appEngineQuery = QueryConverter2.getAsAppEngineQuery(toolboxQuery);
@@ -555,8 +553,8 @@ public class DataStore2 {
     return ids;
   }
 
-  @Requires({"toolboxQuery != null", "startIndex >= 0", "amount > 0"})
-  @Ensures("result != null")
+  // //@Requires({"toolboxQuery != null", "startIndex >= 0", "amount > 0"})
+  // @Ensures("result != null")
   public static Iterable<Long> listIds(SQuery2 toolboxQuery, int startIndex, int amount) {
     // logger_.log(Level.INFO, toolboxQuery.toString());
     Query appEngineQuery = QueryConverter2.getAsAppEngineQuery(toolboxQuery);

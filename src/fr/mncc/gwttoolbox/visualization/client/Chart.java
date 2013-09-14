@@ -22,6 +22,8 @@ package fr.mncc.gwttoolbox.visualization.client;
 
 import java.util.LinkedHashMap;
 
+import fr.mncc.gwttoolbox.rpc.client.callbacks.SimpleCallback;
+
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
@@ -29,8 +31,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.visualization.client.AbstractDataTable;
-
-import fr.mncc.gwttoolbox.rpc.client.callbacks.SimpleCallback;
 
 public abstract class Chart<T, U, V extends com.google.gwt.visualization.client.visualizations.corechart.CoreChart> {
 
