@@ -77,7 +77,7 @@ task rebuildAll (dependsOn: ['classes']) {
 
 task packageAll (type: Jar, dependsOn: ['executeTests', 'cleanAll', 'rebuildAll']) {
     baseName = 'gwt-toolbox'
-    version = '1.6'
+    version = '1.7'
     destinationDir = new File('bin')
     from sourceSets.main.output.classesDir
 }
