@@ -1,0 +1,128 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+defaultTasks = ['packageAll']
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+        output.classesDir = 'build/classes/src'
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+        output.classesDir = 'build/classes/test'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    antClasspath
+}
+
+dependencies {
+
+    // GWT
+    compile group: 'com.google.gwt', name: 'gwt-user', version: '2.5.1'
+    compile group: 'com.google.gwt', name: 'gwt-dev', version: '2.5.1'
+    compile group: 'com.google.gwt', name: 'gwt-elemental', version: '2.5.1'
+
+	// MISC
+	compile group: 'com.google.guava', name: 'guava', version: '14.0.1'
+	compile group: 'com.google.appengine', name: 'appengine-java-sdk', version: '1.7.7'
+
+    // ANT
+    antClasspath group: 'ant-contrib', name: 'ant-contrib', version: '20020829'
+    antClasspath group: 'org.apache.ant', name: 'ant-junit', version: '1.8.1'
+
+    // TESTS
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+ClassLoader antClassLoader = org.apache.tools.ant.Project.class.classLoader
+configurations.antClasspath.each {
+    File f -> antClassLoader.addURL(f.toURI().toURL())
+}
+
+task cleanAll (type: Delete) {
+    delete 'bin'
+}
+
+task rebuildAll (dependsOn: ['classes']) {
+    copy {
+        from sourceSets.main.java.srcDirs
+        into sourceSets.main.output.classesDir
+    }
+}
+
+task packageAll (type: Jar, dependsOn: ['executeTests', 'cleanAll', 'rebuildAll']) {
+    baseName = 'gwt-toolbox'
+    version = '1.6'
+    destinationDir = new File('bin')
+    from sourceSets.main.output.classesDir
+}
+
+task executeTests () {
+
+    ant.echo ('Creating output directories...')
+    (new File('build/tests/classes/src')).mkdirs();
+    (new File('build/tests/classes/test')).mkdirs();
+    (new File('build/tests/results')).mkdirs()
+
+    ant.echo ('Copying sources...')
+    copy {
+        from sourceSets.main.java.srcDirs
+        into 'build/tests/classes/src'
+    }
+
+    ant.echo ('Compiling sources...')
+    ant.javac (srcdir: 'src', destdir: 'build/tests/classes/src') {
+        classpath {
+            pathElement (path: configurations.runtime.asPath)
+            pathElement (path: configurations.testCompile.asPath)
+            pathElement (path: configurations.compile.asPath)
+        }
+    }
+
+    ant.echo ('Copying tests...')
+    copy {
+        from sourceSets.test.java.srcDirs
+        into 'build/tests/classes/test'
+    }
+
+    ant.echo ('Compiling tests...')
+    ant.javac (srcdir: 'test', destdir: 'build/tests/classes/test') {
+        classpath {
+            pathElement (location: 'build/tests/classes/src')
+            pathElement (path: configurations.runtime.asPath)
+            pathElement (path: configurations.testCompile.asPath)
+            pathElement (path: configurations.compile.asPath)
+        }
+    }
+
+    ant.echo ('Executing tests...')
+    ant.junit (haltonfailure: 'true', haltonerror: 'true', fork: 'true') {
+        classpath {
+            pathElement (location: 'build/tests/classes/test')
+            pathElement (location: 'build/tests/classes/src')
+            pathElement (path: configurations.runtime.asPath)
+            pathElement (path: configurations.testCompile.asPath)
+            pathElement (path: configurations.compile.asPath)
+            pathElement (path: configurations.antClasspath.asPath)
+        }
+        jvmarg (value: '-Xmx512m')
+        jvmarg (line: '-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005')
+        // TODO : ADD TESTS
+        formatter (type: 'xml')
+    }
+}
+
+

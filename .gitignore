@@ -1,15 +1,13 @@
 *.class
-web/
-war/
-test-classes/ 
-src/META-INF/
 
 # Package Files #
-#*.jar
 *.war
+*.iml
+*.ipr
+*.iws
+.*
 
 # gwt caches and compiled units #
-war/gwt_bree/
 gwt-unitCache/
 out/
 
@@ -17,19 +15,7 @@ out/
 .apt_generated/
 
 # more caches and things from deploy #
-war/WEB-INF/deploy/
-war/WEB-INF/classes/
-*.*~
-*.properties
+war/
 
-# IntelliJ IDEA files #
-.idea
-*.iml
-*.ipr
-*.iws
-
-# Eclipse files #
-.settings
-.project
-.classpath
-/bin
+# Gradle output directory
+build/
