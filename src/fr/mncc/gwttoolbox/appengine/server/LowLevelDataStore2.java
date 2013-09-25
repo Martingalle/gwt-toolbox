@@ -20,13 +20,13 @@
  */
 package fr.mncc.gwttoolbox.appengine.server;
 
+import com.google.appengine.api.datastore.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.google.appengine.api.datastore.*;
 
 public class LowLevelDataStore2 {
 
@@ -40,17 +40,17 @@ public class LowLevelDataStore2 {
     return dataStore_;
   }
 
-  // //@Requires("entity != null")
+  // @Requires("entity != null")
   public static Key put(com.google.appengine.api.datastore.Entity entity) {
     return dataStore_.put(entity);
   }
 
-  // //@Requires("entities != null")
+  // @Requires("entities != null")
   public static List<Key> put(Iterable<com.google.appengine.api.datastore.Entity> entities) {
     return dataStore_.put(entities);
   }
 
-  // //@Requires("key != null")
+  // @Requires("key != null")
   public static com.google.appengine.api.datastore.Entity get(Key key) {
     Entity entity = null;
     try {
@@ -61,22 +61,22 @@ public class LowLevelDataStore2 {
     return entity;
   }
 
-  // //@Requires("keys != null")
+  // @Requires("keys != null")
   public static Map<Key, com.google.appengine.api.datastore.Entity> get(Iterable<Key> keys) {
     return dataStore_.get(keys);
   }
 
-  // //@Requires("key != null")
+  // @Requires("key != null")
   public static void delete(Key key) {
     dataStore_.delete(key);
   }
 
-  // //@Requires("keys != null")
+  // @Requires("keys != null")
   public static void delete(Iterable<Key> keys) {
     dataStore_.delete(keys);
   }
 
-  // //@Requires("query != null")
+  // @Requires("query != null")
   public static long listSize(Query query) {
     List<Query.SortPredicate> sortPredicates =
         new ArrayList<Query.SortPredicate>(query.getSortPredicates());
@@ -88,58 +88,43 @@ public class LowLevelDataStore2 {
     boolean isKeysOnly = query.isKeysOnly();
     query.setKeysOnly();
 
-    PreparedQuery preparedQuery = dataStore_.prepare(query);
-    FetchOptions fetchOptions = FetchOptions.Builder.withOffset(0);
-    long size = preparedQuery.asList(fetchOptions).size();
+    long size =
+        dataStore_.prepare(query)
+            .asList(FetchOptions.Builder.withOffset(0).chunkSize(OFFSET_LIMIT)).size();
 
     if (!isKeysOnly)
       query.clearKeysOnly();
 
-    for (Projection projection : projections)
+    for (Projection projection : projections) {
       query.addProjection(projection);
+    }
 
-    for (Query.SortPredicate sortPredicate : sortPredicates)
+    for (Query.SortPredicate sortPredicate : sortPredicates) {
       query.addSort(sortPredicate.getPropertyName(), sortPredicate.getDirection());
+    }
     return size;
   }
 
-  // //@Requires("query != null")
+  // @Requires("query != null")
   public static Iterable<com.google.appengine.api.datastore.Entity> list(Query query) {
     return list(query, 0, OFFSET_LIMIT);
   }
 
-  // //@Requires({"query != null", "startIndex >= 0", "amount > 0"})
+  // @Requires({"query != null", "startIndex >= 0", "amount > 0"})
   @SuppressWarnings("deprecation")
   public static Iterable<com.google.appengine.api.datastore.Entity> list(Query query,
       int startIndex, int amount) {
-
-    PreparedQuery preparedQuery = dataStore_.prepare(query);
-    int offset = startIndex;
-
-    if (offset < OFFSET_LIMIT) {
-      if ((offset + amount) >= OFFSET_LIMIT)
-        amount = amount - (offset + amount - OFFSET_LIMIT);
-      return preparedQuery.asList(FetchOptions.Builder.withLimit(amount).offset(offset).chunkSize(
-          amount));
-    }
-
-    int steps = startIndex / OFFSET_LIMIT;
-    offset = startIndex - steps * OFFSET_LIMIT;
-    Cursor cursor = getCursor(steps, preparedQuery);
-
-    if (cursor != null)
-      return preparedQuery.asList(FetchOptions.Builder.withLimit(amount).offset(offset).chunkSize(
-          amount).cursor(cursor));
-    return null;
+    return dataStore_.prepare(query).asIterable(
+        FetchOptions.Builder.withLimit(amount).offset(startIndex).chunkSize(OFFSET_LIMIT));
   }
 
-  // //@Requires("query != null")
+  // @Requires("query != null")
   // @Ensures("result != null")
   public static Iterable<Key> listKeys(Query query) {
     return listKeys(query, 0, OFFSET_LIMIT);
   }
 
-  // //@Requires({"query != null", "startIndex >= 0", "amount > 0"})
+  // @Requires({"query != null", "startIndex >= 0", "amount > 0"})
   // @Ensures("result != null")
   public static Iterable<Key> listKeys(Query query, int startIndex, int amount) {
     boolean isKeysOnly = query.isKeysOnly();
@@ -153,20 +138,5 @@ public class LowLevelDataStore2 {
     if (!isKeysOnly)
       query.clearKeysOnly();
     return ids;
-  }
-
-  @SuppressWarnings("deprecation")
-  private static Cursor getCursor(int steps, PreparedQuery preparedQuery) {
-    QueryResultList<com.google.appengine.api.datastore.Entity> queryResultList =
-        preparedQuery.asQueryResultList(FetchOptions.Builder.withLimit(1).chunkSize(1).offset(
-            OFFSET_LIMIT - 1));
-    Cursor cursor = queryResultList.getCursor();
-    while (--steps > 0 && cursor != null) {
-      queryResultList =
-          preparedQuery.asQueryResultList(FetchOptions.Builder.withLimit(1).chunkSize(1).offset(
-              OFFSET_LIMIT - 1).cursor(cursor));
-      cursor = queryResultList.getCursor();
-    }
-    return cursor;
   }
 }
